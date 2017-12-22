@@ -1,0 +1,139 @@
+.home-container {
+  border: 1px solid black; }
+  .home-container .popUp {
+    position: absolute;
+    height: 100px;
+    width: inherit;
+    left: 50%;
+    transform: translateX(-50px);
+    z-index: 10;
+    background-color: white; }
+    .home-container .popUp .img-wrapper {
+      text-align: center; }
+      .home-container .popUp .img-wrapper img {
+        height: 50px; }
+  .home-container .g-signin2 {
+    width: 120px;
+    margin: auto; }
+  .home-container .buttons-container, .home-container .link-wrapper, .home-container .logo-wrapper {
+    text-align: center;
+    margin: auto; }
+  .home-container .buttons-container {
+    display: flex;
+    width: 300px; }
+    .home-container .buttons-container .button {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1px;
+      height: 40px;
+      background-color: #27C4C4;
+      color: white;
+      cursor: default; }
+      .home-container .buttons-container .button:hover {
+        background-color: #1dd1d1;
+        box-shadow: 0 0 2px gray; }
+  .home-container .pics-container {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 100px; }
+    .home-container .pics-container .pic-container {
+      display: inline-block; }
+      .home-container .pics-container .pic-container .pic:hover {
+        cursor: pointer; }
+      .home-container .pics-container .pic-container .pic img {
+        height: 100px; }
+
+.form-container {
+  padding: 1em; }
+  .form-container h2, .form-container .link-signin {
+    text-align: center; }
+  .form-container .form-signup {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    min-width: 300px;
+    margin: 1em auto 1em auto;
+    background-color: #edeeee;
+    border-radius: 1px; }
+    .form-container .form-signup label, .form-container .form-signup input {
+      display: block; }
+    .form-container .form-signup label {
+      margin-bottom: 0.1em; }
+    .form-container .form-signup .fullname-container {
+      display: flex; }
+      .form-container .form-signup .fullname-container .firstname-container, .form-container .form-signup .fullname-container .lastname-container {
+        flex-grow: 1;
+        margin: 0.5em; }
+        .form-container .form-signup .fullname-container .firstname-container input, .form-container .form-signup .fullname-container .lastname-container input {
+          width: 86.7%;
+          padding: 0.5em;
+          border: 1px solid #d0d2d3;
+          border-radius: 1px; }
+          .form-container .form-signup .fullname-container .firstname-container input:hover, .form-container .form-signup .fullname-container .lastname-container input:hover {
+            border-color: #9da5aa; }
+    .form-container .form-signup .username-container, .form-container .form-signup .email-container, .form-container .form-signup .password-container {
+      flex-grow: 1;
+      margin: 0.5em; }
+      .form-container .form-signup .username-container input, .form-container .form-signup .email-container input, .form-container .form-signup .password-container input {
+        width: 94%;
+        padding: 0.5em;
+        border: 1px solid #d0d2d3;
+        border-radius: 1px; }
+        .form-container .form-signup .username-container input:hover, .form-container .form-signup .email-container input:hover, .form-container .form-signup .password-container input:hover {
+          border-color: #9da5aa; }
+    .form-container .form-signup .button-container {
+      flex-grow: 1;
+      margin: 0.5em;
+      text-align: center; }
+      .form-container .form-signup .button-container button {
+        width: 99.7%;
+        background: #27C4C4;
+        color: white;
+        border: none;
+        padding: 0.5em;
+        border-radius: 1px; }
+        .form-container .form-signup .button-container button:hover {
+          background-color: #1dd1d1; }
+
+.login-container {
+  padding: 1em; }
+  .login-container h2, .login-container .link-signup {
+    text-align: center; }
+  .login-container .form-login {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    min-width: 300px;
+    margin: 1em auto 1em auto;
+    background-color: #edeeee;
+    border-radius: 1px; }
+    .login-container .form-login label, .login-container .form-login input {
+      display: block; }
+    .login-container .form-login label {
+      margin-bottom: 0.1em; }
+    .login-container .form-login .username-container, .login-container .form-login .password-container {
+      flex-grow: 1;
+      margin: 0.5em; }
+      .login-container .form-login .username-container input, .login-container .form-login .password-container input {
+        width: 94%;
+        padding: 0.5em;
+        border: 1px solid #d0d2d3;
+        border-radius: 1px; }
+        .login-container .form-login .username-container input:hover, .login-container .form-login .password-container input:hover {
+          border-color: #9da5aa; }
+    .login-container .form-login .button-container {
+      flex-grow: 1;
+      margin: 0.5em;
+      text-align: center; }
+      .login-container .form-login .button-container button {
+        width: 99.7%;
+        background: #27C4C4;
+        color: white;
+        border: none;
+        padding: 0.5em;
+        border-radius: 1px; }
+        .login-container .form-login .button-container button:hover {
+          background-color: #1dd1d1; }

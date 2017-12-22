@@ -1,0 +1,70 @@
+@import 'variables';
+.home-container {
+    border: 1px solid black;
+    .popUp {
+        // border: 1px solid red;
+        position: absolute;
+        height: 100px;
+        width: inherit;
+        left: 50%;
+        transform: translateX(-50px);
+        z-index: 10;
+        background-color: white;
+        .img-wrapper {
+            text-align: center;
+            img {
+                height: 50px;
+            }
+        }
+    }
+    .g-signin2 {
+        // border: 1px solid black;
+        width: 120px;
+        margin: auto;
+    }
+    .buttons-container, .link-wrapper, .logo-wrapper {
+        text-align: center;
+        margin: auto;
+    }
+    .buttons-container {
+        display: flex;
+        width: 300px;
+        .button {
+            // border: 1px solid black;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: $softEdge;
+            height: 40px;
+            background-color: $nocturnal;
+            color: white;
+            cursor: default;
+            &:hover {
+                background-color: $nocturnalLight;
+                box-shadow: 0 0 2px gray;
+            }
+        }
+    }
+    .pics-container {
+        // border: 1px solid green;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        height: 100px;
+        .pic-container {
+            display: inline-block;
+            .pic {
+                // border: 1px solid blue;
+                // display: inline-block;
+                &:hover {
+                    cursor: pointer;
+                }
+                img {
+                    height: 100px;
+                }
+
+            }
+        }
+    }
+}
