@@ -1,25 +1,46 @@
 @import 'variables';
+@import 'mixins';
 .home-container {
     border: 1px solid black;
+    a {
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
     .popUp {
         // border: 1px solid red;
         position: absolute;
-        height: 100px;
-        width: inherit;
+        height: 200px;
+        width: 200px;
         left: 50%;
-        transform: translateX(-50px);
+        transform: translateX(-100px);
         z-index: 10;
         background-color: white;
+        box-shadow: 0 0 5px gray;
         .img-wrapper {
             text-align: center;
             img {
-                height: 50px;
+                height: 100px;
+            }
+        }
+    }
+    .button-wrapper {
+        .button {
+            margin: auto;
+            width: 200px * 0.99;
+            height: 40px;
+            // border: 1px solid black;
+            @include button-basics;
+            box-shadow: 0 0 1px gray;
+            &:hover {
+                box-shadow: 0 0 3px gray;
             }
         }
     }
     .g-signin2 {
         // border: 1px solid black;
-        width: 120px;
+        width: 200px;
         margin: auto;
     }
     .buttons-container, .link-wrapper, .logo-wrapper {
@@ -28,22 +49,23 @@
     }
     .buttons-container {
         display: flex;
-        width: 300px;
+        width: 200px;
+        .button+.button {
+            margin-left: .5em;
+        }
         .button {
             // border: 1px solid black;
             flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             border-radius: $softEdge;
             height: 40px;
             background-color: $nocturnal;
             color: white;
-            cursor: default;
+
             &:hover {
                 background-color: $nocturnalLight;
                 box-shadow: 0 0 2px gray;
             }
+            @include button-basics;
         }
     }
     .pics-container {
@@ -52,19 +74,16 @@
         overflow-y: hidden;
         white-space: nowrap;
         height: 100px;
-        .pic-container {
+        .pic {
+            // border: 1px solid blue;
             display: inline-block;
-            .pic {
-                // border: 1px solid blue;
-                // display: inline-block;
-                &:hover {
-                    cursor: pointer;
-                }
-                img {
-                    height: 100px;
-                }
-
+            &:hover {
+                cursor: pointer;
             }
+            img {
+                height: 100px;
+            }
+
         }
     }
 }

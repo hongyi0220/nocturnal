@@ -9,7 +9,8 @@ class App extends React.Component {
         this.state = {
             businesses: null,
             memory: {
-                business: null
+                business: null,
+                position: null
             },
             ui: {
                 pic: false,
@@ -20,8 +21,26 @@ class App extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.openHomeUi = this.openHomeUi.bind(this);
         this.closeAll = this.closeAll.bind(this);
-        // this.onSignIn = this.onSignIn.bind(this);
         this.signOut = this.signOut.bind(this);
+        this.getCurrentLocation = this.getCurrentLocation.bind(this);
+    }
+
+    getCurrentLocation() {
+        if (navigator.geolocation)
+            navigator.geolocation.getCurrentPosition(pos => {
+                console.log(pos);
+                this.setState({
+                    ...this.state,
+                    memory: {
+                        ...this.state.memory,
+                        position: {
+                            lat: pos.coords.latitude,
+                            long: pos.coords.longitude
+                        }
+                    }
+                }, () => this.fetchData())
+            });
+
     }
 
     signOut() {
@@ -29,13 +48,7 @@ class App extends React.Component {
         auth2.signOut().then(() => console.log('User signed out.'));
     }
 
-    // onSignIn(googleUser) {
-    //     const profile = googleUser.getBasicProfile();
-    //     console.log(profile);
-    // }
-
     closeAll() {
-
         this.setState({
             ...this.state,
             ui: {
@@ -46,7 +59,7 @@ class App extends React.Component {
     }
 
     openHomeUi(e) {
-// console.log(`${e.target} triggered openHomeUi`);
+console.log(`${e.target} triggered openHomeUi`);
         const id = e.target.id;
         const isSignup = id === 'signup';
         const isLogin = id === 'login';
@@ -72,6 +85,13 @@ class App extends React.Component {
         const cors = "https://cors.now.sh/";
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
+        const currentPosition = this.state.memory.position;
+        const city = () => {
+            const cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle']
+            const i = Math.floor(Math.random() * cities.length);
+            return cities[i];
+        }
+        const query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long) : ('location=' + city());
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
         });
@@ -80,32 +100,31 @@ class App extends React.Component {
             headers: headers,
             mode: 'cors'
         }
-        const city = () => {
-            const i = Math.floor(Math.random() * 3);
-            return ['chicago', 'la', 'nyc'][i];
-        }
-        return fetch(cors + url + '?term=bars&location=' + city(), init);
-    }
 
-    componentWillMount() {
-        this.fetchData()
+        fetch(cors + url + '?term=bars&' + query, init)
         .then(res => res.json())
         .then(resJson => this.setState({
             businesses: resJson.businesses
-        }, () => console.log(this.state)));
+        }, () => console.log(resJson.businesses[0].id)));
+    }
+
+
+
+    componentWillMount() {
+        this.fetchData()
     }
 
     render() {
         const state = this.state;
         const openHomeUi = this.openHomeUi;
         const closeAll = this.closeAll;
-        // const onSignIn = this.onSignIn;
         const signOut = this.signOut;
-        // const auth = { onSignIn, signOut };
+        const getCurrentLocation = this.getCurrentLocation;
         return (
             <div onClick={closeAll} className='container'>
 
-                <Route path='/' render={() => <Home closeAll={closeAll} signOut={signOut} openHomeUi={openHomeUi} state={state}/>}/>
+                <Route path='/' render={() => <Home getCurrentLocation={getCurrentLocation}
+                    closeAll={closeAll} signOut={signOut} openHomeUi={openHomeUi} state={state}/>}/>
 
                 <Route path='/' render={() => <div></div>}/>
                 {/* <div>Logo made with <a href="https://

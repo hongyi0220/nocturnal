@@ -13,14 +13,16 @@
       .home-container .popUp .img-wrapper img {
         height: 50px; }
   .home-container .g-signin2 {
-    width: 120px;
+    width: 200px;
     margin: auto; }
   .home-container .buttons-container, .home-container .link-wrapper, .home-container .logo-wrapper {
     text-align: center;
     margin: auto; }
   .home-container .buttons-container {
     display: flex;
-    width: 300px; }
+    width: 200px; }
+    .home-container .buttons-container .button + .button {
+      margin-left: .5em; }
     .home-container .buttons-container .button {
       flex-grow: 1;
       display: flex;
@@ -39,11 +41,11 @@
     overflow-y: hidden;
     white-space: nowrap;
     height: 100px; }
-    .home-container .pics-container .pic-container {
+    .home-container .pics-container .pic {
       display: inline-block; }
-      .home-container .pics-container .pic-container .pic:hover {
+      .home-container .pics-container .pic:hover {
         cursor: pointer; }
-      .home-container .pics-container .pic-container .pic img {
+      .home-container .pics-container .pic img {
         height: 100px; }
 
 .form-container {

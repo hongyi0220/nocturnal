@@ -9,9 +9,9 @@ export const FormLogin = props => {
         <div className='login-container'>
             <h2>Sign into your account</h2>
             <div className='link-wrapper'>Don't have an account?&nbsp;
-                <a href='#' onClick={e =>{closeAll(); openHomeUi(e)}} id='signup'>Sign up</a>
+                <a onClick={e =>{closeAll(e); openHomeUi(e)}} id='signup'>Sign up</a>
             </div>
-            <form className='form-login' action='/login' method='post'>
+            <form onClick={e => e.stopPropagation()} className='form-login' action='/login' method='post'>
             <div className='username-container'>
                 <label htmlFor='username'>Enter your username</label>
                 <input id='username' type='text' name='username'/>
