@@ -3,3 +3,7 @@
 @import 'form-login';
 $fa-font-path: "~font-awesome/fonts";
 @import '~font-awesome/scss/font-awesome.scss';
+@import 'search';
+* {
+    box-sizing: border-box;
+}

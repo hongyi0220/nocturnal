@@ -14,6 +14,10 @@ function onSignIn(googleUser) {
     fetch(url + query, init)
     .then(res => {
         if (res.ok) console.log('token verified');
+        const input = document.getElementById('auth')
+        console.log('input', input);
+        input.onchange();
     })
-    .catch(e => console.log(e))
+    // .then(resJson => console.log(resJson))
+    .catch(e => console.log(e));
 }

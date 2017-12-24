@@ -8,7 +8,7 @@ export const FormSignup = props => {
         <div className='form-container'>
             <h2>Sign up for your FREE account</h2>
             <div className='link-wrapper'>Already have an account?&nbsp;
-                <a onClick={e =>{closeAll(e); openHomeUi(e)}} id='login'>Log in</a>
+                <a onClick={e =>{closeAll(); openHomeUi(e)}} id='login'>Log in</a>
             </div>
             <form onClick={e => e.stopPropagation()} className='form-signup' action='/signup' method='post'>
             <div className='fullname-container'>

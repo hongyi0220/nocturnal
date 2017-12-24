@@ -3,9 +3,16 @@
 .home-container {
     border: 1px solid black;
     a {
+        color: rgb(113,165,255);
         cursor: pointer;
         &:hover {
             text-decoration: underline;
+        }
+    }
+    .user-container {
+        text-align: center;
+        .greeting-wrapper, .link-wrapper {
+            display: inline-block;
         }
     }
     .popUp {
@@ -25,19 +32,32 @@
             }
         }
     }
-    .button-wrapper {
-        .button {
-            margin: auto;
-            width: 200px * 0.99;
-            height: 40px;
-            // border: 1px solid black;
-            @include button-basics;
-            box-shadow: 0 0 1px gray;
-            &:hover {
-                box-shadow: 0 0 3px gray;
+    .search-container {
+        text-align: center;
+        .search-wrapper, .button-wrapper {
+            display: inline-block;
+        }
+        .search-wrapper {
+            input {
+                width: 160px;
+                height: 40px;
+            }
+        }
+        .button-wrapper {
+            .button {
+                margin: auto;
+                width: 40px;
+                height: 40px;
+                // border: 1px solid black;
+                @include button-basics;
+                box-shadow: 0 0 1px gray;
+                &:hover {
+                    box-shadow: 0 0 3px gray;
+                }
             }
         }
     }
+
     .g-signin2 {
         // border: 1px solid black;
         width: 200px;
@@ -74,7 +94,7 @@
         overflow-y: hidden;
         white-space: nowrap;
         height: 100px;
-        .pic {
+        .pic-wrapper {
             // border: 1px solid blue;
             display: inline-block;
             &:hover {

@@ -865,6 +865,65 @@ module.exports = warning;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(49);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(53);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(31);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(55);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(61);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(63);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(32);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(18);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(69);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(71);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(73);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(74);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLocation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(28);
@@ -937,7 +996,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -953,7 +1012,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(7);
   var warning = __webpack_require__(11);
-  var ReactPropTypesSecret = __webpack_require__(14);
+  var ReactPropTypesSecret = __webpack_require__(15);
   var loggedTypeFailures = {};
 }
 
@@ -1004,7 +1063,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1020,65 +1079,6 @@ module.exports = checkPropTypes;
 var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(49);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(53);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(31);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(55);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(58);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(61);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(63);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(32);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(18);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(69);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(71);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(73);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(74);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /***/ }),
@@ -2397,9 +2397,7 @@ var FormSignup = exports.FormSignup = function FormSignup(props) {
     var closeAll = uiFns.closeAll;
     return _react2.default.createElement(
         'div',
-        { onClick: function onClick(e) {
-                return e.stopPropagation();
-            }, className: 'form-container' },
+        { className: 'form-container' },
         _react2.default.createElement(
             'h2',
             null,
@@ -2412,14 +2410,16 @@ var FormSignup = exports.FormSignup = function FormSignup(props) {
             _react2.default.createElement(
                 'a',
                 { onClick: function onClick(e) {
-                        closeAll(e);openHomeUi(e);
+                        closeAll();openHomeUi(e);
                     }, id: 'login' },
                 'Log in'
             )
         ),
         _react2.default.createElement(
             'form',
-            { className: 'form-signup', action: '/signup', method: 'post' },
+            { onClick: function onClick(e) {
+                    return e.stopPropagation();
+                }, className: 'form-signup', action: '/signup', method: 'post' },
             _react2.default.createElement(
                 'div',
                 { className: 'fullname-container' },
@@ -2493,7 +2493,7 @@ var FormSignup = exports.FormSignup = function FormSignup(props) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(37);
-module.exports = __webpack_require__(81);
+module.exports = __webpack_require__(83);
 
 
 /***/ }),
@@ -2511,7 +2511,7 @@ var _reactDom = __webpack_require__(40);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouterDom = __webpack_require__(15);
+var _reactRouterDom = __webpack_require__(12);
 
 var _App = __webpack_require__(77);
 
@@ -2580,7 +2580,7 @@ var emptyObject = __webpack_require__(10);
 var invariant = __webpack_require__(7);
 var warning = __webpack_require__(11);
 var emptyFunction = __webpack_require__(5);
-var checkPropTypes = __webpack_require__(13);
+var checkPropTypes = __webpack_require__(14);
 
 // TODO: this is special because it gets imported during build.
 
@@ -4290,7 +4290,7 @@ var shallowEqual = __webpack_require__(25);
 var containsNode = __webpack_require__(26);
 var focusNode = __webpack_require__(27);
 var emptyObject = __webpack_require__(10);
-var checkPropTypes = __webpack_require__(13);
+var checkPropTypes = __webpack_require__(14);
 var hyphenateStyleName = __webpack_require__(45);
 var camelizeStyleName = __webpack_require__(47);
 
@@ -19900,8 +19900,8 @@ var invariant = __webpack_require__(7);
 var warning = __webpack_require__(11);
 var assign = __webpack_require__(6);
 
-var ReactPropTypesSecret = __webpack_require__(14);
-var checkPropTypes = __webpack_require__(13);
+var ReactPropTypesSecret = __webpack_require__(15);
+var checkPropTypes = __webpack_require__(14);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -20447,7 +20447,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 var emptyFunction = __webpack_require__(5);
 var invariant = __webpack_require__(7);
-var ReactPropTypesSecret = __webpack_require__(14);
+var ReactPropTypesSecret = __webpack_require__(15);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -22213,7 +22213,7 @@ Redirect.contextTypes = {
 /* unused harmony reexport createHashHistory */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__createMemoryHistory__ = __webpack_require__(68);
 /* unused harmony reexport createMemoryHistory */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(13);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(9);
@@ -22238,7 +22238,7 @@ Redirect.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(34);
@@ -22542,7 +22542,7 @@ var createBrowserHistory = function createBrowserHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(34);
@@ -22862,7 +22862,7 @@ var createHashHistory = function createHashHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(21);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -23479,11 +23479,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(15);
+var _reactRouterDom = __webpack_require__(12);
 
 var _FormSignup = __webpack_require__(35);
 
 var _Home = __webpack_require__(78);
+
+var _Search = __webpack_require__(81);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23503,8 +23505,12 @@ var App = function (_React$Component) {
 
         _this.state = {
             businesses: null,
+            authenticated: false,
             memory: {
-                business: null
+                user: null,
+                business: null,
+                position: null,
+                searchValue: ''
             },
             ui: {
                 pic: false,
@@ -23515,17 +23521,137 @@ var App = function (_React$Component) {
         _this.fetchData = _this.fetchData.bind(_this);
         _this.openHomeUi = _this.openHomeUi.bind(_this);
         _this.closeAll = _this.closeAll.bind(_this);
-        // this.onSignIn = this.onSignIn.bind(this);
         _this.signOut = _this.signOut.bind(_this);
+        _this.getCurrentLocation = _this.getCurrentLocation.bind(_this);
+        _this.getUserData = _this.getUserData.bind(_this);
+        _this.getSearchValue = _this.getSearchValue.bind(_this);
+        _this.handleSearch = _this.handleSearch.bind(_this);
+        _this.createMap = _this.createMap.bind(_this);
         return _this;
     }
 
     _createClass(App, [{
+        key: 'createMap',
+        value: function createMap() {
+            var map;
+            var infowindow;
+
+            function initMap() {
+                var pyrmont = { lat: -33.867, lng: 151.195 };
+
+                map = new google.maps.Map(document.querySelector('.map-wrapper'), {
+                    center: pyrmont,
+                    zoom: 15
+                });
+
+                infowindow = new google.maps.InfoWindow();
+                var service = new google.maps.places.PlacesService(map);
+                service.nearbySearch({
+                    location: pyrmont,
+                    radius: 500,
+                    type: ['store']
+                }, callback);
+            }
+
+            function callback(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        createMarker(results[i]);
+                    }
+                }
+            }
+
+            function createMarker(place) {
+                var placeLoc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.setContent(place.name);
+                    infowindow.open(map, this);
+                });
+            }
+        }
+    }, {
+        key: 'handleSearch',
+        value: function handleSearch(e) {
+            var key = e.key;
+            console.log(e.key);
+            var location = this.state.memory.searchValue;
+            console.log('location:', location);
+            if (key === 'Enter') {
+                this.fetchData(location);
+                this.props.history.push('/search');
+                this.createMap();
+            }
+        }
+    }, {
+        key: 'getSearchValue',
+        value: function getSearchValue(e) {
+            var value = e.target.value;
+            this.setState(_extends({}, this.state, {
+                memory: _extends({}, this.state.memory, {
+                    searchValue: value
+                })
+            }));
+        }
+    }, {
+        key: 'getUserData',
+        value: function getUserData() {
+            var _this2 = this;
+
+            // console.log('getUserData triggered');
+            // console.log('state:',this.state);
+            var url = 'http://localhost:8080/user';
+            fetch(url).then(function (res) {
+                return res.json();
+            }).then(function (resJson) {
+                return _this2.setState(_extends({}, _this2.state, {
+                    authenticated: true,
+                    memory: _extends({}, _this2.state.memory, {
+                        user: resJson
+                    })
+                }), function () {
+                    return console.log('getUserData triggered; state:', _this2.state);
+                });
+            });
+        }
+    }, {
+        key: 'getCurrentLocation',
+        value: function getCurrentLocation() {
+            var _this3 = this;
+
+            if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
+                console.log(pos);
+                _this3.setState(_extends({}, _this3.state, {
+                    memory: _extends({}, _this3.state.memory, {
+                        position: {
+                            lat: pos.coords.latitude,
+                            long: pos.coords.longitude
+                        }
+                    })
+                }), function () {
+                    return _this3.fetchData();
+                });
+            });
+        }
+    }, {
         key: 'signOut',
         value: function signOut() {
+            var _this4 = this;
+
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return console.log('User signed out.');
+                return _this4.setState(function (prevState) {
+                    return _extends({}, prevState, {
+                        authenticated: false,
+                        memory: _extends({}, prevState.memory, {
+                            user: null
+                        })
+                    });
+                });
             });
         }
     }, {
@@ -23541,7 +23667,7 @@ var App = function (_React$Component) {
     }, {
         key: 'openHomeUi',
         value: function openHomeUi(e) {
-            var _this2 = this;
+            var _this5 = this;
 
             console.log(e.target + ' triggered openHomeUi');
             var id = e.target.id;
@@ -23549,7 +23675,7 @@ var App = function (_React$Component) {
             var isLogin = id === 'login';
             var isPic = !isSignup && !isLogin;
             var business = function business(id) {
-                return _this2.state.businesses.filter(function (bus) {
+                return _this5.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
@@ -23569,10 +23695,20 @@ var App = function (_React$Component) {
         }
     }, {
         key: 'fetchData',
-        value: function fetchData() {
+        value: function fetchData(location) {
+            var _this6 = this;
+
             var cors = "https://cors.now.sh/";
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
+            var currentPosition = this.state.memory.position;
+            var city = function city() {
+                var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle'];
+                var i = Math.floor(Math.random() * cities.length);
+                return cities[i];
+            };
+            var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long : 'location=' + city();
+            if (location) query = 'location=' + location;
             var headers = new Headers({
                 'Authorization': 'Bearer ' + key
             });
@@ -23581,45 +23717,59 @@ var App = function (_React$Component) {
                 headers: headers,
                 mode: 'cors'
             };
-            var city = function city() {
-                var i = Math.floor(Math.random() * 3);
-                return ['chicago', 'la', 'nyc'][i];
-            };
-            return fetch(cors + url + '?term=bars&location=' + city(), init);
+
+            fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
+                return res.json();
+            }).then(function (resJson) {
+                return _this6.setState({
+                    businesses: resJson.businesses
+                }, function () {
+                    return console.log(resJson.businesses[0].id);
+                });
+            });
         }
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
-            var _this3 = this;
-
-            this.fetchData().then(function (res) {
-                return res.json();
-            }).then(function (resJson) {
-                return _this3.setState({
-                    businesses: resJson.businesses
-                }, function () {
-                    return console.log(_this3.state);
-                });
-            });
+            this.fetchData(null);
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var input = document.getElementById('auth');
+            input.onchange = this.getUserData;
         }
     }, {
         key: 'render',
         value: function render() {
             var state = this.state;
+            var auth = this.state.authenticated;
             var openHomeUi = this.openHomeUi;
             var closeAll = this.closeAll;
-            // const onSignIn = this.onSignIn;
             var signOut = this.signOut;
-            // const auth = { onSignIn, signOut };
+            var getCurrentLocation = this.getCurrentLocation;
+            var getUserData = this.getUserData;
+            var getSearchValue = this.getSearchValue;
+            var handleSearch = this.handleSearch;
+            var history = this.props.history;
+            var createMap = this.createMap;
+
             return _react2.default.createElement(
                 'div',
                 { onClick: closeAll, className: 'container' },
-                _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-                        return _react2.default.createElement(_Home.Home, { closeAll: closeAll, signOut: signOut, openHomeUi: openHomeUi, state: state });
-                    } }),
-                _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-                        return _react2.default.createElement('div', null);
-                    } })
+                _react2.default.createElement(
+                    _reactRouterDom.Switch,
+                    null,
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
+                            return _react2.default.createElement(_Search.Search, { createMap: createMap, state: state });
+                        } }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
+                            return _react2.default.createElement(_Home.Home, { auth: auth, getCurrentLocation: getCurrentLocation,
+                                getSearchValue: getSearchValue, closeAll: closeAll, signOut: signOut,
+                                history: history, handleSearch: handleSearch, openHomeUi: openHomeUi, state: state });
+                        } })
+                ),
+                _react2.default.createElement('input', { id: 'auth', type: 'hidden' })
             );
         }
     }]);
@@ -23651,13 +23801,16 @@ var _FormSignup = __webpack_require__(35);
 
 var _FormLogin = __webpack_require__(80);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _reactRouterDom = __webpack_require__(12);
 
-// import { Link } from 'react-router-dom';
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Home = exports.Home = function Home(props) {
     var state = props.state;
+    var memory = state.memory;
     var businesses = state.businesses;
+    var user = memory.user;
+    var value = memory.searchValue;
     var ui = state.ui;
     var popUp = ui.pic;
     var signup = ui.signup;
@@ -23666,6 +23819,11 @@ var Home = exports.Home = function Home(props) {
     var signOut = props.signOut;
     var closeAll = props.closeAll;
     var uiFns = { openHomeUi: openHomeUi, closeAll: closeAll };
+    var getCurrentLocation = props.getCurrentLocation;
+    var auth = props.auth;
+    var getSearchValue = props.getSearchValue;
+    var handleSearch = props.handleSearch;
+    var history = props.history;
 
     return _react2.default.createElement(
         'div',
@@ -23673,44 +23831,48 @@ var Home = exports.Home = function Home(props) {
         _react2.default.createElement(
             'div',
             { className: 'logo-wrapper' },
-            _react2.default.createElement('img', { src: './img/logo.png' })
+            _react2.default.createElement('img', { src: '/img/logo.png' })
         ),
         _react2.default.createElement('div', { className: 'g-signin2', 'data-onsuccess': 'onSignIn', 'data-width': '200', 'data-longtitle': 'true' }),
-        _react2.default.createElement(
+        auth ? _react2.default.createElement(
             'div',
-            { className: 'link-wrapper' },
-            _react2.default.createElement(
-                'a',
-                { href: '#', onClick: signOut },
-                'Sign out'
-            )
-        ),
-        signup || login ? '' : _react2.default.createElement(
-            'div',
-            { className: 'buttons-container' },
+            { className: 'user-container' },
             _react2.default.createElement(
                 'div',
-                { onClick: function onClick(e) {
-                        closeAll(e);openHomeUi(e);
-                    }, type: 'button', id: 'signup', className: 'button' },
-                'Sign up'
+                { className: 'greeting-wrapper' },
+                'Hello, ',
+                user.given_name,
+                '!'
             ),
             _react2.default.createElement(
                 'div',
-                { onClick: function onClick(e) {
-                        closeAll(e);openHomeUi(e);
-                    }, type: 'button', id: 'login', className: 'button' },
-                'Log in'
+                { className: 'link-wrapper' },
+                _react2.default.createElement(
+                    'a',
+                    { onClick: signOut },
+                    'Sign out'
+                )
             )
-        ),
-        signup ? _react2.default.createElement(_FormSignup.FormSignup, { uiFns: uiFns }) : '',
-        login ? _react2.default.createElement(_FormLogin.FormLogin, { uiFns: uiFns }) : '',
+        ) : '',
         popUp ? _react2.default.createElement(_PopUp.PopUp, { state: state }) : '',
         _react2.default.createElement(
-            'button',
-            { className: 'button' },
-            'Use my current location',
-            _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
+            'div',
+            { className: 'search-container' },
+            _react2.default.createElement(
+                'div',
+                { className: 'search-wrapper' },
+                _react2.default.createElement('input', { onChange: getSearchValue, onKeyDown: handleSearch, type: 'text', value: value,
+                    placeholder: 'Enter city, state or zip' })
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'button-wrapper' },
+                _react2.default.createElement(
+                    'div',
+                    { onClick: getCurrentLocation, className: 'button' },
+                    _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
+                )
+            )
         ),
         _react2.default.createElement(
             'div',
@@ -23718,7 +23880,7 @@ var Home = exports.Home = function Home(props) {
             businesses ? businesses.map(function (bus, i) {
                 return _react2.default.createElement(
                     'div',
-                    { key: i, className: 'pic' },
+                    { key: i, className: 'pic-wrapper' },
                     _react2.default.createElement('img', { onClick: openHomeUi, id: bus.id, src: bus.image_url })
                 );
             }) : ''
@@ -23742,7 +23904,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(15);
+var _reactRouterDom = __webpack_require__(12);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23799,9 +23961,7 @@ var FormLogin = exports.FormLogin = function FormLogin(props) {
     var closeAll = uiFns.closeAll;
     return _react2.default.createElement(
         'div',
-        { onClick: function onClick(e) {
-                return e.stopPropagation();
-            }, className: 'login-container' },
+        { className: 'login-container' },
         _react2.default.createElement(
             'h2',
             null,
@@ -23814,14 +23974,16 @@ var FormLogin = exports.FormLogin = function FormLogin(props) {
             _react2.default.createElement(
                 'a',
                 { onClick: function onClick(e) {
-                        closeAll(e);openHomeUi(e);
+                        closeAll();openHomeUi(e);
                     }, id: 'signup' },
                 'Sign up'
             )
         ),
         _react2.default.createElement(
             'form',
-            { className: 'form-login', action: '/login', method: 'post' },
+            { onClick: function onClick(e) {
+                    return e.stopPropagation();
+                }, className: 'form-login', action: '/login', method: 'post' },
             _react2.default.createElement(
                 'div',
                 { className: 'username-container' },
@@ -23858,6 +24020,114 @@ var FormLogin = exports.FormLogin = function FormLogin(props) {
 
 /***/ }),
 /* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Search = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Nav = __webpack_require__(82);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { PopUp } from './PopUp';
+// import { FormSignup } from './FormSignup';
+// import { FormLogin } from './FormLogin';
+// import { Switch, Route } from 'react-router-dom';
+
+var Search = exports.Search = function Search(props) {
+    var state = props.state;
+    var businesses = state.businesses;
+    var createMap = props.createMap;
+    // const uiFns = props.uiFns;
+    // const openHomeUi = uiFns.openHomeUi;
+    // const closeAll = uiFns.closeAll;
+    return _react2.default.createElement(
+        'div',
+        { className: 'search-page-container' },
+        _react2.default.createElement(_Nav.Nav, null),
+        _react2.default.createElement(
+            'div',
+            { className: 'backdrop-wrapper' },
+            'backdrop goes here'
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'map-results-container' },
+            _react2.default.createElement(
+                'div',
+                { ref: createMap, className: 'map-wrapper' },
+                'map goes here'
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'results-container' },
+                'results go here',
+                businesses ? businesses.map(function (bus, i) {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: i, className: 'bus-container' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'name-wrapper' },
+                            bus.name
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'pic-wrapper' },
+                            _react2.default.createElement('img', { src: bus.image_url })
+                        )
+                    );
+                }) : ''
+            )
+        )
+    );
+};
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Nav = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { PopUp } from './PopUp';
+// import { FormSignup } from './FormSignup';
+// import { FormLogin } from './FormLogin';
+// import { Switch, Route } from 'react-router-dom';
+
+var Nav = exports.Nav = function Nav(props) {
+    // const uiFns = props.uiFns;
+    // const openHomeUi = uiFns.openHomeUi;
+    // const closeAll = uiFns.closeAll;
+    return _react2.default.createElement(
+        'div',
+        { className: 'nav-container' },
+        _react2.default.createElement('img', { src: '/img/logo.png' })
+    );
+};
+
+/***/ }),
+/* 83 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -1,0 +1,39 @@
+.search-page-container {
+    .nav-container {
+        border: 1px solid black;
+        img {
+            width: 25px;
+        }
+    }
+    .backdrop-wrapper {
+        border: 1px solid green;
+        height: 50px;
+    }
+    .map-results-container {
+        display: flex;
+        flex-direction: row;
+        border: 2px solid purple;
+        .map-wrapper, .results-container {
+            // display: inline-block;
+            // width: 50%;
+            border: 1px solid black;
+            // flex-grow: 1;
+            height: 300px;
+        }
+        .map-wrapper {
+            width: 60%;
+            flex-grow: 7;
+        }
+        .results-container {
+            width: 30%;
+            overflow: scroll;
+            flex-grow: 3;
+            .bus-container {
+                border: 1px solid green;
+                img {
+                    width: 100px;
+                }
+            }
+        }
+    }
+}
