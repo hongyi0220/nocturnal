@@ -14,6 +14,9 @@ export class Search extends React.Component {
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
         this.getCoords = this.getCoords.bind(this);
+
+        //USE https://api.yelp.com/v3/businesses/{id} for business detail
+
     }
 
     getCoords() {
@@ -166,10 +169,10 @@ export class Search extends React.Component {
                 map: map,
                 title: markers[i][0]
             });
-            google.maps.event.addListener(marker, 'click', function(marker, i) {
-              infowindow.setContent(place.name);
-              infowindow.open(map, this);
-            });
+            // google.maps.event.addListener(marker, 'click', function(marker, i) {
+            //   infowindow.setContent(place.name);
+            //   infowindow.open(map, this);
+            // });
             map.fitBounds(bounds);
         }
       }

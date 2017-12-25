@@ -213,8 +213,12 @@ console.log(`${e.target} triggered openHomeUi`);
         .then(res => res.json())
         .then(resJson => this.setState({
             businesses: resJson.businesses
-        }, () => this.makeMarkerData(resJson.businesses)));
+        }, () => {
+            this.makeMarkerData(resJson.businesses);
+            console.log(this.state);
+        }));
         // , () => this.makeMarkerData(resJson.businesses)
+
     }
 
     componentWillMount() {
