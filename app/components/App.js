@@ -15,7 +15,7 @@ class App extends React.Component {
                 business: null,
                 currentPosition: null,
                 searchValue: '',
-                coords: null
+                markerData: null
             },
             ui: {
                 pic: false,
@@ -31,32 +31,33 @@ class App extends React.Component {
         this.getUserData = this.getUserData.bind(this);
         this.getSearchValue = this.getSearchValue.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.getCoords = this.getCoords.bind(this);
+        this.makeMarkerData = this.makeMarkerData.bind(this);
+        // this.getCoords = this.getCoords.bind(this);
     }
 
-    getCoords() {
-        const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-        const searchValue = this.state.memory.searchValue;
-        const formatAddress = value => {
-            return value.trim().replace(/\s/g,'+');
-        }
-        const address = formatAddress(searchValue);
-        console.log('formatted address: ', address);
-        fetch(url + address + apiKey)
-        .then(res => res.json())
-        .then(resJson => {
-            // console.log('resJson:',resJson);
-            const coords = resJson.results[0].geometry.location;
-            this.setState({
-                ...this.state,
-                memory: {
-                    ...this.state.memory,
-                    coords: coords
-                }
-            }, () => console.log('coords:', coords));
-        });
-    }
+    // getCoords() {
+    //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+    //     const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
+    //     const searchValue = this.state.memory.searchValue;
+    //     const formatAddress = value => {
+    //         return value.trim().replace(/\s/g,'+');
+    //     }
+    //     const address = formatAddress(searchValue);
+    //     console.log('formatted address: ', address);
+    //     fetch(url + address + apiKey)
+    //     .then(res => res.json())
+    //     .then(resJson => {
+    //         // console.log('resJson:',resJson);
+    //         const coords = resJson.results[0].geometry.location;
+    //         this.setState({
+    //             ...this.state,
+    //             memory: {
+    //                 ...this.state.memory,
+    //                 coords: coords
+    //             }
+    //         }, () => console.log('coords:', coords));
+    //     });
+    // }
 
     handleSearch(e) {
         const key = e.key;
@@ -65,7 +66,7 @@ class App extends React.Component {
         console.log('location:', location);
         if (key === 'Enter') {
             this.fetchData();
-            this.getCoords();
+            // this.getCoords();
             this.props.history.push('/search');
 
         }
@@ -164,19 +165,35 @@ console.log(`${e.target} triggered openHomeUi`);
         e.stopPropagation();
     }
 
+    makeMarkerData(businesses) {
+        const markers = [];
+        businesses.forEach(bus => {
+            markers.push([bus.name, bus.coordinates.latitude, bus.coordinates.longitude]);
+        });
+        this.setState({
+            ...this.state,
+            memory: {
+                ...this.state.memory,
+                markers: markers
+            }
+        }, () => console.log(this.state.memory))
+    }
+
     fetchData() {
-        const cors = "https://cors.now.sh/";
+        const cors = 'https://cors.now.sh/';
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
         const searchValue = this.state.memory.searchValue;
 
         const city = () => {
-            const cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle']
+            let cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
+            // cities = ['chicago'];
             const i = Math.floor(Math.random() * cities.length);
             return cities[i];
         }
         let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long) : ('location=' + city());
+        console.log('query:', query);
         if (searchValue) query = 'location=' + searchValue;
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
@@ -191,7 +208,7 @@ console.log(`${e.target} triggered openHomeUi`);
         .then(res => res.json())
         .then(resJson => this.setState({
             businesses: resJson.businesses
-        }, () => console.log(resJson.businesses[0].id)));
+        }, () => this.makeMarkerData(resJson.businesses)));
     }
 
     componentWillMount() {
