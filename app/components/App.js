@@ -15,7 +15,7 @@ class App extends React.Component {
                 business: null,
                 currentPosition: null,
                 searchValue: '',
-                markerData: null
+                markers: null
             },
             ui: {
                 pic: false,
@@ -61,12 +61,15 @@ class App extends React.Component {
 
     handleSearch(e) {
         const key = e.key;
-        console.log(e.key);
+        // console.log(e.key);
         const location = this.state.memory.searchValue;
-        console.log('location:', location);
+        // const businesses = this.state.businesses;
+        console.log('location HANDLESEARCH:', location);
+        // console.log('businesses HANDLESEARCH:', businesses);
+
         if (key === 'Enter') {
-            this.fetchData();
-            // this.getCoords();
+            this.fetchData(location);
+            // this.makeMarkerData(businesses);
             this.props.history.push('/search');
 
         }
@@ -132,7 +135,8 @@ class App extends React.Component {
         ));
     }
 
-    closeAll() {
+    closeAll(e) {
+        console.log(e.target,'closeAll');
         this.setState({
             ...this.state,
             ui: {
@@ -179,12 +183,12 @@ console.log(`${e.target} triggered openHomeUi`);
         }, () => console.log(this.state.memory))
     }
 
-    fetchData() {
+    fetchData(location) {
         const cors = 'https://cors.now.sh/';
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
-        const searchValue = this.state.memory.searchValue;
+        // const searchValue = this.state.memory.searchValue;
 
         const city = () => {
             let cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
@@ -193,8 +197,9 @@ console.log(`${e.target} triggered openHomeUi`);
             return cities[i];
         }
         let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long) : ('location=' + city());
+
+        if (location) query = 'location=' + location;
         console.log('query:', query);
-        if (searchValue) query = 'location=' + searchValue;
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
         });
@@ -209,6 +214,7 @@ console.log(`${e.target} triggered openHomeUi`);
         .then(resJson => this.setState({
             businesses: resJson.businesses
         }, () => this.makeMarkerData(resJson.businesses)));
+        // , () => this.makeMarkerData(resJson.businesses)
     }
 
     componentWillMount() {
