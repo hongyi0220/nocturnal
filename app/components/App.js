@@ -20,8 +20,7 @@ class App extends React.Component {
             },
             ui: {
                 pic: false,
-                signup: false,
-                login: false
+                popupLink: false
             }
         }
         this.fetchData = this.fetchData.bind(this);
@@ -142,8 +141,9 @@ class App extends React.Component {
         this.setState({
             ...this.state,
             ui: {
+                ...this.state.ui,
                 pic: false,
-                signup: false
+                popupLinke: false
             }
         });
     }
@@ -168,7 +168,8 @@ console.log(`${e.target} triggered openHomeUi`);
             },
             ui: {
                 ...prevState.ui,
-                pic: true
+                pic: true,
+                popupLink: true
                 // signup: isSignup ? true : prevState.ui.signup,
                 // login: isLogin ? true : prevState.ui.login
             }

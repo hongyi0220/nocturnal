@@ -21,7 +21,7 @@ export const PopUp = props => {
 
             {/* <div className='img-wrapper'><img src={bus ? bus.image_url : ''}/></div>
             <div className='name-wrapper'>{bus ? bus.name : ''}</div> */}
-            <div className='link-wrapper'><Link to='/search'>Take me here</Link></div>
+            <div className='link-wrapper'><Link className='popup-link' to='/search'>Take me here</Link></div>
         </div>
     );
 }

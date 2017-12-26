@@ -14,7 +14,7 @@ export class Search extends React.Component {
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
         this.getCoords = this.getCoords.bind(this);
-
+        // this.showBusDetail = this.showBusDetail.bind(this);
         //USE https://api.yelp.com/v3/businesses/{id} for business detail
 
     }
@@ -45,7 +45,7 @@ export class Search extends React.Component {
         // , () => this.createMap()(coords, markers)
     }
 
-    initMap(coords, markers, infowindowContent) {
+    initMap(coords, markers, infowindowContent, business, isPopupOpen) {
         var map;
         var infowindow;
         var bounds;
@@ -143,8 +143,9 @@ export class Search extends React.Component {
 
         infowindow = new google.maps.InfoWindow();
         let marker;
-
         const busContainers = document.getElementsByClassName('bus-container');
+        // const popupLinks = document.getElementsByClassName('popup-link');
+
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
             bounds.extend(position);
@@ -170,20 +171,54 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
-    }
+        // This opens the marker & fill it with content when a popup link is clicked at homepage
+        if (isPopupOpen) {
+            const name = business.name;
+            console.log('name:', name);
+            let marker = markers.filter(marker => marker[0] === name)[0];
+            console.error('marker:', marker);
+            let infoContent;
+            for (let i = 0; i < infowindowContent.length; i++) {
+                if (infowindowContent[i][0].indexOf(name) > -1) {
+                    infoContent = infowindowContent[i][0];
+                    break;
+                }
+            }
 
+            const position = new google.maps.LatLng(marker[1], marker[2]);
+            console.log('position inside popup', position);
+            // bounds.extend(position);
+            const title = marker[0];
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title
+            });
+
+            console.log(infoContent);
+            // const infowindow = new google.maps.InfoWindow();
+            infowindow.setContent(infoContent);
+            infowindow.open(map, marker);
+        }
+    }
 
     componentDidMount() {
         this.getCoords();
     }
 
-    // If/when component's prop updates, draw map
+    // If/when component's prop updates, draw the map
     componentDidUpdate() {
         const coords = this.state.coords;
         const markers = this.props.state.memory.markers;
+// console.log('markers:', markers);
         const infowindowContent = this.props.state.memory.infowindowContent;
+        const isPopupOpen = this.props.state.ui.popupLink;
+console.error('isPopupOpen:', isPopupOpen);
+        const business = this.props.state.memory.business;
+// console.log('infowindowContent:', infowindowContent);
 
-        this.initMap(coords, markers, infowindowContent);
+        // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
+        this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
     }
 
     render() {
