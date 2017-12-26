@@ -152,9 +152,10 @@ class App extends React.Component {
 console.log(`${e.target} triggered openHomeUi`);
         const id = e.target.id;
         const cityName = e.target.className;
-        const isSignup = id === 'signup';
-        const isLogin = id === 'login';
-        const isPic = !isSignup && !isLogin;
+        console.log('cityName:',cityName);
+        // const isSignup = id === 'signup';
+        // const isLogin = id === 'login';
+        // const isPic = !isSignup && !isLogin;
         const business = id => {
             return this.state.businesses.filter(bus => bus.id === id)[0];
         }
@@ -162,13 +163,14 @@ console.log(`${e.target} triggered openHomeUi`);
             ...prevState,
             memory: {
                 ...prevState.memory,
-                business: isPic ? business(id) : prevState.memory.business,
+                business: business(id),
                 searchValue: cityName
             },
             ui: {
-                pic: isPic ? true : prevState.ui.pic,
-                signup: isSignup ? true : prevState.ui.signup,
-                login: isLogin ? true : prevState.ui.login
+                ...prevState.ui,
+                pic: true
+                // signup: isSignup ? true : prevState.ui.signup,
+                // login: isLogin ? true : prevState.ui.login
             }
         }));
         e.stopPropagation();
