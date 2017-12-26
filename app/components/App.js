@@ -15,7 +15,8 @@ class App extends React.Component {
                 business: null,
                 currentPosition: null,
                 searchValue: '',
-                markers: null
+                markers: null,
+                infowindowContent: null
             },
             ui: {
                 pic: false,
@@ -32,6 +33,7 @@ class App extends React.Component {
         this.getSearchValue = this.getSearchValue.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.makeMarkerData = this.makeMarkerData.bind(this);
+        this.makeInfowindowContent = this.makeInfowindowContent.bind(this);
         // this.getCoords = this.getCoords.bind(this);
     }
 
@@ -169,6 +171,30 @@ console.log(`${e.target} triggered openHomeUi`);
         e.stopPropagation();
     }
 
+    makeInfowindowContent(businesses) {
+        const infowindowContent = [];
+        businesses.forEach(bus => {
+            const yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png',
+                               'three_half.png', 'four.png', 'four_half.png', 'five.png'];
+            const yelpstarsIndex = (bus.rating * 2) - 1;
+            const info = '<div class="info-content">' +
+                         '<h3>' + bus.name + '</h3>' +
+                         '<img style="width:100px" src="' + bus.image_url + '"/>' +
+                         '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' +
+                         bus.review_count + '&nbsp;' + 'reviews' + '</div>' +
+                         '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' +
+                         '</div>';
+            infowindowContent.push([info]);
+        });
+        this.setState(prevState => ({
+            ...prevState,
+            memory: {
+                ...prevState.memory,
+                infowindowContent: infowindowContent
+            }
+        }), () => console.log('infowindowContent:', this.state.memory));
+    }
+
     makeMarkerData(businesses) {
         const markers = [];
         businesses.forEach(bus => {
@@ -180,7 +206,7 @@ console.log(`${e.target} triggered openHomeUi`);
                 ...this.state.memory,
                 markers: markers
             }
-        }, () => console.log(this.state.memory))
+        }, () => console.log('after makeMarkerData:',this.state.memory))
     }
 
     fetchData(location) {
@@ -215,10 +241,10 @@ console.log(`${e.target} triggered openHomeUi`);
             businesses: resJson.businesses
         }, () => {
             this.makeMarkerData(resJson.businesses);
+            this.makeInfowindowContent(resJson.businesses);
             console.log(this.state);
         }));
         // , () => this.makeMarkerData(resJson.businesses)
-
     }
 
     componentWillMount() {

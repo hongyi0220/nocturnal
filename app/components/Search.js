@@ -54,11 +54,12 @@ export class Search extends React.Component {
 
 
 
-    initMap(coords, markers) {
+    initMap(coords, markers, infowindowContent) {
         var map;
         var infowindow;
         var bounds;
         var mapDOMNode = this.refs.map;
+        const ifwc = infowindowContent;
 
         console.log('markers inside initmap:', markers);
     // var position = coords;
@@ -157,9 +158,6 @@ export class Search extends React.Component {
         //   radius: 500,
         //   type: ['store']
         // }, callback);
-        const infowindowContent = [
-
-        ];
 
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
@@ -169,10 +167,12 @@ export class Search extends React.Component {
                 map: map,
                 title: markers[i][0]
             });
-            // google.maps.event.addListener(marker, 'click', function(marker, i) {
-            //   infowindow.setContent(place.name);
-            //   infowindow.open(map, this);
-            // });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(ifwc[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
             map.fitBounds(bounds);
         }
       }
@@ -211,8 +211,9 @@ export class Search extends React.Component {
     componentDidUpdate() {
         const coords = this.state.coords;
         const markers = this.props.state.memory.markers;
+        const infowindowContent = this.props.state.memory.infowindowContent;
 
-        this.initMap(coords, markers);
+        this.initMap(coords, markers, infowindowContent);
     }
 
     render() {
