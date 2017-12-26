@@ -159,6 +159,7 @@ export class Search extends React.Component {
         //   type: ['store']
         // }, callback);
 
+        const busContainers = document.getElementsByClassName('bus-container');
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
             bounds.extend(position);
@@ -167,41 +168,25 @@ export class Search extends React.Component {
                 map: map,
                 title: markers[i][0]
             });
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
+
+            google.maps.event.addListener(marker, 'click', function() {
+
+                    infowindow.setContent(ifwc[i][0]);
+                    infowindow.open(map, this);
+
+            });
+
+            // Open infowindow when clicking on a bar in results
+            busContainers[i].addEventListener('click', ((marker, i) => {
+                return () => {
                     infowindow.setContent(ifwc[i][0]);
                     infowindow.open(map, marker);
                 }
             })(marker, i));
             map.fitBounds(bounds);
         }
-      }
+    }
 
-      // function callback(results, status) {
-      //   if (status === google.maps.places.PlacesServiceStatus.OK) {
-      //     for (var i = 0; i < results.length; i++) {
-      //       createMarker(results[i]);
-      //     }
-      //   }
-      // }
-      // console.log('markers inside initmap:', markers);
-
-
-
-      // function createMarker(place) {
-      //   var placeLoc = place.geometry.location;
-      //   var marker = new google.maps.Marker({
-      //     map: map,
-      //     position: place.geometry.location
-      //   });
-
-        // google.maps.event.addListener(marker, 'click', function() {
-        //   infowindow.setContent(place.name);
-        //   infowindow.open(map, this);
-        // });
-      // }
-
-    // }
 
     componentDidMount() {
         this.getCoords();
