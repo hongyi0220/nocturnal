@@ -45,15 +45,6 @@ export class Search extends React.Component {
         // , () => this.createMap()(coords, markers)
     }
 
-    // createMap() {
-      // var map;
-      // var infowindow;
-      // var bounds;
-      // var mapDOMNode = this.refs.map;
-      // console.log('coords inside createMap:', coords);
-
-
-
     initMap(coords, markers, infowindowContent) {
         var map;
         var infowindow;
@@ -152,12 +143,6 @@ export class Search extends React.Component {
 
         infowindow = new google.maps.InfoWindow();
         let marker;
-        // var service = new google.maps.places.PlacesService(map);
-        // service.nearbySearch({
-        //   location: coords,
-        //   radius: 500,
-        //   type: ['store']
-        // }, callback);
 
         const busContainers = document.getElementsByClassName('bus-container');
         for (let i = 0; i < markers.length; i++) {

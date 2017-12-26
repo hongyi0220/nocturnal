@@ -47,7 +47,7 @@ export const Home = props => {
             <div className='pics-container'>
                 {businesses ? businesses.map((bus, i) =>
                     <div key={i} className='pic-wrapper'>
-                        <img onClick={openHomeUi} id={bus.id} src={bus.image_url}/>
+                        <img onClick={openHomeUi} id={bus.id} className={bus.location.city} src={bus.image_url}/>
                     </div>) : ''}
             </div>
         </div>

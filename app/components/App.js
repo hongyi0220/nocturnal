@@ -151,6 +151,7 @@ class App extends React.Component {
     openHomeUi(e) {
 console.log(`${e.target} triggered openHomeUi`);
         const id = e.target.id;
+        const cityName = e.target.className;
         const isSignup = id === 'signup';
         const isLogin = id === 'login';
         const isPic = !isSignup && !isLogin;
@@ -160,7 +161,9 @@ console.log(`${e.target} triggered openHomeUi`);
         this.setState(prevState => ({
             ...prevState,
             memory: {
-                business: isPic ? business(id) : prevState.memory.business
+                ...prevState.memory,
+                business: isPic ? business(id) : prevState.memory.business,
+                searchValue: cityName
             },
             ui: {
                 pic: isPic ? true : prevState.ui.pic,
