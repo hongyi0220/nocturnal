@@ -45,29 +45,31 @@ class App extends React.Component {
         // Insert data on bars the user is going to
         const buses = businesses.map(bus => {
             // console.log('bus @ insertGoingData:', bus);
-            const going = () => {
+            const isGoing = () => {
                 for (let i = 0; i < going.length; i++) {
                     if (bus.id === going[i]) {
+                        console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
                         bus.going = 1;
                         return true;
                     }
                 }
                 return false;
             }
-            // console.log('going():', going());
-            if (!going()) bus.going = 0;
+            console.log('isGoing():', isGoing());
+            if (!isGoing()) bus.going = 0;
             return bus;
         });
 
         // Insert data on # of people going to each bar
         const busesTransformed = buses.map(bus => {
+            console.log('bus inside 2nd mapping of businesses:', bus);
             bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
             return bus;
-        })
+        });
 
         this.setState(prevState => ({
             ...prevState,
-            businesses: busesTransformed
+            businesses: buses
         }), () => console.log('bus transformed:',this.state.businesses));
     }
 

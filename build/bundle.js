@@ -23548,29 +23548,31 @@ var App = function (_React$Component) {
             // Insert data on bars the user is going to
             var buses = businesses.map(function (bus) {
                 // console.log('bus @ insertGoingData:', bus);
-                var going = function going() {
+                var isGoing = function isGoing() {
                     for (var i = 0; i < going.length; i++) {
                         if (bus.id === going[i]) {
+                            console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
                             bus.going = 1;
                             return true;
                         }
                     }
                     return false;
                 };
-                // console.log('going():', going());
-                if (!going()) bus.going = 0;
+                console.log('isGoing():', isGoing());
+                if (!isGoing()) bus.going = 0;
                 return bus;
             });
 
             // Insert data on # of people going to each bar
             var busesTransformed = buses.map(function (bus) {
+                console.log('bus inside 2nd mapping of businesses:', bus);
                 bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
                 return bus;
             });
 
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
-                    businesses: busesTransformed
+                    businesses: buses
                 });
             }, function () {
                 return console.log('bus transformed:', _this2.state.businesses);
@@ -23814,7 +23816,7 @@ var App = function (_React$Component) {
                                 })
                             });
                         }, function () {
-
+                            // When doing a search (of a location), insert data on who's going into businesses data
                             if (location) {
                                 var going = _this8.state.memory.user.going;
                                 console.log('going insdie of fetchData:', going);
@@ -24430,7 +24432,7 @@ var Search = exports.Search = function (_React$Component) {
             // p_state: parent's state
             var p_state = this.props.state;
             var businesses = p_state.businesses;
-            console.log('businesses @ Search render():', businesses);
+            // console.log('businesses @ Search render():', businesses);
             // const going = state.memory.user.going;
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;

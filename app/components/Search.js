@@ -250,7 +250,7 @@ export class Search extends React.Component {
         // p_state: parent's state
         const p_state = this.props.state;
         const businesses = p_state.businesses;
-        console.log('businesses @ Search render():', businesses);
+        // console.log('businesses @ Search render():', businesses);
         // const going = state.memory.user.going;
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
