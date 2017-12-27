@@ -23509,13 +23509,14 @@ var App = function (_React$Component) {
             memory: {
                 user: null,
                 business: null,
-                position: null,
-                searchValue: ''
+                currentPosition: null,
+                searchValue: '',
+                markers: null,
+                infowindowContent: null
             },
             ui: {
                 pic: false,
-                signup: false,
-                login: false
+                popupLink: false
             }
         };
         _this.fetchData = _this.fetchData.bind(_this);
@@ -23526,65 +23527,73 @@ var App = function (_React$Component) {
         _this.getUserData = _this.getUserData.bind(_this);
         _this.getSearchValue = _this.getSearchValue.bind(_this);
         _this.handleSearch = _this.handleSearch.bind(_this);
-        _this.createMap = _this.createMap.bind(_this);
+        _this.makeMarkerData = _this.makeMarkerData.bind(_this);
+        _this.makeInfowindowContent = _this.makeInfowindowContent.bind(_this);
+        _this.toggleGoing = _this.toggleGoing.bind(_this);
+        _this.insertGoingData = _this.insertGoingData.bind(_this);
+        // this.getCoords = this.getCoords.bind(this);
         return _this;
     }
 
     _createClass(App, [{
-        key: 'createMap',
-        value: function createMap() {
-            var map;
-            var infowindow;
+        key: 'insertGoingData',
+        value: function insertGoingData(businesses, goings) {
+            var _this2 = this;
 
-            function initMap() {
-                var pyrmont = { lat: -33.867, lng: 151.195 };
-
-                map = new google.maps.Map(document.querySelector('.map-wrapper'), {
-                    center: pyrmont,
-                    zoom: 15
-                });
-
-                infowindow = new google.maps.InfoWindow();
-                var service = new google.maps.places.PlacesService(map);
-                service.nearbySearch({
-                    location: pyrmont,
-                    radius: 500,
-                    type: ['store']
-                }, callback);
-            }
-
-            function callback(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    for (var i = 0; i < results.length; i++) {
-                        createMarker(results[i]);
+            var buses = businesses.map(function (bus) {
+                // console.log('bus @ insertGoingData:', bus);
+                var going = function going() {
+                    for (var i = 0; i < goings.length; i++) {
+                        if (bus.id === goings[i]) {
+                            bus.going = 1;
+                            return true;
+                        }
                     }
+                    return false;
+                };
+                console.log('going():', going());
+                if (!going()) bus.going = 0;
+                return bus;
+            });
+            this.setState(function (prevState) {
+                return _extends({}, prevState, {
+                    businesses: buses
+                });
+            }, function () {
+                return console.log('bus transformed:', _this2.state.businesses);
+            });
+        }
+    }, {
+        key: 'toggleGoing',
+        value: function toggleGoing(e) {
+            console.log('toggleGoing triggered');
+            var place_id = e.target.id;
+            var user = _extends({}, this.state.memory.user);
+            var going = user.going;
+            var isGoing = function isGoing() {
+                for (var i = 0; i < going.length; i++) {
+                    if (going[i] === place_id) going.splice(i, 1);
+                    return true;
                 }
-            }
-
-            function createMarker(place) {
-                var placeLoc = place.geometry.location;
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: place.geometry.location
-                });
-
-                google.maps.event.addListener(marker, 'click', function () {
-                    infowindow.setContent(place.name);
-                    infowindow.open(map, this);
-                });
+            };
+            if (!isGoing()) {
+                going.push(place_id);
+                this.setState({ user: user });
             }
         }
     }, {
         key: 'handleSearch',
         value: function handleSearch(e) {
             var key = e.key;
-            console.log(e.key);
             var location = this.state.memory.searchValue;
-            console.log('location:', location);
+            var businesses = this.state.businesses;
+            var going = this.state.memory.user.going;
+
             if (key === 'Enter') {
                 this.fetchData(location);
+                // this.insertGoingData(businesses, going);
+                // this.makeMarkerData(businesses);
                 this.props.history.push('/search');
-                this.createMap();
             }
         }
     }, {
@@ -23600,51 +23609,50 @@ var App = function (_React$Component) {
     }, {
         key: 'getUserData',
         value: function getUserData() {
-            var _this2 = this;
+            var _this3 = this;
 
-            // console.log('getUserData triggered');
-            // console.log('state:',this.state);
             var url = 'http://localhost:8080/user';
+            // const businesses = this.state.businesses;
+            // console.log('businesses @ getUserData:', businesses);
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this2.setState(_extends({}, _this2.state, {
+                return _this3.setState(_extends({}, _this3.state, {
                     authenticated: true,
-                    memory: _extends({}, _this2.state.memory, {
+                    memory: _extends({}, _this3.state.memory, {
                         user: resJson
                     })
-                }), function () {
-                    return console.log('getUserData triggered; state:', _this2.state);
-                });
+                }));
             });
+            // () => this.insertGoingData(businesses, resJson.going)
         }
     }, {
         key: 'getCurrentLocation',
         value: function getCurrentLocation() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-                console.log(pos);
-                _this3.setState(_extends({}, _this3.state, {
-                    memory: _extends({}, _this3.state.memory, {
-                        position: {
+
+                _this4.setState(_extends({}, _this4.state, {
+                    memory: _extends({}, _this4.state.memory, {
+                        currentPosition: {
                             lat: pos.coords.latitude,
                             long: pos.coords.longitude
                         }
                     })
                 }), function () {
-                    return _this3.fetchData();
+                    return _this4.fetchData();
                 });
             });
         }
     }, {
         key: 'signOut',
         value: function signOut() {
-            var _this4 = this;
+            var _this5 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return _this4.setState(function (prevState) {
+                return _this5.setState(function (prevState) {
                     return _extends({}, prevState, {
                         authenticated: false,
                         memory: _extends({}, prevState.memory, {
@@ -23656,59 +23664,95 @@ var App = function (_React$Component) {
         }
     }, {
         key: 'closeAll',
-        value: function closeAll() {
+        value: function closeAll(e) {
+
             this.setState(_extends({}, this.state, {
-                ui: {
+                ui: _extends({}, this.state.ui, {
                     pic: false,
-                    signup: false
-                }
+                    popupLinke: false
+                })
             }));
         }
     }, {
         key: 'openHomeUi',
         value: function openHomeUi(e) {
-            var _this5 = this;
+            var _this6 = this;
 
-            console.log(e.target + ' triggered openHomeUi');
             var id = e.target.id;
-            var isSignup = id === 'signup';
-            var isLogin = id === 'login';
-            var isPic = !isSignup && !isLogin;
+            var cityName = e.target.className;
+
             var business = function business(id) {
-                return _this5.state.businesses.filter(function (bus) {
+                return _this6.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
-                    memory: {
-                        business: isPic ? business(id) : prevState.memory.business
-                    },
-                    ui: {
-                        pic: isPic ? true : prevState.ui.pic,
-                        signup: isSignup ? true : prevState.ui.signup,
-                        login: isLogin ? true : prevState.ui.login
-                    }
+                    memory: _extends({}, prevState.memory, {
+                        business: business(id),
+                        searchValue: cityName
+                    }),
+                    ui: _extends({}, prevState.ui, {
+                        pic: true,
+                        popupLink: true
+                    })
                 });
             });
             e.stopPropagation();
         }
     }, {
+        key: 'makeInfowindowContent',
+        value: function makeInfowindowContent(businesses) {
+            var infowindowContent = [];
+            businesses.forEach(function (bus) {
+                var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
+                var yelpstarsIndex = bus.rating * 2 - 1;
+                var info = '<div class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:100px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
+                infowindowContent.push([info]);
+            });
+            this.setState(function (prevState) {
+                return _extends({}, prevState, {
+                    memory: _extends({}, prevState.memory, {
+                        infowindowContent: infowindowContent
+                    })
+                });
+            });
+        }
+    }, {
+        key: 'makeMarkerData',
+        value: function makeMarkerData(businesses) {
+            var markers = [];
+            businesses.forEach(function (bus) {
+                markers.push([bus.name, bus.coordinates.latitude, bus.coordinates.longitude]);
+            });
+            this.setState(_extends({}, this.state, {
+                memory: _extends({}, this.state.memory, {
+                    markers: markers
+                })
+            }));
+            // , () => console.log('after makeMarkerData:',this.state.memory)
+        }
+    }, {
         key: 'fetchData',
         value: function fetchData(location) {
-            var _this6 = this;
+            var _this7 = this;
 
-            var cors = "https://cors.now.sh/";
+            var cors = 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
-            var currentPosition = this.state.memory.position;
+            var currentPosition = this.state.memory.currentPosition;
+            // const searchValue = this.state.memory.searchValue;
+
             var city = function city() {
-                var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle'];
+                var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
+                // cities = ['chicago'];
                 var i = Math.floor(Math.random() * cities.length);
                 return cities[i];
             };
             var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long : 'location=' + city();
+
             if (location) query = 'location=' + location;
+
             var headers = new Headers({
                 'Authorization': 'Bearer ' + key
             });
@@ -23721,12 +23765,22 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this6.setState({
+                return _this7.setState({
                     businesses: resJson.businesses
                 }, function () {
-                    return console.log(resJson.businesses[0].id);
+                    console.log('location:', new Boolean(location));
+                    var buses = resJson.businesses;
+
+                    _this7.makeMarkerData(buses);
+                    _this7.makeInfowindowContent(buses);
+                    if (location) {
+                        var goings = _this7.state.memory.user.going;
+                        console.log('goings insdie of fetchData:', goings);
+                        _this7.insertGoingData(buses, goings);
+                    }
                 });
             });
+            // , () => this.makeMarkerData(resJson.businesses)
         }
     }, {
         key: 'componentWillMount',
@@ -23752,7 +23806,7 @@ var App = function (_React$Component) {
             var getSearchValue = this.getSearchValue;
             var handleSearch = this.handleSearch;
             var history = this.props.history;
-            var createMap = this.createMap;
+            var toggleGoing = this.toggleGoing;
 
             return _react2.default.createElement(
                 'div',
@@ -23761,7 +23815,7 @@ var App = function (_React$Component) {
                     _reactRouterDom.Switch,
                     null,
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
-                            return _react2.default.createElement(_Search.Search, { createMap: createMap, state: state });
+                            return _react2.default.createElement(_Search.Search, { toggleGoing: toggleGoing, state: state });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
                             return _react2.default.createElement(_Home.Home, { auth: auth, getCurrentLocation: getCurrentLocation,
@@ -23881,7 +23935,7 @@ var Home = exports.Home = function Home(props) {
                 return _react2.default.createElement(
                     'div',
                     { key: i, className: 'pic-wrapper' },
-                    _react2.default.createElement('img', { onClick: openHomeUi, id: bus.id, src: bus.image_url })
+                    _react2.default.createElement('img', { onClick: openHomeUi, id: bus.id, className: bus.location.city, src: bus.image_url })
                 );
             }) : ''
         )
@@ -23912,25 +23966,42 @@ var PopUp = exports.PopUp = function PopUp(props) {
     var state = props.state;
     var bus = void 0;
     if (state) bus = state.memory.business;
+    var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
+    var yelpstarsIndex = bus.rating * 2 - 1;
     return _react2.default.createElement(
         'div',
         { className: 'popUp' },
         _react2.default.createElement(
             'div',
-            { className: 'img-wrapper' },
-            _react2.default.createElement('img', { src: bus ? bus.image_url : '' })
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'name-wrapper' },
-            bus ? bus.name : ''
+            { className: 'info-content' },
+            _react2.default.createElement(
+                'h3',
+                null,
+                bus.name
+            ),
+            _react2.default.createElement('img', { style: { width: 100 + 'px' }, src: bus.image_url }),
+            _react2.default.createElement(
+                'div',
+                { className: 'stars-wrapper' },
+                _react2.default.createElement('img', { src: '/img/yelpstars/' + yelpstars[yelpstarsIndex] }),
+                '\xA0',
+                bus.review_count,
+                '\xA0reviews'
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'price-category-wrapper' },
+                bus.price,
+                '\xA0',
+                bus.categories[0].title
+            )
         ),
         _react2.default.createElement(
             'div',
             { className: 'link-wrapper' },
             _react2.default.createElement(
                 _reactRouterDom.Link,
-                { to: '/' },
+                { className: 'popup-link', to: '/search' },
                 'Take me here'
             )
         )
@@ -24030,6 +24101,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Search = undefined;
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -24038,59 +24111,352 @@ var _Nav = __webpack_require__(82);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 // import { PopUp } from './PopUp';
 // import { FormSignup } from './FormSignup';
 // import { FormLogin } from './FormLogin';
 // import { Switch, Route } from 'react-router-dom';
 
-var Search = exports.Search = function Search(props) {
-    var state = props.state;
-    var businesses = state.businesses;
-    var createMap = props.createMap;
-    // const uiFns = props.uiFns;
-    // const openHomeUi = uiFns.openHomeUi;
-    // const closeAll = uiFns.closeAll;
-    return _react2.default.createElement(
-        'div',
-        { className: 'search-page-container' },
-        _react2.default.createElement(_Nav.Nav, null),
-        _react2.default.createElement(
-            'div',
-            { className: 'backdrop-wrapper' },
-            'backdrop goes here'
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'map-results-container' },
-            _react2.default.createElement(
+var Search = exports.Search = function (_React$Component) {
+    _inherits(Search, _React$Component);
+
+    function Search() {
+        _classCallCheck(this, Search);
+
+        var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this));
+
+        _this.state = {
+            coords: null,
+            businesses: null,
+            going: null
+            // this.createMap = this.createMap.bind(this);
+        };_this.initMap = _this.initMap.bind(_this);
+        _this.getCoords = _this.getCoords.bind(_this);
+        _this.going = _this.going.bind(_this);
+        // this.insertGoingData = this.insertGoingData.bind(this);
+        // this.showBusDetail = this.showBusDetail.bind(this);
+        //USE https://api.yelp.com/v3/businesses/{id} for business detail
+        return _this;
+    }
+
+    _createClass(Search, [{
+        key: 'going',
+        value: function going(e) {
+            var id = e.target.id;
+            console.log('place_id @ going(e):', id);
+            var url = 'http://localhost:8080/going';
+            var init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ place_id: id })
+            };
+            fetch(url, init);
+        }
+    }, {
+        key: 'getCoords',
+        value: function getCoords() {
+            var _this2 = this;
+
+            var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+            var apiKey = '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
+            var searchValue = this.props.state.memory.searchValue;
+            // const markers = this.props.state.memory.markers;
+            var businesses = this.props.state.businesses;
+
+            //
+            //
+            var formatAddress = function formatAddress(value) {
+                return value.trim().replace(/\s/g, '+');
+            };
+            var address = formatAddress(searchValue);
+            //
+            fetch(url + address + apiKey).then(function (res) {
+                return res.json();
+            }).then(function (resJson) {
+                //
+                var coords = resJson.results[0].geometry.location;
+                _this2.setState({
+                    coords: coords
+                });
+            });
+            // , () => this.createMap()(coords, markers)
+        }
+    }, {
+        key: 'initMap',
+        value: function initMap(coords, markers, infowindowContent, business, isPopupOpen) {
+            var map;
+            var infowindow;
+            var bounds;
+            var mapDOMNode = this.refs.map;
+            var ifwc = infowindowContent;
+
+            // var position = coords;
+            //
+            bounds = new google.maps.LatLngBounds();
+            map = new google.maps.Map(mapDOMNode, {
+                center: coords,
+                zoom: 15,
+                styles: [{ elementType: 'geometry', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] }, {
+                    featureType: 'administrative.locality',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#d59563' }]
+                }, {
+                    featureType: 'poi',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#d59563' }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'geometry',
+                    stylers: [{ color: '#263c3f' }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#6b9a76' }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{ color: '#38414e' }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry.stroke',
+                    stylers: [{ color: '#212a37' }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#9ca5b3' }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [{ color: '#746855' }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry.stroke',
+                    stylers: [{ color: '#1f2835' }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#f3d19c' }]
+                }, {
+                    featureType: 'transit',
+                    elementType: 'geometry',
+                    stylers: [{ color: '#2f3948' }]
+                }, {
+                    featureType: 'transit.station',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#d59563' }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [{ color: '#17263c' }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{ color: '#515c6d' }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.stroke',
+                    stylers: [{ color: '#17263c' }]
+                }]
+            });
+
+            infowindow = new google.maps.InfoWindow();
+            var marker = void 0;
+            var busContainers = document.getElementsByClassName('bus-container');
+            // const popupLinks = document.getElementsByClassName('popup-link');
+
+            var _loop = function _loop(i) {
+                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                bounds.extend(position);
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: markers[i][0]
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+
+                    infowindow.setContent(ifwc[i][0]);
+                    infowindow.open(map, this);
+                });
+
+                // Open infowindow when clicking on a bar in results
+                busContainers[i].addEventListener('click', function (marker, i) {
+                    return function () {
+                        infowindow.setContent(ifwc[i][0]);
+                        infowindow.open(map, marker);
+                    };
+                }(marker, i));
+                map.fitBounds(bounds);
+            };
+
+            for (var i = 0; i < markers.length; i++) {
+                _loop(i);
+            }
+            // This opens the marker & fill it with content when a popup link is clicked at homepage
+            if (isPopupOpen) {
+                var name = business.name;
+
+                var _marker = markers.filter(function (marker) {
+                    return marker[0] === name;
+                })[0];
+
+                var infoContent = void 0;
+                for (var i = 0; i < infowindowContent.length; i++) {
+                    if (infowindowContent[i][0].indexOf(name) > -1) {
+                        infoContent = infowindowContent[i][0];
+                        break;
+                    }
+                }
+
+                var position = new google.maps.LatLng(_marker[1], _marker[2]);
+
+                // bounds.extend(position);
+                var title = _marker[0];
+                _marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: title
+                });
+
+                // const infowindow = new google.maps.InfoWindow();
+                infowindow.setContent(infoContent);
+                infowindow.open(map, _marker);
+            }
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            // const p_state = this.props.state;
+            //
+            // const businesses = p_state.businesses;
+            // const goings = p_state.memory.user.going;
+            this.getCoords();
+            // this.insertGoingData(businesses, goings);
+        }
+
+        // If/when component's prop updates, draw the map
+
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            var coords = this.state.coords;
+            var p_state = this.props.state;
+            var markers = p_state.memory.markers;
+            //
+            var infowindowContent = p_state.memory.infowindowContent;
+            var isPopupOpen = p_state.ui.popupLink;
+
+            var business = p_state.memory.business;
+            var businesses = p_state.businesses;
+            var goings = p_state.memory.user.going;
+            console.log('p_state.memory.user.going:', goings);
+            //
+
+            // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
+            this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+            // this.insertGoingData(businesses, goings)
+        }
+
+        // insertGoingData(businesses, goings) {
+        //     const buses = businesses.map(bus => {
+        //         console.log('bus @ insertGoingData:', bus);
+        //         const going = () => {
+        //             for (let i = 0; i < goings.length; i++) {
+        //                 if (bus.id === goings[i]) {
+        //                     bus.going = 1;
+        //                     return true;
+        //                 }
+        //             }
+        //             return false;
+        //         }
+        //         console.log('going():', going());
+        //         if (!going()) bus.going = 0;
+        //         return bus;
+        //     });
+        //     this.setState({ businesses: buses }, () => console.log('bus transformed:',this.state.businesses));
+        // }
+
+    }, {
+        key: 'render',
+        value: function render() {
+            var state = this.props.state;
+            var businesses = state.businesses;
+            console.log('businesses @ Search render():', businesses);
+            // const goings = state.memory.user.going;
+            var going = this.going;
+            var toggleGoing = this.props.toggleGoing;
+
+            return _react2.default.createElement(
                 'div',
-                { ref: createMap, className: 'map-wrapper' },
-                'map goes here'
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'results-container' },
-                'results go here',
-                businesses ? businesses.map(function (bus, i) {
-                    return _react2.default.createElement(
+                { onClick: function onClick(e) {
+                        return e.stopPropagation();
+                    }, className: 'search-page-container' },
+                _react2.default.createElement(_Nav.Nav, null),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'backdrop-wrapper' },
+                    'backdrop goes here'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'map-results-container' },
+                    _react2.default.createElement(
                         'div',
-                        { key: i, className: 'bus-container' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'name-wrapper' },
-                            bus.name
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'pic-wrapper' },
-                            _react2.default.createElement('img', { src: bus.image_url })
-                        )
-                    );
-                }) : ''
-            )
-        )
-    );
-};
+                        { ref: 'map', className: 'map-wrapper' },
+                        'map goes here'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'results-container' },
+                        'results go here',
+                        businesses ? businesses.map(function (bus, i) {
+                            return _react2.default.createElement(
+                                'div',
+                                { key: i, className: 'bus-container' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'name-wrapper' },
+                                    bus.name
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'pic-wrapper' },
+                                    _react2.default.createElement('img', { src: bus.image_url })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { onClick: function onClick(e) {
+                                            e.stopPropagation();going(e);toggleGoing(e);
+                                        }, id: bus.id,
+                                        className: 'going-button' },
+                                    'I\'m ',
+                                    bus.going ? '' : _react2.default.createElement(
+                                        'div',
+                                        { className: 'not-wrapper' },
+                                        'not'
+                                    ),
+                                    ' going'
+                                )
+                            );
+                        }) : ''
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Search;
+}(_react2.default.Component);
 
 /***/ }),
 /* 82 */

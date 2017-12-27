@@ -15,7 +15,7 @@ function onSignIn(googleUser) {
     .then(res => {
         if (res.ok) console.log('token verified');
         const input = document.getElementById('auth')
-        console.log('input', input);
+        // console.log('input', input);
         input.onchange();
     })
     // .then(resJson => console.log(resJson))

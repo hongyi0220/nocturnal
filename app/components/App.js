@@ -33,43 +33,59 @@ class App extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.makeMarkerData = this.makeMarkerData.bind(this);
         this.makeInfowindowContent = this.makeInfowindowContent.bind(this);
+        this.toggleGoing = this.toggleGoing.bind(this);
+        this.insertGoingData = this.insertGoingData.bind(this);
         // this.getCoords = this.getCoords.bind(this);
     }
 
-    // getCoords() {
-    //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-    //     const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-    //     const searchValue = this.state.memory.searchValue;
-    //     const formatAddress = value => {
-    //         return value.trim().replace(/\s/g,'+');
-    //     }
-    //     const address = formatAddress(searchValue);
-    //     console.log('formatted address: ', address);
-    //     fetch(url + address + apiKey)
-    //     .then(res => res.json())
-    //     .then(resJson => {
-    //         // console.log('resJson:',resJson);
-    //         const coords = resJson.results[0].geometry.location;
-    //         this.setState({
-    //             ...this.state,
-    //             memory: {
-    //                 ...this.state.memory,
-    //                 coords: coords
-    //             }
-    //         }, () => console.log('coords:', coords));
-    //     });
-    // }
+    insertGoingData(businesses, goings) {
+        const buses = businesses.map(bus => {
+            // console.log('bus @ insertGoingData:', bus);
+            const going = () => {
+                for (let i = 0; i < goings.length; i++) {
+                    if (bus.id === goings[i]) {
+                        bus.going = 1;
+                        return true;
+                    }
+                }
+                return false;
+            }
+            console.log('going():', going());
+            if (!going()) bus.going = 0;
+            return bus;
+        });
+        this.setState(prevState => ({
+            ...prevState,
+            businesses: buses
+        }), () => console.log('bus transformed:',this.state.businesses));
+    }
+
+    toggleGoing(e) {
+        console.log('toggleGoing triggered');
+        const place_id = e.target.id;
+        const user = {...this.state.memory.user};
+        const going = user.going;
+        const isGoing = () => {
+            for (let i = 0; i < going.length; i++) {
+                if (going[i] === place_id) going.splice(i, 1);
+                return true;
+            }
+        }
+        if (!isGoing()) {
+            going.push(place_id);
+            this.setState({ user });
+        }
+    }
 
     handleSearch(e) {
         const key = e.key;
-        // console.log(e.key);
         const location = this.state.memory.searchValue;
-        // const businesses = this.state.businesses;
-        console.log('location HANDLESEARCH:', location);
-        // console.log('businesses HANDLESEARCH:', businesses);
+        const businesses = this.state.businesses;
+        const going = this.state.memory.user.going;
 
         if (key === 'Enter') {
             this.fetchData(location);
+            // this.insertGoingData(businesses, going);
             // this.makeMarkerData(businesses);
             this.props.history.push('/search');
 
@@ -88,9 +104,9 @@ class App extends React.Component {
     }
 
     getUserData() {
-// console.log('getUserData triggered');
-// console.log('state:',this.state);
         const url = 'http://localhost:8080/user'
+        // const businesses = this.state.businesses;
+        // console.log('businesses @ getUserData:', businesses);
         fetch(url)
         .then(res => res.json())
         .then(resJson => this.setState({
@@ -100,13 +116,14 @@ class App extends React.Component {
                 ...this.state.memory,
                 user: resJson
             }
-        }, () => console.log('getUserData triggered; state:',this.state)));
+        }));
+        // () => this.insertGoingData(businesses, resJson.going)
     }
 
     getCurrentLocation() {
         if (navigator.geolocation)
             navigator.geolocation.getCurrentPosition(pos => {
-                console.log(pos);
+
                 this.setState({
                     ...this.state,
                     memory: {
@@ -118,7 +135,6 @@ class App extends React.Component {
                     }
                 }, () => this.fetchData())
             });
-
     }
 
     signOut() {
@@ -137,7 +153,7 @@ class App extends React.Component {
     }
 
     closeAll(e) {
-        console.log(e.target,'closeAll');
+
         this.setState({
             ...this.state,
             ui: {
@@ -149,13 +165,11 @@ class App extends React.Component {
     }
 
     openHomeUi(e) {
-console.log(`${e.target} triggered openHomeUi`);
+
         const id = e.target.id;
         const cityName = e.target.className;
-        console.log('cityName:',cityName);
-        // const isSignup = id === 'signup';
-        // const isLogin = id === 'login';
-        // const isPic = !isSignup && !isLogin;
+
+
         const business = id => {
             return this.state.businesses.filter(bus => bus.id === id)[0];
         }
@@ -170,8 +184,6 @@ console.log(`${e.target} triggered openHomeUi`);
                 ...prevState.ui,
                 pic: true,
                 popupLink: true
-                // signup: isSignup ? true : prevState.ui.signup,
-                // login: isLogin ? true : prevState.ui.login
             }
         }));
         e.stopPropagation();
@@ -198,7 +210,7 @@ console.log(`${e.target} triggered openHomeUi`);
                 ...prevState.memory,
                 infowindowContent: infowindowContent
             }
-        }), () => console.log('infowindowContent:', this.state.memory));
+        }));
     }
 
     makeMarkerData(businesses) {
@@ -212,7 +224,8 @@ console.log(`${e.target} triggered openHomeUi`);
                 ...this.state.memory,
                 markers: markers
             }
-        }, () => console.log('after makeMarkerData:',this.state.memory))
+        });
+        // , () => console.log('after makeMarkerData:',this.state.memory)
     }
 
     fetchData(location) {
@@ -231,7 +244,7 @@ console.log(`${e.target} triggered openHomeUi`);
         let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long) : ('location=' + city());
 
         if (location) query = 'location=' + location;
-        console.log('query:', query);
+
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
         });
@@ -246,9 +259,18 @@ console.log(`${e.target} triggered openHomeUi`);
         .then(resJson => this.setState({
             businesses: resJson.businesses
         }, () => {
-            this.makeMarkerData(resJson.businesses);
-            this.makeInfowindowContent(resJson.businesses);
-            console.log(this.state);
+            console.log('location:', new Boolean(location));
+            const buses = resJson.businesses;
+
+
+            this.makeMarkerData(buses);
+            this.makeInfowindowContent(buses);
+            if (location) {
+                const goings = this.state.memory.user.going;
+                console.log('goings insdie of fetchData:', goings);
+                this.insertGoingData(buses, goings);
+            }
+
         }));
         // , () => this.makeMarkerData(resJson.businesses)
     }
@@ -273,11 +295,12 @@ console.log(`${e.target} triggered openHomeUi`);
         const getSearchValue = this.getSearchValue;
         const handleSearch = this.handleSearch;
         const history = this.props.history;
+        const toggleGoing =  this.toggleGoing;
 
         return (
             <div onClick={closeAll} className='container'>
                 <Switch>
-                    <Route path='/search' render={() => <Search state={state}/>}/>
+                    <Route path='/search' render={() => <Search toggleGoing={toggleGoing} state={state}/>}/>
                     <Route path='/' render={() => <Home auth={auth} getCurrentLocation={getCurrentLocation}
                         getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
                         history={history} handleSearch={handleSearch} openHomeUi={openHomeUi} state={state}/>}/>

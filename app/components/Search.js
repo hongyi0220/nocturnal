@@ -9,14 +9,31 @@ export class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            coords: null
+            coords: null,
+            businesses: null,
+            going: null
         }
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
         this.getCoords = this.getCoords.bind(this);
+        this.going = this.going.bind(this);
+        // this.insertGoingData = this.insertGoingData.bind(this);
         // this.showBusDetail = this.showBusDetail.bind(this);
         //USE https://api.yelp.com/v3/businesses/{id} for business detail
+    }
 
+    going(e) {
+        const id = e.target.id;
+        console.log('place_id @ going(e):', id);
+        const url = 'http://localhost:8080/going';
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({place_id: id})
+        };
+        fetch(url, init);
     }
 
     getCoords() {
@@ -25,18 +42,18 @@ export class Search extends React.Component {
         const searchValue = this.props.state.memory.searchValue;
         // const markers = this.props.state.memory.markers;
         const businesses = this.props.state.businesses;
-        console.log('businesses inside GETCOORDS:', businesses);
-        // console.log('MARKERS:',markers);
-        // console.log('searchValue:', searchValue);
+
+        //
+        //
         const formatAddress = value => {
             return value.trim().replace(/\s/g,'+');
         }
         const address = formatAddress(searchValue);
-        // console.log('formatted address: ', address);
+        //
         fetch(url + address + apiKey)
         .then(res => res.json())
         .then(resJson => {
-            // console.log('resJson.results[0].geometry.location:',resJson.results[0].geometry.location);
+            //
             const coords = resJson.results[0].geometry.location;
             this.setState({
                     coords: coords
@@ -52,9 +69,9 @@ export class Search extends React.Component {
         var mapDOMNode = this.refs.map;
         const ifwc = infowindowContent;
 
-        console.log('markers inside initmap:', markers);
+
     // var position = coords;
-// console.log('coords inside initMap:', coords);
+//
         bounds = new google.maps.LatLngBounds();
         map = new google.maps.Map(mapDOMNode, {
             center: coords,
@@ -174,9 +191,9 @@ export class Search extends React.Component {
         // This opens the marker & fill it with content when a popup link is clicked at homepage
         if (isPopupOpen) {
             const name = business.name;
-            console.log('name:', name);
+
             let marker = markers.filter(marker => marker[0] === name)[0];
-            console.error('marker:', marker);
+
             let infoContent;
             for (let i = 0; i < infowindowContent.length; i++) {
                 if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -186,7 +203,7 @@ export class Search extends React.Component {
             }
 
             const position = new google.maps.LatLng(marker[1], marker[2]);
-            console.log('position inside popup', position);
+
             // bounds.extend(position);
             const title = marker[0];
             marker = new google.maps.Marker({
@@ -195,35 +212,72 @@ export class Search extends React.Component {
                 title: title
             });
 
-            console.log(infoContent);
+
             // const infowindow = new google.maps.InfoWindow();
             infowindow.setContent(infoContent);
             infowindow.open(map, marker);
         }
     }
 
+    componentWillMount() {
+
+    }
+
     componentDidMount() {
+        // const p_state = this.props.state;
+        //
+        // const businesses = p_state.businesses;
+        // const goings = p_state.memory.user.going;
         this.getCoords();
+        // this.insertGoingData(businesses, goings);
     }
 
     // If/when component's prop updates, draw the map
     componentDidUpdate() {
         const coords = this.state.coords;
-        const markers = this.props.state.memory.markers;
-// console.log('markers:', markers);
-        const infowindowContent = this.props.state.memory.infowindowContent;
-        const isPopupOpen = this.props.state.ui.popupLink;
-console.error('isPopupOpen:', isPopupOpen);
-        const business = this.props.state.memory.business;
-// console.log('infowindowContent:', infowindowContent);
+        const p_state = this.props.state;
+        const markers = p_state.memory.markers;
+//
+        const infowindowContent = p_state.memory.infowindowContent;
+        const isPopupOpen = p_state.ui.popupLink;
+
+        const business = p_state.memory.business;
+        const businesses = p_state.businesses;
+        const goings = p_state.memory.user.going;
+        console.log('p_state.memory.user.going:', goings);
+//
 
         // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
         this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+        // this.insertGoingData(businesses, goings)
     }
+
+    // insertGoingData(businesses, goings) {
+    //     const buses = businesses.map(bus => {
+    //         console.log('bus @ insertGoingData:', bus);
+    //         const going = () => {
+    //             for (let i = 0; i < goings.length; i++) {
+    //                 if (bus.id === goings[i]) {
+    //                     bus.going = 1;
+    //                     return true;
+    //                 }
+    //             }
+    //             return false;
+    //         }
+    //         console.log('going():', going());
+    //         if (!going()) bus.going = 0;
+    //         return bus;
+    //     });
+    //     this.setState({ businesses: buses }, () => console.log('bus transformed:',this.state.businesses));
+    // }
 
     render() {
         const state = this.props.state;
         const businesses = state.businesses;
+        console.log('businesses @ Search render():', businesses);
+        // const goings = state.memory.user.going;
+        const going = this.going;
+        const toggleGoing = this.props.toggleGoing;
 
         return (
             <div onClick={e => e.stopPropagation()} className='search-page-container'>
@@ -238,6 +292,8 @@ console.error('isPopupOpen:', isPopupOpen);
                             <div key={i} className='bus-container'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
+                                <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id}
+                                    className='going-button'>I'm {bus.going ? '' : <div className='not-wrapper'>not</div>} going</div>
                             </div>
                         ) : ''}
                     </div>

@@ -29,6 +29,15 @@
             overflow: scroll;
             flex-grow: 3;
             .bus-container {
+                .going-button {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    border: 1px solid black;
+                    .not-wrapper {
+                        display: inline-block;
+                    }
+                }
                 border: 1px solid green;
                 img {
                     width: 100px;

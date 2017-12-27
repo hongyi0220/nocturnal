@@ -2523,6 +2523,12 @@
     flex-grow: 3; }
     .search-page-container .map-results-container .results-container .bus-container {
       border: 1px solid green; }
+      .search-page-container .map-results-container .results-container .bus-container .going-button {
+        border: 1px solid black; }
+        .search-page-container .map-results-container .results-container .bus-container .going-button:hover {
+          cursor: pointer; }
+        .search-page-container .map-results-container .results-container .bus-container .going-button .not-wrapper {
+          display: inline-block; }
       .search-page-container .map-results-container .results-container .bus-container img {
         width: 100px; }
 
