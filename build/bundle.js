@@ -23512,7 +23512,8 @@ var App = function (_React$Component) {
                 currentPosition: null,
                 searchValue: '',
                 markers: null,
-                infowindowContent: null
+                infowindowContent: null,
+                goings: null
             },
             ui: {
                 pic: false,
@@ -23535,29 +23536,41 @@ var App = function (_React$Component) {
         return _this;
     }
 
+    // Insert #of people going to a bar, and if the authenticated user is going to that bar
+    //into the businesses data in state so they can be displayed in the bar search results
+
+
     _createClass(App, [{
         key: 'insertGoingData',
-        value: function insertGoingData(businesses, goings) {
+        value: function insertGoingData(businesses, going, goingsData) {
             var _this2 = this;
 
+            // Insert data on bars the user is going to
             var buses = businesses.map(function (bus) {
                 // console.log('bus @ insertGoingData:', bus);
                 var going = function going() {
-                    for (var i = 0; i < goings.length; i++) {
-                        if (bus.id === goings[i]) {
+                    for (var i = 0; i < going.length; i++) {
+                        if (bus.id === going[i]) {
                             bus.going = 1;
                             return true;
                         }
                     }
                     return false;
                 };
-                console.log('going():', going());
+                // console.log('going():', going());
                 if (!going()) bus.going = 0;
                 return bus;
             });
+
+            // Insert data on # of people going to each bar
+            var busesTransformed = buses.map(function (bus) {
+                bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
+                return bus;
+            });
+
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
-                    businesses: buses
+                    businesses: busesTransformed
                 });
             }, function () {
                 return console.log('bus transformed:', _this2.state.businesses);
@@ -23571,14 +23584,14 @@ var App = function (_React$Component) {
             console.log('toggleGoing triggered');
             var place_id = e.target.id;
             var user = _extends({}, this.state.memory.user);
-            var goings = user.going;
-            console.log('goings in toggleGoing:', goings);
+            var going = user.going;
+            console.log('going in toggleGoing:', going);
             var isGoing = function isGoing() {
-                for (var i = 0; i < goings.length; i++) {
-                    if (goings[i] === place_id) {
-                        console.log('goings inside loop B4 splice:', goings);
-                        goings.splice(i, 1);
-                        console.log('goings inside loop after splice:', goings);
+                for (var i = 0; i < going.length; i++) {
+                    if (going[i] === place_id) {
+                        console.log('going inside loop B4 splice:', going);
+                        going.splice(i, 1);
+                        console.log('going inside loop after splice:', going);
                         return true;
                     }
                 }
@@ -23773,21 +23786,63 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this8.setState({
-                    businesses: resJson.businesses
+                return _this8.setState(function (prevState) {
+                    return _extends({}, prevState, {
+                        businesses: resJson.businesses
+                    });
                 }, function () {
                     console.log('location:', new Boolean(location));
                     var buses = resJson.businesses;
 
                     _this8.makeMarkerData(buses);
                     _this8.makeInfowindowContent(buses);
-                    if (location) {
-                        var goings = _this8.state.memory.user.going;
-                        console.log('goings insdie of fetchData:', goings);
-                        _this8.insertGoingData(buses, goings);
-                    }
+
+                    var apiUrl = 'http://localhost:8080/goingsdata';
+                    var init = {
+                        method: 'get',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    };
+                    fetch(apiUrl, init).then(function (res) {
+                        return res.json();
+                    }).then(function (goingsData) {
+                        return _this8.setState(function (prevState) {
+                            return _extends({}, prevState, {
+                                memory: _extends({}, prevState.memory, {
+                                    goings: goingsData
+                                })
+                            });
+                        }, function () {
+
+                            if (location) {
+                                var going = _this8.state.memory.user.going;
+                                console.log('going insdie of fetchData:', going);
+                                _this8.insertGoingData(buses, going, goingsData);
+                            }
+                        });
+                    });
                 });
             });
+            // Get data on # of people going to each business
+            // const apiUrl = 'http://localhost:8080/goingsdata';
+            // const init = {
+            //     method: 'get',
+            //     headers: {
+            //         'Accept': 'application/json'
+            //     }
+            // }
+            // fetch(apiUrl, init)
+            // .then(res => res.json())
+            // .then(resJson => this.setState(prevState => ({
+            //     ...prevState,
+            //     memory: {
+            //         ...prevState.memory,
+            //         goings: resJson
+            //     }
+            // }), () => {
+            //
+            // }));
             // , () => this.makeMarkerData(resJson.businesses)
         }
     }, {
@@ -24139,9 +24194,7 @@ var Search = exports.Search = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this));
 
         _this.state = {
-            coords: null,
-            businesses: null,
-            going: null
+            coords: null
             // this.createMap = this.createMap.bind(this);
         };_this.initMap = _this.initMap.bind(_this);
         _this.getCoords = _this.getCoords.bind(_this);
@@ -24339,17 +24392,14 @@ var Search = exports.Search = function (_React$Component) {
             }
         }
     }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
-    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             // const p_state = this.props.state;
             //
             // const businesses = p_state.businesses;
-            // const goings = p_state.memory.user.going;
+            // const going = p_state.memory.user.going;
             this.getCoords();
-            // this.insertGoingData(businesses, goings);
+            // this.insertGoingData(businesses, going);
         }
 
         // If/when component's prop updates, draw the map
@@ -24365,22 +24415,23 @@ var Search = exports.Search = function (_React$Component) {
             var isPopupOpen = p_state.ui.popupLink;
 
             var business = p_state.memory.business;
-            var businesses = p_state.businesses;
-            var goings = p_state.memory.user.going;
-            console.log('p_state.memory.user.going:', goings);
+            // const businesses = p_state.businesses;
+            // const going = p_state.memory.user.going;
+            // console.log('p_state.memory.user.going:', going);
             //
 
             // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
             this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
-            // this.insertGoingData(businesses, goings)
+            // this.insertGoingData(businesses, going)
         }
     }, {
         key: 'render',
         value: function render() {
-            var state = this.props.state;
-            var businesses = state.businesses;
+            // p_state: parent's state
+            var p_state = this.props.state;
+            var businesses = p_state.businesses;
             console.log('businesses @ Search render():', businesses);
-            // const goings = state.memory.user.going;
+            // const going = state.memory.user.going;
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
 
@@ -24427,7 +24478,8 @@ var Search = exports.Search = function (_React$Component) {
                                             e.stopPropagation();going(e);toggleGoing(e);
                                         }, id: bus.id,
                                         className: 'going-button' },
-                                    'I\'m ',
+                                    bus.goingsData,
+                                    ' people are going and I\'m ',
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
                                         { className: 'not-wrapper' },

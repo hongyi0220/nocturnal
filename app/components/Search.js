@@ -221,9 +221,9 @@ export class Search extends React.Component {
         // const p_state = this.props.state;
         //
         // const businesses = p_state.businesses;
-        // const goings = p_state.memory.user.going;
+        // const going = p_state.memory.user.going;
         this.getCoords();
-        // this.insertGoingData(businesses, goings);
+        // this.insertGoingData(businesses, going);
     }
 
     // If/when component's prop updates, draw the map
@@ -236,14 +236,14 @@ export class Search extends React.Component {
         const isPopupOpen = p_state.ui.popupLink;
 
         const business = p_state.memory.business;
-        const businesses = p_state.businesses;
-        const goings = p_state.memory.user.going;
-        console.log('p_state.memory.user.going:', goings);
+        // const businesses = p_state.businesses;
+        // const going = p_state.memory.user.going;
+        // console.log('p_state.memory.user.going:', going);
 //
 
         // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
         this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
-        // this.insertGoingData(businesses, goings)
+        // this.insertGoingData(businesses, going)
     }
 
     render() {
@@ -251,7 +251,7 @@ export class Search extends React.Component {
         const p_state = this.props.state;
         const businesses = p_state.businesses;
         console.log('businesses @ Search render():', businesses);
-        // const goings = state.memory.user.going;
+        // const going = state.memory.user.going;
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
 
@@ -269,7 +269,8 @@ export class Search extends React.Component {
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id}
-                                    className='going-button'>I'm {bus.going ? '' : <div className='not-wrapper'>not</div>} going</div>
+                                    className='going-button'>{bus.goingsData} people are going and
+                                    I'm {bus.going ? '' : <div className='not-wrapper'>not</div>} going</div>
                             </div>
                         ) : ''}
                     </div>

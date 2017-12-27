@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080;
 const GoogleAuth = require('google-auth-library');
 const auth = new GoogleAuth;
 const CLIENT_ID = '872003218674-6gu6efj6ani525f6secv0bqdqefmnrb8.apps.googleusercontent.com';
-const dberr = 'There was a problem connecting to database ';
+const errmsg = 'There was a problem connecting to database ';
 
 // console.log(url);
 app.use(session({
@@ -22,6 +22,18 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.get('/goingsdata', (req, res) => {
+    MongoClient.connect(url, (err, db) => {
+        if (err) console.error(errmsg, err);
+        const col = db.collection('goings');
+        col.find({}).toArray((err, docs) => {
+            const goingsData = docs[0];
+            res.send(goingsData);
+            db.close();
+        });
+    });
+});
 
 app.post('/going', (req, res) => {
     const place_id = req.body.place_id;

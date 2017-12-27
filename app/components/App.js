@@ -16,7 +16,8 @@ class App extends React.Component {
                 currentPosition: null,
                 searchValue: '',
                 markers: null,
-                infowindowContent: null
+                infowindowContent: null,
+                goings: null
             },
             ui: {
                 pic: false,
@@ -38,25 +39,35 @@ class App extends React.Component {
         // this.getCoords = this.getCoords.bind(this);
     }
 
-    insertGoingData(businesses, goings) {
+    // Insert #of people going to a bar, and if the authenticated user is going to that bar
+    //into the businesses data in state so they can be displayed in the bar search results
+    insertGoingData(businesses, going, goingsData) {
+        // Insert data on bars the user is going to
         const buses = businesses.map(bus => {
             // console.log('bus @ insertGoingData:', bus);
             const going = () => {
-                for (let i = 0; i < goings.length; i++) {
-                    if (bus.id === goings[i]) {
+                for (let i = 0; i < going.length; i++) {
+                    if (bus.id === going[i]) {
                         bus.going = 1;
                         return true;
                     }
                 }
                 return false;
             }
-            console.log('going():', going());
+            // console.log('going():', going());
             if (!going()) bus.going = 0;
             return bus;
         });
+
+        // Insert data on # of people going to each bar
+        const busesTransformed = buses.map(bus => {
+            bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
+            return bus;
+        })
+
         this.setState(prevState => ({
             ...prevState,
-            businesses: buses
+            businesses: busesTransformed
         }), () => console.log('bus transformed:',this.state.businesses));
     }
 
@@ -64,14 +75,14 @@ class App extends React.Component {
         console.log('toggleGoing triggered');
         const place_id = e.target.id;
         const user = {...this.state.memory.user};
-        const goings = user.going;
-        console.log('goings in toggleGoing:', goings);
+        const going = user.going;
+        console.log('going in toggleGoing:', going);
         const isGoing = () => {
-            for (let i = 0; i < goings.length; i++) {
-                if (goings[i] === place_id) {
-                    console.log('goings inside loop B4 splice:', goings);
-                    goings.splice(i, 1);
-                    console.log('goings inside loop after splice:', goings);
+            for (let i = 0; i < going.length; i++) {
+                if (going[i] === place_id) {
+                    console.log('going inside loop B4 splice:', going);
+                    going.splice(i, 1);
+                    console.log('going inside loop after splice:', going);
                     return true;
                 }
             }
@@ -260,22 +271,61 @@ class App extends React.Component {
 
         fetch(cors + url + '?term=bars&' + query, init)
         .then(res => res.json())
-        .then(resJson => this.setState({
+        .then(resJson => this.setState(prevState => ({
+            ...prevState,
             businesses: resJson.businesses
-        }, () => {
+        }), () => {
             console.log('location:', new Boolean(location));
             const buses = resJson.businesses;
 
-
             this.makeMarkerData(buses);
             this.makeInfowindowContent(buses);
-            if (location) {
-                const goings = this.state.memory.user.going;
-                console.log('goings insdie of fetchData:', goings);
-                this.insertGoingData(buses, goings);
+
+            const apiUrl = 'http://localhost:8080/goingsdata';
+            const init = {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json'
+                }
             }
+            fetch(apiUrl, init)
+            .then(res => res.json())
+            .then(goingsData => this.setState(prevState => ({
+                ...prevState,
+                memory: {
+                    ...prevState.memory,
+                    goings: goingsData
+                }
+            }), () => {
+                // When doing a search (of a location), insert data on who's going into businesses data
+                if (location) {
+                    const going = this.state.memory.user.going;
+                    console.log('going insdie of fetchData:', going);
+                    this.insertGoingData(buses, going, goingsData);
+                }
+
+            }));
 
         }));
+        // Get data on # of people going to each business
+        // const apiUrl = 'http://localhost:8080/goingsdata';
+        // const init = {
+        //     method: 'get',
+        //     headers: {
+        //         'Accept': 'application/json'
+        //     }
+        // }
+        // fetch(apiUrl, init)
+        // .then(res => res.json())
+        // .then(resJson => this.setState(prevState => ({
+        //     ...prevState,
+        //     memory: {
+        //         ...prevState.memory,
+        //         goings: resJson
+        //     }
+        // }), () => {
+        //
+        // }));
         // , () => this.makeMarkerData(resJson.businesses)
     }
 
