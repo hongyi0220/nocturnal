@@ -31,13 +31,30 @@ app.post('/going', (req, res) => {
     console.log('user_id:', user_id);
     MongoClient.connect(url, (err, db) => {
         if (err) console.error(err);
-        db.collection('users')
-        .updateOne(
-            {user_id: user_id},
-            {$push: {going: place_id}}
-        );
-        db.close();
-        res.end();
+
+        const collection = db.collection('users');
+
+        collection
+        .find({user_id: user_id})
+        .toArray((err, docs) => {
+            if (err) console.error(err);
+            const userData = docs[0];
+            if (userData.going.indexOf(place_id) > -1) {
+                console.log(userData.going.indexOf(place_id) > -1);
+                    collection.updateOne(
+                        {user_id: user_id},
+                        {$pull: {going: place_id}}
+                    );
+            } else {
+                collection.updateOne(
+                    {user_id: user_id},
+                    {$push: {going: place_id}}
+                );
+            }
+            db.close();
+            res.end();
+        });
+
     });
 });
 

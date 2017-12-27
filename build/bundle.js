@@ -23566,20 +23566,28 @@ var App = function (_React$Component) {
     }, {
         key: 'toggleGoing',
         value: function toggleGoing(e) {
+            var _this3 = this;
+
             console.log('toggleGoing triggered');
             var place_id = e.target.id;
             var user = _extends({}, this.state.memory.user);
-            var going = user.going;
+            var goings = user.going;
+            console.log('goings in toggleGoing:', goings);
             var isGoing = function isGoing() {
-                for (var i = 0; i < going.length; i++) {
-                    if (going[i] === place_id) going.splice(i, 1);
-                    return true;
+                for (var i = 0; i < goings.length; i++) {
+                    if (goings[i] === place_id) {
+                        console.log('goings inside loop B4 splice:', goings);
+                        goings.splice(i, 1);
+                        console.log('goings inside loop after splice:', goings);
+                        return true;
+                    }
                 }
+                return false;
             };
-            if (!isGoing()) {
-                going.push(place_id);
-                this.setState({ user: user });
-            }
+            if (!isGoing()) going.push(place_id);
+            this.setState({ user: user }, function () {
+                return console.log('user after toggleGoing:', _this3.state.memory.user);
+            });
         }
     }, {
         key: 'handleSearch',
@@ -23609,7 +23617,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getUserData',
         value: function getUserData() {
-            var _this3 = this;
+            var _this4 = this;
 
             var url = 'http://localhost:8080/user';
             // const businesses = this.state.businesses;
@@ -23617,9 +23625,9 @@ var App = function (_React$Component) {
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this3.setState(_extends({}, _this3.state, {
+                return _this4.setState(_extends({}, _this4.state, {
                     authenticated: true,
-                    memory: _extends({}, _this3.state.memory, {
+                    memory: _extends({}, _this4.state.memory, {
                         user: resJson
                     })
                 }));
@@ -23629,30 +23637,30 @@ var App = function (_React$Component) {
     }, {
         key: 'getCurrentLocation',
         value: function getCurrentLocation() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
-                _this4.setState(_extends({}, _this4.state, {
-                    memory: _extends({}, _this4.state.memory, {
+                _this5.setState(_extends({}, _this5.state, {
+                    memory: _extends({}, _this5.state.memory, {
                         currentPosition: {
                             lat: pos.coords.latitude,
                             long: pos.coords.longitude
                         }
                     })
                 }), function () {
-                    return _this4.fetchData();
+                    return _this5.fetchData();
                 });
             });
         }
     }, {
         key: 'signOut',
         value: function signOut() {
-            var _this5 = this;
+            var _this6 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return _this5.setState(function (prevState) {
+                return _this6.setState(function (prevState) {
                     return _extends({}, prevState, {
                         authenticated: false,
                         memory: _extends({}, prevState.memory, {
@@ -23676,13 +23684,13 @@ var App = function (_React$Component) {
     }, {
         key: 'openHomeUi',
         value: function openHomeUi(e) {
-            var _this6 = this;
+            var _this7 = this;
 
             var id = e.target.id;
             var cityName = e.target.className;
 
             var business = function business(id) {
-                return _this6.state.businesses.filter(function (bus) {
+                return _this7.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
@@ -23735,7 +23743,7 @@ var App = function (_React$Component) {
     }, {
         key: 'fetchData',
         value: function fetchData(location) {
-            var _this7 = this;
+            var _this8 = this;
 
             var cors = 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
@@ -23765,18 +23773,18 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this7.setState({
+                return _this8.setState({
                     businesses: resJson.businesses
                 }, function () {
                     console.log('location:', new Boolean(location));
                     var buses = resJson.businesses;
 
-                    _this7.makeMarkerData(buses);
-                    _this7.makeInfowindowContent(buses);
+                    _this8.makeMarkerData(buses);
+                    _this8.makeInfowindowContent(buses);
                     if (location) {
-                        var goings = _this7.state.memory.user.going;
+                        var goings = _this8.state.memory.user.going;
                         console.log('goings insdie of fetchData:', goings);
-                        _this7.insertGoingData(buses, goings);
+                        _this8.insertGoingData(buses, goings);
                     }
                 });
             });
@@ -24366,26 +24374,6 @@ var Search = exports.Search = function (_React$Component) {
             this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
             // this.insertGoingData(businesses, goings)
         }
-
-        // insertGoingData(businesses, goings) {
-        //     const buses = businesses.map(bus => {
-        //         console.log('bus @ insertGoingData:', bus);
-        //         const going = () => {
-        //             for (let i = 0; i < goings.length; i++) {
-        //                 if (bus.id === goings[i]) {
-        //                     bus.going = 1;
-        //                     return true;
-        //                 }
-        //             }
-        //             return false;
-        //         }
-        //         console.log('going():', going());
-        //         if (!going()) bus.going = 0;
-        //         return bus;
-        //     });
-        //     this.setState({ businesses: buses }, () => console.log('bus transformed:',this.state.businesses));
-        // }
-
     }, {
         key: 'render',
         value: function render() {

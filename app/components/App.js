@@ -64,17 +64,21 @@ class App extends React.Component {
         console.log('toggleGoing triggered');
         const place_id = e.target.id;
         const user = {...this.state.memory.user};
-        const going = user.going;
+        const goings = user.going;
+        console.log('goings in toggleGoing:', goings);
         const isGoing = () => {
-            for (let i = 0; i < going.length; i++) {
-                if (going[i] === place_id) going.splice(i, 1);
-                return true;
+            for (let i = 0; i < goings.length; i++) {
+                if (goings[i] === place_id) {
+                    console.log('goings inside loop B4 splice:', goings);
+                    goings.splice(i, 1);
+                    console.log('goings inside loop after splice:', goings);
+                    return true;
+                }
             }
+            return false;
         }
-        if (!isGoing()) {
-            going.push(place_id);
-            this.setState({ user });
-        }
+        if (!isGoing()) going.push(place_id);
+        this.setState({ user }, () => console.log('user after toggleGoing:', this.state.memory.user));
     }
 
     handleSearch(e) {

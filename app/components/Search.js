@@ -252,25 +252,6 @@ export class Search extends React.Component {
         // this.insertGoingData(businesses, goings)
     }
 
-    // insertGoingData(businesses, goings) {
-    //     const buses = businesses.map(bus => {
-    //         console.log('bus @ insertGoingData:', bus);
-    //         const going = () => {
-    //             for (let i = 0; i < goings.length; i++) {
-    //                 if (bus.id === goings[i]) {
-    //                     bus.going = 1;
-    //                     return true;
-    //                 }
-    //             }
-    //             return false;
-    //         }
-    //         console.log('going():', going());
-    //         if (!going()) bus.going = 0;
-    //         return bus;
-    //     });
-    //     this.setState({ businesses: buses }, () => console.log('bus transformed:',this.state.businesses));
-    // }
-
     render() {
         const state = this.props.state;
         const businesses = state.businesses;
