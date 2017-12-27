@@ -274,10 +274,11 @@ export class Search extends React.Component {
                             <div key={i} className='bus-container'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
+                                {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
                                 <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id}
                                     className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
-                                    {bus.going ? '' : <div className='not-wrapper'>not&nbsp;</div>}going
-                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}</div>
+                                    {bus.going ? '' : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id} className='not-wrapper'>not&nbsp;</div>}going
+                                    {bus.going ? '' : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id} className='yet-wrapper'>yet</div>}</div>
                             </div>
                         ) : ''}
                     </div>

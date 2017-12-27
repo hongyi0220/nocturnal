@@ -59,17 +59,17 @@ app.post('/going', (req, res) => {
             //in the goings database
             if (userData.going.indexOf(place_id) > -1) {
                 console.log(userData.going.indexOf(place_id) > -1);
-                    collection.updateOne(
-                        {user_id: user_id},
-                        {$pull: {going: place_id}}
-                    );
+                collection.updateOne(
+                    {user_id: user_id},
+                    {$pull: {going: place_id}}
+                );
 
-                    goings.updateOne(
-                        {},
-                        {
-                            $inc: updatedDec
-                        }
-                    );
+                goings.updateOne(
+                    {},
+                    {
+                        $inc: updatedDec
+                    }
+                );
 
             } else {
                 collection.updateOne(
@@ -83,6 +83,7 @@ app.post('/going', (req, res) => {
                         $inc: updatedInc
                     }
                 );
+
             }
             db.close();
             res.end();

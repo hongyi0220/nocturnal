@@ -69,7 +69,7 @@ class App extends React.Component {
 
         this.setState(prevState => ({
             ...prevState,
-            businesses: buses
+            businesses: busesTransformed
         }));
         // , () => console.log('bus transformed:',this.state.businesses)
     }
@@ -88,23 +88,25 @@ class App extends React.Component {
         const isGoing = () => {
             for (let i = 0; i < going.length; i++) {
                 if (going[i] === place_id) {
-                    console.log('going inside loop B4 splice:', going);
-                    console.log('goingS inside loop B4 subtraction:', goings);
+                    // console.log('going inside loop B4 splice:', going);
+                    // console.log('goingS inside loop B4 subtraction:', goings);
                     going.splice(i, 1);
+                    // if (goings[place_id])
                     goings[place_id] -= 1;
-                    console.log('going inside loop after splice:', going);
-                    console.log('goingS inside loop after subtraction:', goings);
+                    // else goings[place_id] = 1;
+                    // console.log('going inside loop after splice:', going);
+                    // console.log('goingS inside loop after subtraction:', goings);
                     return true;
                 }
             }
             return false;
         }
 
-
-
         if (!isGoing()) {
             going.push(place_id);
-            goings[place_id] += 1;
+            if (goings[place_id]) goings[place_id] += 1;
+            else goings[place_id] = 1;
+            // goings[place_id] += 1;
         }
 
         this.setState({ user }, () => {
@@ -117,8 +119,8 @@ class App extends React.Component {
     handleSearch(e) {
         const key = e.key;
         const location = this.state.memory.searchValue;
-        const businesses = this.state.businesses;
-        const going = this.state.memory.user.going;
+        // const businesses = this.state.businesses;
+        // const going = this.state.memory.user.going;
 
         if (key === 'Enter') {
             this.fetchData(location);
@@ -137,7 +139,7 @@ class App extends React.Component {
                 ...this.state.memory,
                 searchValue: value
             }
-        })
+        });
     }
 
     getUserData() {
@@ -223,6 +225,7 @@ class App extends React.Component {
                 popupLink: true
             }
         }));
+        this.fetchData(cityName);
         e.stopPropagation();
     }
 

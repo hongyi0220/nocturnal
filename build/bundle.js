@@ -23570,7 +23570,7 @@ var App = function (_React$Component) {
 
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
-                    businesses: buses
+                    businesses: busesTransformed
                 });
             });
             // , () => console.log('bus transformed:',this.state.businesses)
@@ -23593,12 +23593,14 @@ var App = function (_React$Component) {
             var isGoing = function isGoing() {
                 for (var i = 0; i < going.length; i++) {
                     if (going[i] === place_id) {
-                        console.log('going inside loop B4 splice:', going);
-                        console.log('goingS inside loop B4 subtraction:', goings);
+                        // console.log('going inside loop B4 splice:', going);
+                        // console.log('goingS inside loop B4 subtraction:', goings);
                         going.splice(i, 1);
+                        // if (goings[place_id])
                         goings[place_id] -= 1;
-                        console.log('going inside loop after splice:', going);
-                        console.log('goingS inside loop after subtraction:', goings);
+                        // else goings[place_id] = 1;
+                        // console.log('going inside loop after splice:', going);
+                        // console.log('goingS inside loop after subtraction:', goings);
                         return true;
                     }
                 }
@@ -23607,7 +23609,8 @@ var App = function (_React$Component) {
 
             if (!isGoing()) {
                 going.push(place_id);
-                goings[place_id] += 1;
+                if (goings[place_id]) goings[place_id] += 1;else goings[place_id] = 1;
+                // goings[place_id] += 1;
             }
 
             this.setState({ user: user }, function () {
@@ -23620,8 +23623,8 @@ var App = function (_React$Component) {
         value: function handleSearch(e) {
             var key = e.key;
             var location = this.state.memory.searchValue;
-            var businesses = this.state.businesses;
-            var going = this.state.memory.user.going;
+            // const businesses = this.state.businesses;
+            // const going = this.state.memory.user.going;
 
             if (key === 'Enter') {
                 this.fetchData(location);
@@ -23732,6 +23735,7 @@ var App = function (_React$Component) {
                     })
                 });
             });
+            this.fetchData(cityName);
             e.stopPropagation();
         }
     }, {
@@ -24502,13 +24506,17 @@ var Search = exports.Search = function (_React$Component) {
                                     ' people are going and I\'m\xA0',
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
-                                        { className: 'not-wrapper' },
+                                        { onClick: function onClick(e) {
+                                                e.stopPropagation();going(e);toggleGoing(e);
+                                            }, id: bus.id, className: 'not-wrapper' },
                                         'not\xA0'
                                     ),
                                     'going',
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
-                                        { className: 'yet-wrapper' },
+                                        { onClick: function onClick(e) {
+                                                e.stopPropagation();going(e);toggleGoing(e);
+                                            }, id: bus.id, className: 'yet-wrapper' },
                                         'yet'
                                     )
                                 )
