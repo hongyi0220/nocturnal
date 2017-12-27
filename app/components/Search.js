@@ -37,7 +37,9 @@ export class Search extends React.Component {
     getCoords() {
         const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
         const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-        const searchValue = this.props.state.memory.searchValue;
+
+        // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
+        const searchValue = this.props.state.memory.searchValue || 'chicago';
         // const markers = this.props.state.memory.markers;
         const businesses = this.props.state.businesses;
 
@@ -161,6 +163,8 @@ export class Search extends React.Component {
         const busContainers = document.getElementsByClassName('bus-container');
         // const popupLinks = document.getElementsByClassName('popup-link');
 
+
+        // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
             bounds.extend(position);
@@ -189,7 +193,7 @@ export class Search extends React.Component {
         // This opens the marker & fill it with content when a popup link is clicked at homepage
         if (isPopupOpen) {
             const name = business.name;
-
+            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             let marker = markers.filter(marker => marker[0] === name)[0];
 
             let infoContent;
@@ -230,6 +234,8 @@ export class Search extends React.Component {
     componentDidUpdate() {
         const coords = this.state.coords;
         const p_state = this.props.state;
+
+        // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         const markers = p_state.memory.markers;
 //
         const infowindowContent = p_state.memory.infowindowContent;
@@ -269,8 +275,9 @@ export class Search extends React.Component {
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id}
-                                    className='going-button'>{bus.goingsData} people are going and
-                                    I'm {bus.going ? '' : <div className='not-wrapper'>not</div>} going</div>
+                                    className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
+                                    {bus.going ? '' : <div className='not-wrapper'>not&nbsp;</div>}going
+                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}</div>
                             </div>
                         ) : ''}
                     </div>

@@ -23543,29 +23543,27 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'insertGoingData',
         value: function insertGoingData(businesses, going, goingsData) {
-            var _this2 = this;
-
             // Insert data on bars the user is going to
             var buses = businesses.map(function (bus) {
                 // console.log('bus @ insertGoingData:', bus);
                 var isGoing = function isGoing() {
                     for (var i = 0; i < going.length; i++) {
                         if (bus.id === going[i]) {
-                            console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
+                            // console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
                             bus.going = 1;
                             return true;
                         }
                     }
                     return false;
                 };
-                console.log('isGoing():', isGoing());
+                // console.log('isGoing():', isGoing());
                 if (!isGoing()) bus.going = 0;
                 return bus;
             });
 
             // Insert data on # of people going to each bar
             var busesTransformed = buses.map(function (bus) {
-                console.log('bus inside 2nd mapping of businesses:', bus);
+                // console.log('bus inside 2nd mapping of businesses:', bus);
                 bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
                 return bus;
             });
@@ -23574,34 +23572,47 @@ var App = function (_React$Component) {
                 return _extends({}, prevState, {
                     businesses: buses
                 });
-            }, function () {
-                return console.log('bus transformed:', _this2.state.businesses);
             });
+            // , () => console.log('bus transformed:',this.state.businesses)
         }
     }, {
         key: 'toggleGoing',
         value: function toggleGoing(e) {
-            var _this3 = this;
+            var _this2 = this;
 
             console.log('toggleGoing triggered');
             var place_id = e.target.id;
-            var user = _extends({}, this.state.memory.user);
+            var memory = _extends({}, this.state.memory);
+            var user = memory.user;
+            var state = _extends({}, this.state);
+            var businesses = state.businesses;
             var going = user.going;
+            var goings = memory.goings;
             console.log('going in toggleGoing:', going);
+            // Push or pull going data in user data
             var isGoing = function isGoing() {
                 for (var i = 0; i < going.length; i++) {
                     if (going[i] === place_id) {
                         console.log('going inside loop B4 splice:', going);
+                        console.log('goingS inside loop B4 subtraction:', goings);
                         going.splice(i, 1);
+                        goings[place_id] -= 1;
                         console.log('going inside loop after splice:', going);
+                        console.log('goingS inside loop after subtraction:', goings);
                         return true;
                     }
                 }
                 return false;
             };
-            if (!isGoing()) going.push(place_id);
+
+            if (!isGoing()) {
+                going.push(place_id);
+                goings[place_id] += 1;
+            }
+
             this.setState({ user: user }, function () {
-                return console.log('user after toggleGoing:', _this3.state.memory.user);
+                console.log('memory after toggleGoing:', _this2.state.memory);
+                _this2.insertGoingData(businesses, going, goings);
             });
         }
     }, {
@@ -23632,7 +23643,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getUserData',
         value: function getUserData() {
-            var _this4 = this;
+            var _this3 = this;
 
             var url = 'http://localhost:8080/user';
             // const businesses = this.state.businesses;
@@ -23640,9 +23651,9 @@ var App = function (_React$Component) {
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this4.setState(_extends({}, _this4.state, {
+                return _this3.setState(_extends({}, _this3.state, {
                     authenticated: true,
-                    memory: _extends({}, _this4.state.memory, {
+                    memory: _extends({}, _this3.state.memory, {
                         user: resJson
                     })
                 }));
@@ -23652,30 +23663,30 @@ var App = function (_React$Component) {
     }, {
         key: 'getCurrentLocation',
         value: function getCurrentLocation() {
-            var _this5 = this;
+            var _this4 = this;
 
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
-                _this5.setState(_extends({}, _this5.state, {
-                    memory: _extends({}, _this5.state.memory, {
+                _this4.setState(_extends({}, _this4.state, {
+                    memory: _extends({}, _this4.state.memory, {
                         currentPosition: {
                             lat: pos.coords.latitude,
                             long: pos.coords.longitude
                         }
                     })
                 }), function () {
-                    return _this5.fetchData();
+                    return _this4.fetchData();
                 });
             });
         }
     }, {
         key: 'signOut',
         value: function signOut() {
-            var _this6 = this;
+            var _this5 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return _this6.setState(function (prevState) {
+                return _this5.setState(function (prevState) {
                     return _extends({}, prevState, {
                         authenticated: false,
                         memory: _extends({}, prevState.memory, {
@@ -23699,13 +23710,13 @@ var App = function (_React$Component) {
     }, {
         key: 'openHomeUi',
         value: function openHomeUi(e) {
-            var _this7 = this;
+            var _this6 = this;
 
             var id = e.target.id;
             var cityName = e.target.className;
 
             var business = function business(id) {
-                return _this7.state.businesses.filter(function (bus) {
+                return _this6.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
@@ -23758,7 +23769,7 @@ var App = function (_React$Component) {
     }, {
         key: 'fetchData',
         value: function fetchData(location) {
-            var _this8 = this;
+            var _this7 = this;
 
             var cors = 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
@@ -23788,7 +23799,7 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this8.setState(function (prevState) {
+                return _this7.setState(function (prevState) {
                     return _extends({}, prevState, {
                         businesses: resJson.businesses
                     });
@@ -23796,8 +23807,8 @@ var App = function (_React$Component) {
                     console.log('location:', new Boolean(location));
                     var buses = resJson.businesses;
 
-                    _this8.makeMarkerData(buses);
-                    _this8.makeInfowindowContent(buses);
+                    _this7.makeMarkerData(buses);
+                    _this7.makeInfowindowContent(buses);
 
                     var apiUrl = 'http://localhost:8080/goingsdata';
                     var init = {
@@ -23809,7 +23820,7 @@ var App = function (_React$Component) {
                     fetch(apiUrl, init).then(function (res) {
                         return res.json();
                     }).then(function (goingsData) {
-                        return _this8.setState(function (prevState) {
+                        return _this7.setState(function (prevState) {
                             return _extends({}, prevState, {
                                 memory: _extends({}, prevState.memory, {
                                     goings: goingsData
@@ -23818,9 +23829,9 @@ var App = function (_React$Component) {
                         }, function () {
                             // When doing a search (of a location), insert data on who's going into businesses data
                             if (location) {
-                                var going = _this8.state.memory.user.going;
+                                var going = _this7.state.memory.user.going;
                                 console.log('going insdie of fetchData:', going);
-                                _this8.insertGoingData(buses, going, goingsData);
+                                _this7.insertGoingData(buses, going, goingsData);
                             }
                         });
                     });
@@ -24229,7 +24240,9 @@ var Search = exports.Search = function (_React$Component) {
 
             var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
             var apiKey = '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-            var searchValue = this.props.state.memory.searchValue;
+
+            // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
+            var searchValue = this.props.state.memory.searchValue || 'chicago';
             // const markers = this.props.state.memory.markers;
             var businesses = this.props.state.businesses;
 
@@ -24334,6 +24347,9 @@ var Search = exports.Search = function (_React$Component) {
             var busContainers = document.getElementsByClassName('bus-container');
             // const popupLinks = document.getElementsByClassName('popup-link');
 
+
+            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
+
             var _loop = function _loop(i) {
                 var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                 bounds.extend(position);
@@ -24365,7 +24381,7 @@ var Search = exports.Search = function (_React$Component) {
             // This opens the marker & fill it with content when a popup link is clicked at homepage
             if (isPopupOpen) {
                 var name = business.name;
-
+                // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
                 var _marker = markers.filter(function (marker) {
                     return marker[0] === name;
                 })[0];
@@ -24411,6 +24427,8 @@ var Search = exports.Search = function (_React$Component) {
         value: function componentDidUpdate() {
             var coords = this.state.coords;
             var p_state = this.props.state;
+
+            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             var markers = p_state.memory.markers;
             //
             var infowindowContent = p_state.memory.infowindowContent;
@@ -24481,13 +24499,18 @@ var Search = exports.Search = function (_React$Component) {
                                         }, id: bus.id,
                                         className: 'going-button' },
                                     bus.goingsData,
-                                    ' people are going and I\'m ',
+                                    ' people are going and I\'m\xA0',
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
                                         { className: 'not-wrapper' },
-                                        'not'
+                                        'not\xA0'
                                     ),
-                                    ' going'
+                                    'going',
+                                    bus.going ? '' : _react2.default.createElement(
+                                        'div',
+                                        { className: 'yet-wrapper' },
+                                        'yet'
+                                    )
                                 )
                             );
                         }) : ''

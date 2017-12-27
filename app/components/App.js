@@ -48,21 +48,21 @@ class App extends React.Component {
             const isGoing = () => {
                 for (let i = 0; i < going.length; i++) {
                     if (bus.id === going[i]) {
-                        console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
+                        // console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
                         bus.going = 1;
                         return true;
                     }
                 }
                 return false;
             }
-            console.log('isGoing():', isGoing());
+            // console.log('isGoing():', isGoing());
             if (!isGoing()) bus.going = 0;
             return bus;
         });
 
         // Insert data on # of people going to each bar
         const busesTransformed = buses.map(bus => {
-            console.log('bus inside 2nd mapping of businesses:', bus);
+            // console.log('bus inside 2nd mapping of businesses:', bus);
             bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
             return bus;
         });
@@ -70,28 +70,48 @@ class App extends React.Component {
         this.setState(prevState => ({
             ...prevState,
             businesses: buses
-        }), () => console.log('bus transformed:',this.state.businesses));
+        }));
+        // , () => console.log('bus transformed:',this.state.businesses)
     }
 
     toggleGoing(e) {
         console.log('toggleGoing triggered');
         const place_id = e.target.id;
-        const user = {...this.state.memory.user};
+        const memory = {...this.state.memory};
+        const user = memory.user;
+        const state = {...this.state};
+        const businesses = state.businesses;
         const going = user.going;
+        const goings = memory.goings;
         console.log('going in toggleGoing:', going);
+        // Push or pull going data in user data
         const isGoing = () => {
             for (let i = 0; i < going.length; i++) {
                 if (going[i] === place_id) {
                     console.log('going inside loop B4 splice:', going);
+                    console.log('goingS inside loop B4 subtraction:', goings);
                     going.splice(i, 1);
+                    goings[place_id] -= 1;
                     console.log('going inside loop after splice:', going);
+                    console.log('goingS inside loop after subtraction:', goings);
                     return true;
                 }
             }
             return false;
         }
-        if (!isGoing()) going.push(place_id);
-        this.setState({ user }, () => console.log('user after toggleGoing:', this.state.memory.user));
+
+
+
+        if (!isGoing()) {
+            going.push(place_id);
+            goings[place_id] += 1;
+        }
+
+        this.setState({ user }, () => {
+            console.log('memory after toggleGoing:', this.state.memory);
+            this.insertGoingData(businesses, going, goings);
+
+        });
     }
 
     handleSearch(e) {
