@@ -33,22 +33,43 @@ app.post('/going', (req, res) => {
         if (err) console.error(err);
 
         const collection = db.collection('users');
-
+        const goings = db.collection('goings');
         collection
         .find({user_id: user_id})
         .toArray((err, docs) => {
             if (err) console.error(err);
             const userData = docs[0];
+            const updatedInc = {}, updatedDec = {};
+            updatedInc[place_id] = 1;
+            updatedDec[place_id] = -1;
+
+            // Update bars where the user is going, increase the # of people going to a particular bars
+            //in the goings database
             if (userData.going.indexOf(place_id) > -1) {
                 console.log(userData.going.indexOf(place_id) > -1);
                     collection.updateOne(
                         {user_id: user_id},
                         {$pull: {going: place_id}}
                     );
+
+                    goings.updateOne(
+                        {},
+                        {
+                            $inc: updatedDec
+                        }
+                    );
+
             } else {
                 collection.updateOne(
                     {user_id: user_id},
                     {$push: {going: place_id}}
+                );
+
+                goings.updateOne(
+                    {},
+                    {
+                        $inc: updatedInc
+                    }
                 );
             }
             db.close();

@@ -9,9 +9,7 @@ export class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            coords: null,
-            businesses: null,
-            going: null
+            coords: null
         }
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
@@ -219,10 +217,6 @@ export class Search extends React.Component {
         }
     }
 
-    componentWillMount() {
-
-    }
-
     componentDidMount() {
         // const p_state = this.props.state;
         //
@@ -253,8 +247,9 @@ export class Search extends React.Component {
     }
 
     render() {
-        const state = this.props.state;
-        const businesses = state.businesses;
+        // p_state: parent's state
+        const p_state = this.props.state;
+        const businesses = p_state.businesses;
         console.log('businesses @ Search render():', businesses);
         // const goings = state.memory.user.going;
         const going = this.going;
