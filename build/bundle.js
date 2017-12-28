@@ -23524,7 +23524,7 @@ var App = function (_React$Component) {
         _this.openHomeUi = _this.openHomeUi.bind(_this);
         _this.closeAll = _this.closeAll.bind(_this);
         _this.signOut = _this.signOut.bind(_this);
-        _this.getCurrentLocation = _this.getCurrentLocation.bind(_this);
+        _this.getCurrentPosition = _this.getCurrentPosition.bind(_this);
         _this.getUserData = _this.getUserData.bind(_this);
         _this.getSearchValue = _this.getSearchValue.bind(_this);
         _this.handleSearch = _this.handleSearch.bind(_this);
@@ -23679,24 +23679,32 @@ var App = function (_React$Component) {
             // () => this.insertGoingData(businesses, resJson.going)
         }
     }, {
-        key: 'getCurrentLocation',
-        value: function getCurrentLocation() {
+        key: 'getCurrentPosition',
+        value: function getCurrentPosition() {
             var _this5 = this;
 
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
+            var error = function error(err) {
+                console.warn('Error(' + err.code + '): ' + err.message);
+            };
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-
+                console.log('geolocation:', 'lat:', pos.coords.latitude, 'long:', pos.coords.longitude);
                 _this5.setState(_extends({}, _this5.state, {
                     memory: _extends({}, _this5.state.memory, {
                         currentPosition: {
-                            lat: pos.coords.latitude,
-                            long: pos.coords.longitude
+                            lat: parseFloat(pos.coords.latitude),
+                            lng: parseFloat(pos.coords.longitude)
                         }
                     })
                 }), function () {
                     _this5.fetchData(null);
                     _this5.props.history.push('/search');
                 });
-            });
+            }, error, options);
         }
     }, {
         key: 'signOut',
@@ -23792,7 +23800,8 @@ var App = function (_React$Component) {
         value: function fetchData(location) {
             var _this8 = this;
 
-            var cors = 'https://cors.now.sh/';
+            var cors = 'https://cors-anywhere.herokuapp.com/';
+            // 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
             var currentPosition = this.state.memory.currentPosition;
@@ -23805,12 +23814,15 @@ var App = function (_React$Component) {
                 var i = Math.floor(Math.random() * cities.length);
                 return cities[i];
             };
-            var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long : 'location=' + city();
+            var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng : 'location=' + city();
 
             if (location) query = 'location=' + location;
 
             var headers = new Headers({
-                'Authorization': 'Bearer ' + key
+                'Authorization': 'Bearer ' + key,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
             });
             var init = {
                 method: 'GET',
@@ -23899,7 +23911,7 @@ var App = function (_React$Component) {
             var openHomeUi = this.openHomeUi;
             var closeAll = this.closeAll;
             var signOut = this.signOut;
-            var getCurrentLocation = this.getCurrentLocation;
+            var getCurrentPosition = this.getCurrentPosition;
             var getUserData = this.getUserData;
             var getSearchValue = this.getSearchValue;
             var handleSearch = this.handleSearch;
@@ -23917,7 +23929,7 @@ var App = function (_React$Component) {
                                 toggleGoing: toggleGoing, state: state });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-                            return _react2.default.createElement(_Home.Home, { auth: auth, getCurrentLocation: getCurrentLocation,
+                            return _react2.default.createElement(_Home.Home, { auth: auth, getCurrentPosition: getCurrentPosition,
                                 getSearchValue: getSearchValue, closeAll: closeAll, signOut: signOut,
                                 history: history, handleSearch: handleSearch, openHomeUi: openHomeUi, state: state });
                         } })
@@ -23972,7 +23984,7 @@ var Home = exports.Home = function Home(props) {
     var signOut = props.signOut;
     var closeAll = props.closeAll;
     var uiFns = { openHomeUi: openHomeUi, closeAll: closeAll };
-    var getCurrentLocation = props.getCurrentLocation;
+    var getCurrentPosition = props.getCurrentPosition;
     var auth = props.auth;
     var getSearchValue = props.getSearchValue;
     var handleSearch = props.handleSearch;
@@ -24022,7 +24034,7 @@ var Home = exports.Home = function Home(props) {
                 { className: 'button-wrapper' },
                 _react2.default.createElement(
                     'div',
-                    { onClick: getCurrentLocation, className: 'button' },
+                    { onClick: getCurrentPosition, className: 'button' },
                     _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
                 )
             )
@@ -24268,7 +24280,7 @@ var Search = exports.Search = function (_React$Component) {
 
             // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
             var searchValue = this.props.state.memory.searchValue;
-            // const markers = this.props.state.memory.markers;
+            console.log('searchValue @ getCoords:', searchValue);
             var businesses = this.props.state.businesses;
 
             //
@@ -24277,12 +24289,13 @@ var Search = exports.Search = function (_React$Component) {
                 return value.trim().replace(/\s/g, '+');
             };
             var address = formatAddress(searchValue);
-            //
+            console.log('address @ getCoords:', address);
             fetch(url + address + apiKey).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
                 //
                 var coords = resJson.results[0].geometry.location;
+                console.log('coords @ getCoords:', coords);
                 _this2.setState({
                     coords: coords
                 });
@@ -24368,9 +24381,9 @@ var Search = exports.Search = function (_React$Component) {
             infowindow = new google.maps.InfoWindow();
             var marker = void 0;
             var busContainers = document.getElementsByClassName('bus-container');
-            console.log('busContainers:', busContainers);
+            // console.log('busContainers:', busContainers);
             // const popupLinks = document.getElementsByClassName('popup-link');
-            console.log('markers:', markers);
+            // console.log('markers:', markers);
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
 
@@ -24469,8 +24482,10 @@ var Search = exports.Search = function (_React$Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var coords = this.state.coords;
             var p_state = this.props.state;
+            console.log('this.state.coords @ componentDIdupdate:', this.state.coords);
+            var coords = this.state.coords || p_state.memory.currentPosition;
+            console.log('coords @ componentDidUpdate:', coords);
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             var markers = p_state.memory.markers;

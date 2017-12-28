@@ -18,7 +18,7 @@ export const Home = props => {
     const signOut = props.signOut;
     const closeAll = props.closeAll;
     const uiFns = { openHomeUi, closeAll };
-    const getCurrentLocation = props.getCurrentLocation;
+    const getCurrentPosition = props.getCurrentPosition;
     const auth = props.auth;
     const getSearchValue = props.getSearchValue;
     const handleSearch = props.handleSearch;
@@ -41,7 +41,7 @@ export const Home = props => {
                         placeholder='City, state or zip'/>
                 </div>
                 <div className='button-wrapper'>
-                    <div onClick={getCurrentLocation} className='button'><i className="fa fa-location-arrow" aria-hidden="true"></i></div>
+                    <div onClick={getCurrentPosition} className='button'><i className="fa fa-location-arrow" aria-hidden="true"></i></div>
                 </div>
             </div>
             <div className='pics-container'>

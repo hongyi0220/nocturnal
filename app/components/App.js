@@ -28,7 +28,7 @@ class App extends React.Component {
         this.openHomeUi = this.openHomeUi.bind(this);
         this.closeAll = this.closeAll.bind(this);
         this.signOut = this.signOut.bind(this);
-        this.getCurrentLocation = this.getCurrentLocation.bind(this);
+        this.getCurrentPosition = this.getCurrentPosition.bind(this);
         this.getUserData = this.getUserData.bind(this);
         this.getSearchValue = this.getSearchValue.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -173,24 +173,32 @@ class App extends React.Component {
         // () => this.insertGoingData(businesses, resJson.going)
     }
 
-    getCurrentLocation() {
+    getCurrentPosition() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+        const error = err => {
+            console.warn(`Error(${err.code}): ${err.message}`);
+        }
         if (navigator.geolocation)
             navigator.geolocation.getCurrentPosition(pos => {
-
+                console.log('geolocation:', 'lat:', pos.coords.latitude,'long:',pos.coords.longitude);
                 this.setState({
                     ...this.state,
                     memory: {
                         ...this.state.memory,
                         currentPosition: {
-                            lat: pos.coords.latitude,
-                            long: pos.coords.longitude
+                            lat: parseFloat(pos.coords.latitude),
+                            lng: parseFloat(pos.coords.longitude)
                         }
                     }
                 }, () => {
                     this.fetchData(null);
                     this.props.history.push('/search');
                 });
-            });
+            }, error, options);
     }
 
     signOut() {
@@ -289,7 +297,8 @@ class App extends React.Component {
     }
 
     fetchData(location) {
-        const cors = 'https://cors.now.sh/';
+        const cors = 'https://cors-anywhere.herokuapp.com/';
+        // 'https://cors.now.sh/';
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
@@ -302,12 +311,15 @@ class App extends React.Component {
             const i = Math.floor(Math.random() * cities.length);
             return cities[i];
         }
-        let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.long) : ('location=' + city());
+        let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng) : ('location=' + city());
 
         if (location) query = 'location=' + location;
 
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+            'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
         });
         const init = {
             method: 'GET',
@@ -327,6 +339,7 @@ class App extends React.Component {
             this.makeMarkerData(buses);
             this.makeInfowindowContent(buses);
 
+            // Get data on # of people going to each business
             const apiUrl = 'http://localhost:8080/goingsdata';
             const init = {
                 method: 'get',
@@ -353,26 +366,7 @@ class App extends React.Component {
             }));
 
         }));
-        // Get data on # of people going to each business
-        // const apiUrl = 'http://localhost:8080/goingsdata';
-        // const init = {
-        //     method: 'get',
-        //     headers: {
-        //         'Accept': 'application/json'
-        //     }
-        // }
-        // fetch(apiUrl, init)
-        // .then(res => res.json())
-        // .then(resJson => this.setState(prevState => ({
-        //     ...prevState,
-        //     memory: {
-        //         ...prevState.memory,
-        //         goings: resJson
-        //     }
-        // }), () => {
-        //
-        // }));
-        // , () => this.makeMarkerData(resJson.businesses)
+
     }
 
     componentWillMount() {
@@ -390,7 +384,7 @@ class App extends React.Component {
         const openHomeUi = this.openHomeUi;
         const closeAll = this.closeAll;
         const signOut = this.signOut;
-        const getCurrentLocation = this.getCurrentLocation;
+        const getCurrentPosition = this.getCurrentPosition;
         const getUserData = this.getUserData;
         const getSearchValue = this.getSearchValue;
         const handleSearch = this.handleSearch;
@@ -402,7 +396,7 @@ class App extends React.Component {
                 <Switch>
                     <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch}
                         toggleGoing={toggleGoing} state={state}/>}/>
-                    <Route path='/' render={() => <Home auth={auth} getCurrentLocation={getCurrentLocation}
+                    <Route path='/' render={() => <Home auth={auth} getCurrentPosition={getCurrentPosition}
                         getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
                         history={history} handleSearch={handleSearch} openHomeUi={openHomeUi} state={state}/>}/>
                 </Switch>

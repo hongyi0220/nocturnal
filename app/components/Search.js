@@ -41,7 +41,7 @@ export class Search extends React.Component {
 
         // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
         const searchValue = this.props.state.memory.searchValue;
-        // const markers = this.props.state.memory.markers;
+        console.log('searchValue @ getCoords:', searchValue);
         const businesses = this.props.state.businesses;
 
         //
@@ -50,12 +50,13 @@ export class Search extends React.Component {
             return value.trim().replace(/\s/g,'+');
         }
         const address = formatAddress(searchValue);
-        //
+        console.log('address @ getCoords:', address);
         fetch(url + address + apiKey)
         .then(res => res.json())
         .then(resJson => {
             //
             const coords = resJson.results[0].geometry.location;
+            console.log('coords @ getCoords:', coords);
             this.setState({
                     coords: coords
                 });
@@ -159,9 +160,9 @@ export class Search extends React.Component {
         infowindow = new google.maps.InfoWindow();
         let marker;
         const busContainers = document.getElementsByClassName('bus-container');
-        console.log('busContainers:', busContainers);
+        // console.log('busContainers:', busContainers);
         // const popupLinks = document.getElementsByClassName('popup-link');
-        console.log('markers:', markers);
+        // console.log('markers:', markers);
 
         // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         for (let i = 0; i < markers.length; i++) {
@@ -252,8 +253,10 @@ export class Search extends React.Component {
 
     // If/when component's prop updates, draw the map
     componentDidUpdate() {
-        const coords = this.state.coords;
         const p_state = this.props.state;
+        console.log('this.state.coords @ componentDIdupdate:',this.state.coords);
+        const coords = this.state.coords || p_state.memory.currentPosition;
+        console.log('coords @ componentDidUpdate:', coords);
 
         // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         const markers = p_state.memory.markers;
