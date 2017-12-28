@@ -23,6 +23,11 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.get('/signout', (req, res) => {
+    session.data = null;
+    res.end();
+});
+
 app.get('/goingsdata', (req, res) => {
     MongoClient.connect(url, (err, db) => {
         if (err) console.error(errmsg, err);

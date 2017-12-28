@@ -172,7 +172,10 @@ class App extends React.Component {
                             long: pos.coords.longitude
                         }
                     }
-                }, () => this.fetchData())
+                }, () => {
+                    this.fetchData(null);
+                    this.props.history.push('/search');
+                });
             });
     }
 
@@ -189,6 +192,9 @@ class App extends React.Component {
                 }
             })
         ));
+        // Destroy session
+        const apiUrl = 'http://localhost:8080/signout';
+        fetch(apiUrl);
     }
 
     closeAll(e) {
@@ -273,6 +279,7 @@ class App extends React.Component {
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
+        const user = this.state.memory.user;
         // const searchValue = this.state.memory.searchValue;
 
         const city = () => {
@@ -323,7 +330,7 @@ class App extends React.Component {
                 }
             }), () => {
                 // When doing a search (of a location), insert data on who's going into businesses data
-                if (location) {
+                if (location && user) {
                     const going = this.state.memory.user.going;
                     console.log('going insdie of fetchData:', going);
                     this.insertGoingData(buses, going, goingsData);

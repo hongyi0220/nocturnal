@@ -23678,7 +23678,8 @@ var App = function (_React$Component) {
                         }
                     })
                 }), function () {
-                    return _this4.fetchData();
+                    _this4.fetchData(null);
+                    _this4.props.history.push('/search');
                 });
             });
         }
@@ -23698,6 +23699,9 @@ var App = function (_React$Component) {
                     });
                 });
             });
+            // Destroy session
+            var apiUrl = 'http://localhost:8080/signout';
+            fetch(apiUrl);
         }
     }, {
         key: 'closeAll',
@@ -23779,6 +23783,7 @@ var App = function (_React$Component) {
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
             var currentPosition = this.state.memory.currentPosition;
+            var user = this.state.memory.user;
             // const searchValue = this.state.memory.searchValue;
 
             var city = function city() {
@@ -23832,7 +23837,7 @@ var App = function (_React$Component) {
                             });
                         }, function () {
                             // When doing a search (of a location), insert data on who's going into businesses data
-                            if (location) {
+                            if (location && user) {
                                 var going = _this7.state.memory.user.going;
                                 console.log('going insdie of fetchData:', going);
                                 _this7.insertGoingData(buses, going, goingsData);
@@ -24498,25 +24503,27 @@ var Search = exports.Search = function (_React$Component) {
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { onClick: function onClick(e) {
-                                            e.stopPropagation();going(e);toggleGoing(e);
-                                        }, id: bus.id,
-                                        className: 'going-button' },
+                                    { id: bus.id, className: 'going-button' },
                                     bus.goingsData,
                                     ' people are going and I\'m\xA0',
-                                    bus.going ? '' : _react2.default.createElement(
+                                    bus.going ? _react2.default.createElement(
                                         'div',
                                         { onClick: function onClick(e) {
                                                 e.stopPropagation();going(e);toggleGoing(e);
-                                            }, id: bus.id, className: 'not-wrapper' },
-                                        'not\xA0'
+                                            },
+                                            id: bus.id, className: 'not-wrapper' },
+                                        'going\xA0'
+                                    ) : _react2.default.createElement(
+                                        'div',
+                                        { onClick: function onClick(e) {
+                                                e.stopPropagation();going(e);toggleGoing(e);
+                                            },
+                                            id: bus.id, className: 'not-wrapper' },
+                                        'not going\xA0'
                                     ),
-                                    'going',
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
-                                        { onClick: function onClick(e) {
-                                                e.stopPropagation();going(e);toggleGoing(e);
-                                            }, id: bus.id, className: 'yet-wrapper' },
+                                        { className: 'yet-wrapper' },
                                         'yet'
                                     )
                                 )

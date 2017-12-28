@@ -1,3 +1,4 @@
+@import 'variables';
 .search-page-container {
     .nav-container {
         border: 1px solid black;
@@ -30,12 +31,17 @@
             flex-grow: 3;
             .bus-container {
                 .going-button {
-                    &:hover {
-                        cursor: pointer;
-                    }
+
                     border: 1px solid black;
                     .not-wrapper, .yet-wrapper {
                         display: inline-block;
+                    }
+                    .not-wrapper {
+                        border: 1px solid $nocturnal;
+                        border-radius: 5px;
+                        &:hover {
+                            cursor: pointer;
+                        }
                     }
                 }
                 border: 1px solid green;

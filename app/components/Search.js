@@ -275,10 +275,15 @@ export class Search extends React.Component {
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
-                                <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id}
-                                    className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
-                                    {bus.going ? '' : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id} className='not-wrapper'>not&nbsp;</div>}going
-                                    {bus.going ? '' : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} id={bus.id} className='yet-wrapper'>yet</div>}</div>
+                                {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} */}
+                                <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
+                                    {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                        id={bus.id} className='not-wrapper'>going&nbsp;</div>
+                                        : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                        id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
+                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}</div>
+                                    {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                        id={bus.id} */}
                             </div>
                         ) : ''}
                     </div>
