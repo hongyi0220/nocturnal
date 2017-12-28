@@ -118,7 +118,7 @@ app.post('/verify', (req, res) => {
             const picture = payload.picture;
 // console.log(`payload ${payload}`);
             MongoClient.connect(url, (err, db) => {
-                if (err) console.error(dberr, err);
+                if (err) console.error(errmsg, err);
                 db.collection('users').find({
                      user_id: userid
                  }).toArray((err, docs) => {

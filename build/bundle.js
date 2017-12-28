@@ -24231,7 +24231,8 @@ var Search = exports.Search = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this));
 
         _this.state = {
-            coords: null
+            coords: null,
+            busContainers: null
             // this.createMap = this.createMap.bind(this);
         };_this.initMap = _this.initMap.bind(_this);
         _this.getCoords = _this.getCoords.bind(_this);
@@ -24266,7 +24267,7 @@ var Search = exports.Search = function (_React$Component) {
             var apiKey = '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
 
             // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
-            var searchValue = this.props.state.memory.searchValue || 'chicago';
+            var searchValue = this.props.state.memory.searchValue;
             // const markers = this.props.state.memory.markers;
             var businesses = this.props.state.businesses;
 
@@ -24297,8 +24298,6 @@ var Search = exports.Search = function (_React$Component) {
             var mapDOMNode = this.refs.map;
             var ifwc = infowindowContent;
 
-            // var position = coords;
-            //
             bounds = new google.maps.LatLngBounds();
             map = new google.maps.Map(mapDOMNode, {
                 center: coords,
@@ -24369,8 +24368,9 @@ var Search = exports.Search = function (_React$Component) {
             infowindow = new google.maps.InfoWindow();
             var marker = void 0;
             var busContainers = document.getElementsByClassName('bus-container');
+            console.log('busContainers:', busContainers);
             // const popupLinks = document.getElementsByClassName('popup-link');
-
+            console.log('markers:', markers);
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
 
@@ -24434,6 +24434,9 @@ var Search = exports.Search = function (_React$Component) {
             }
         }
     }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             // const p_state = this.props.state;
@@ -24442,6 +24445,23 @@ var Search = exports.Search = function (_React$Component) {
             // const going = p_state.memory.user.going;
             this.getCoords();
             // this.insertGoingData(businesses, going);
+
+
+            // const coords = this.state.coords;
+            // const p_state = this.props.state;
+            //
+            // // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
+            // const markers = p_state.memory.markers;
+            //
+            // const infowindowContent = p_state.memory.infowindowContent;
+            // const isPopupOpen = p_state.ui.popupLink;
+            //
+            // const business = p_state.memory.business;
+            // if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+
+            // this.setState({
+            //     busContainers: document.getElementsByClassName('bus-container')
+            // });
         }
 
         // If/when component's prop updates, draw the map
@@ -24454,11 +24474,12 @@ var Search = exports.Search = function (_React$Component) {
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             var markers = p_state.memory.markers;
-            //
+
             var infowindowContent = p_state.memory.infowindowContent;
             var isPopupOpen = p_state.ui.popupLink;
 
             var business = p_state.memory.business;
+            if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
 
             // const businesses = p_state.businesses;
             // const going = p_state.memory.user.going;
@@ -24466,7 +24487,7 @@ var Search = exports.Search = function (_React$Component) {
             //
 
             // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
-            this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+
             // this.insertGoingData(businesses, going)
         }
     }, {
@@ -24515,7 +24536,7 @@ var Search = exports.Search = function (_React$Component) {
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(
                                 'div',
-                                { key: i, className: 'bus-container' },
+                                { key: i, className: 'bus-container', ref: 'busc' },
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'name-wrapper' },

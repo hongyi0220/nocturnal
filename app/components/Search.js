@@ -9,7 +9,8 @@ export class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            coords: null
+            coords: null,
+            busContainers: null
         }
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
@@ -39,7 +40,7 @@ export class Search extends React.Component {
         const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
 
         // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
-        const searchValue = this.props.state.memory.searchValue || 'chicago';
+        const searchValue = this.props.state.memory.searchValue;
         // const markers = this.props.state.memory.markers;
         const businesses = this.props.state.businesses;
 
@@ -69,9 +70,6 @@ export class Search extends React.Component {
         var mapDOMNode = this.refs.map;
         const ifwc = infowindowContent;
 
-
-    // var position = coords;
-//
         bounds = new google.maps.LatLngBounds();
         map = new google.maps.Map(mapDOMNode, {
             center: coords,
@@ -161,8 +159,9 @@ export class Search extends React.Component {
         infowindow = new google.maps.InfoWindow();
         let marker;
         const busContainers = document.getElementsByClassName('bus-container');
+        console.log('busContainers:', busContainers);
         // const popupLinks = document.getElementsByClassName('popup-link');
-
+        console.log('markers:', markers);
 
         // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         for (let i = 0; i < markers.length; i++) {
@@ -221,6 +220,10 @@ export class Search extends React.Component {
         }
     }
 
+    componentWillMount() {
+
+    }
+
     componentDidMount() {
         // const p_state = this.props.state;
         //
@@ -228,6 +231,23 @@ export class Search extends React.Component {
         // const going = p_state.memory.user.going;
         this.getCoords();
         // this.insertGoingData(businesses, going);
+
+
+        // const coords = this.state.coords;
+        // const p_state = this.props.state;
+        //
+        // // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
+        // const markers = p_state.memory.markers;
+        //
+        // const infowindowContent = p_state.memory.infowindowContent;
+        // const isPopupOpen = p_state.ui.popupLink;
+        //
+        // const business = p_state.memory.business;
+        // if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+
+        // this.setState({
+        //     busContainers: document.getElementsByClassName('bus-container')
+        // });
     }
 
     // If/when component's prop updates, draw the map
@@ -237,11 +257,13 @@ export class Search extends React.Component {
 
         // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         const markers = p_state.memory.markers;
-//
+
         const infowindowContent = p_state.memory.infowindowContent;
         const isPopupOpen = p_state.ui.popupLink;
 
         const business = p_state.memory.business;
+        if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+
 
         // const businesses = p_state.businesses;
         // const going = p_state.memory.user.going;
@@ -249,7 +271,7 @@ export class Search extends React.Component {
 //
 
         // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
-        this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+
         // this.insertGoingData(businesses, going)
     }
 
@@ -280,7 +302,7 @@ export class Search extends React.Component {
                                 placeholder='Somewhere else?'/>
                         </div>
                         {businesses ? businesses.map((bus, i) =>
-                            <div key={i} className='bus-container'>
+                            <div key={i} className='bus-container' ref='busc'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
