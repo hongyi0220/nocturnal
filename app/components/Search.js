@@ -226,11 +226,11 @@ export class Search extends React.Component {
     }
 
     componentDidMount() {
-        // const p_state = this.props.state;
-        //
+        const p_state = this.props.state;
+        const currentPosition = p_state.memory.currentPosition;
         // const businesses = p_state.businesses;
         // const going = p_state.memory.user.going;
-        this.getCoords();
+        if (!currentPosition) this.getCoords();
         // this.insertGoingData(businesses, going);
 
 
@@ -302,7 +302,7 @@ export class Search extends React.Component {
                     <div className='results-container'>
                         <div className='search-wrapper'>
                             <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                                placeholder='Somewhere else?'/>
+                                placeholder='city, state or zip'/>
                         </div>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} className='bus-container' ref='busc'>

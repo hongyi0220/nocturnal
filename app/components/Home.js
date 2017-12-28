@@ -1,7 +1,5 @@
 import React from 'react';
 import { PopUp } from './PopUp';
-import { FormSignup } from './FormSignup';
-import { FormLogin } from './FormLogin';
 import { Switch, Route } from 'react-router-dom';
 
 export const Home = props => {

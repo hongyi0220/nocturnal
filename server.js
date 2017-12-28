@@ -23,6 +23,33 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.get('/mapdata', (req, res) => {
+     let searchValue, markers;
+     if(session.data) {
+         searchValue = session.data.searchValue;
+         markers = session.data.markers;
+     }
+     const response = {searchValue: searchValue, markers: markers};
+     // console.log('res @ server.js:', response);
+     res.send(response);
+});
+
+app.post('/searchvalue', (req, res) => {
+    const searchValue = req.body.searchValue;
+    // console.log('searchValue @ server.js:', searchValue);
+    session.data.searchValue = searchValue;
+    // console.log('session.data @ /searchvalue:', session.data);
+    res.end();
+});
+
+app.post('/markers', (req, res) => {
+    const markers = req.body.markers;
+    // console.log('markers @ servers.js:', markers);
+    session.data.markers = markers;
+    // console.log('session.data @ /markers:', session.data);
+    res.end();
+});
+
 app.get('/signout', (req, res) => {
     session.data = null;
     res.end();
@@ -42,10 +69,10 @@ app.get('/goingsdata', (req, res) => {
 
 app.post('/going', (req, res) => {
     const place_id = req.body.place_id;
-    console.log('place_id:', place_id);
+    // console.log('place_id:', place_id);
     // console.log('session.data @ /going:', session.data);
     const user_id = session.data.user.user_id;
-    console.log('user_id:', user_id);
+    // console.log('user_id:', user_id);
     MongoClient.connect(url, (err, db) => {
         if (err) console.error(err);
 
@@ -132,17 +159,17 @@ app.post('/verify', (req, res) => {
                      if (err) console.error(err);
                      if (docs.length) {
                          const userData = docs[0];
-                         session.data = {};
+                         if (!session.data) session.data = {};
                          session.data.user = userData;
                          res.send(userData)
                      } else {
                          db.collection('users').insert(schema);
-                         session.data = {};
+                         if (!session.data) session.data = {};
                          session.data.user = schema;
                          res.send(schema);
                      }
                      db.close();
-                     console.log('session.data @ /verify:', session.data);
+                     // console.log('session.data @ /verify:', session.data);
                  });
             });
         }
@@ -152,6 +179,7 @@ app.post('/verify', (req, res) => {
 app.use(express.static('build'));
 
 app.get('*', (req, res) => {
+    if (!session.data) session.data = {};
     res.sendFile(__dirname + '/build/index.html')
 });
 

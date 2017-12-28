@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter, Route, Switch } from 'react-router-dom';
-import { FormSignup } from './FormSignup';
 import { Home } from './Home';
 import { Search } from './Search';
 
@@ -120,6 +119,7 @@ class App extends React.Component {
         const id = e.target.id;
         clearTimeout(this.timeout);
         const location = this.state.memory.searchValue;
+
         this.timeout = setTimeout(() => {
             this.fetchData(location);
             if (id === 'home') this.props.history.push('/search');
@@ -130,19 +130,29 @@ class App extends React.Component {
                     searchValue: ''
                 }
             });
+
+            const apiUrl = 'http://localhost:8080/searchvalue';
+            const init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({searchValue: location})
+            }
+            fetch(apiUrl, init);
+
         }, 500);
 
-        // const key = e.key;
+        const key = e.key;
 
         // const businesses = this.state.businesses;
         // const going = this.state.memory.user.going;
 
-        // if (key === 'Enter') {
-        //     this.fetchData(location);
-        //
-        //     this.props.history.push('/search');
-        //
-        // }
+        if (key === 'Enter') {
+            this.fetchData(location);
+            this.props.history.push('/search');
+
+        }
     }
 
     getSearchValue(e) {
@@ -293,17 +303,49 @@ class App extends React.Component {
                 markers: markers
             }
         });
-        // , () => console.log('after makeMarkerData:',this.state.memory)
+// , () => console.log('after makeMarkerData:',this.state.memory)
+        const apiUrl ='http://localhost:8080/markers';
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({markers: markers})
+        }
+        fetch(apiUrl, init);
     }
 
     fetchData(location) {
         const cors = 'https://cors-anywhere.herokuapp.com/';
         // 'https://cors.now.sh/';
         const url = 'https://api.yelp.com/v3/businesses/search';
+
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
         const user = this.state.memory.user;
         // const searchValue = this.state.memory.searchValue;
+        const apiUrl = 'http://localhost:8080/mapdata';
+        const apiInit = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+        fetch(apiUrl, apiInit)
+        .then(res => res.json())
+        .then(resJson => {
+            const markers = resJson.markers;
+            const searchValue = resJson.serachValue;
+
+            this.setState({
+                ...this.state,
+                memory: {
+                    ...this.state.memory,
+                    markers: markers,
+                    searchValue: searchValue
+                }
+            }, () => console.log('state.memory After fetching mapdata:', this.state.memory));
+        });
 
         const city = () => {
             let cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
