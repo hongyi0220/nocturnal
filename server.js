@@ -26,11 +26,11 @@ app.use(bodyParser.json());
 app.get('/mapdata', (req, res) => {
      let searchValue, markers;
      if(session.data) {
-         searchValue = session.data.searchValue;
+         searchValue = session.data.searchValue || '';
          markers = session.data.markers;
-     }
+     } else searchValue = '';
      const response = {searchValue: searchValue, markers: markers};
-     // console.log('res @ server.js:', response);
+     console.log('res @ server.js:', response);
      res.send(response);
 });
 

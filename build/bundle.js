@@ -23416,37 +23416,52 @@ var App = function (_React$Component) {
         _this.toggleGoing = _this.toggleGoing.bind(_this);
         _this.insertGoingData = _this.insertGoingData.bind(_this);
         _this.timeout = null;
+        _this.storeSearchValueInSession = _this.storeSearchValueInSession.bind(_this);
+        _this.getMapdata = _this.getMapdata.bind(_this);
         return _this;
     }
 
-    // Insert #of people going to a bar, and if the authenticated user is going to that bar
-    //into the businesses data in state so they can be displayed in the bar search results
-
-
     _createClass(App, [{
+        key: 'storeSearchValueInSession',
+        value: function storeSearchValueInSession(value) {
+            var apiUrl = 'http://localhost:8080/searchvalue';
+            var init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ searchValue: value })
+            };
+            fetch(apiUrl, init);
+        }
+
+        // Insert #of people going to a bar, and if the authenticated user is going to that bar
+        //into the businesses data in state so they can be displayed in the bar search results
+
+    }, {
         key: 'insertGoingData',
         value: function insertGoingData(businesses, going, goingsData) {
             // Insert data on bars the user is going to
             var buses = businesses.map(function (bus) {
-                // console.log('bus @ insertGoingData:', bus);
+                //
                 var isGoing = function isGoing() {
                     for (var i = 0; i < going.length; i++) {
                         if (bus.id === going[i]) {
-                            // console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
+                            //
                             bus.going = 1;
                             return true;
                         }
                     }
                     return false;
                 };
-                // console.log('isGoing():', isGoing());
+                //
                 if (!isGoing()) bus.going = 0;
                 return bus;
             });
 
             // Insert data on # of people going to each bar
             var busesTransformed = buses.map(function (bus) {
-                // console.log('bus inside 2nd mapping of businesses:', bus);
+                //
                 bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
                 return bus;
             });
@@ -23456,14 +23471,13 @@ var App = function (_React$Component) {
                     businesses: busesTransformed
                 });
             });
-            // , () => console.log('bus transformed:',this.state.businesses)
+            // , () =>
         }
     }, {
         key: 'toggleGoing',
         value: function toggleGoing(e) {
             var _this2 = this;
 
-            console.log('toggleGoing triggered');
             var place_id = e.target.id;
             var memory = _extends({}, this.state.memory);
             var user = memory.user;
@@ -23471,19 +23485,19 @@ var App = function (_React$Component) {
             var businesses = state.businesses;
             var going = user.going;
             var goings = memory.goings;
-            console.log('going in toggleGoing:', going);
+
             // Push or pull going data in user data
             var isGoing = function isGoing() {
                 for (var i = 0; i < going.length; i++) {
                     if (going[i] === place_id) {
-                        // console.log('going inside loop B4 splice:', going);
-                        // console.log('goingS inside loop B4 subtraction:', goings);
+                        //
+                        //
                         going.splice(i, 1);
                         // if (goings[place_id])
                         goings[place_id] -= 1;
                         // else goings[place_id] = 1;
-                        // console.log('going inside loop after splice:', going);
-                        // console.log('goingS inside loop after subtraction:', goings);
+                        //
+                        //
                         return true;
                     }
                 }
@@ -23497,7 +23511,7 @@ var App = function (_React$Component) {
             }
 
             this.setState({ user: user }, function () {
-                console.log('memory after toggleGoing:', _this2.state.memory);
+
                 _this2.insertGoingData(businesses, going, goings);
             });
         }
@@ -23519,15 +23533,16 @@ var App = function (_React$Component) {
                     })
                 }));
 
-                var apiUrl = 'http://localhost:8080/searchvalue';
-                var init = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ searchValue: location })
-                };
-                fetch(apiUrl, init);
+                _this3.storeSearchValueInSession(location);
+                // const apiUrl = 'http://localhost:8080/searchvalue';
+                // const init = {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify({searchValue: location})
+                // }
+                // fetch(apiUrl, init);
             }, 500);
 
             var key = e.key;
@@ -23557,7 +23572,7 @@ var App = function (_React$Component) {
 
             var url = 'http://localhost:8080/user';
             // const businesses = this.state.businesses;
-            // console.log('businesses @ getUserData:', businesses);
+            //
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
@@ -23584,7 +23599,7 @@ var App = function (_React$Component) {
                 console.warn('Error(' + err.code + '): ' + err.message);
             };
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-                console.log('geolocation:', 'lat:', pos.coords.latitude, 'long:', pos.coords.longitude);
+
                 _this5.setState(_extends({}, _this5.state, {
                     memory: _extends({}, _this5.state.memory, {
                         currentPosition: {
@@ -23652,6 +23667,16 @@ var App = function (_React$Component) {
                     })
                 });
             });
+            this.storeSearchValueInSession(cityName);
+            // const apiUrl = 'http://localhost:8080/searchvalue';
+            // const init = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({searchValue: cityName})
+            // }
+            // fetch(apiUrl, init);
             this.fetchData(cityName);
             e.stopPropagation();
         }
@@ -23684,8 +23709,10 @@ var App = function (_React$Component) {
                 memory: _extends({}, this.state.memory, {
                     markers: markers
                 })
-            }));
-            // , () => console.log('after makeMarkerData:',this.state.memory)
+            }), function () {
+                return console.log('markers after makingMarkers:', markers);
+            });
+
             var apiUrl = 'http://localhost:8080/markers';
             var init = {
                 method: 'POST',
@@ -23697,9 +23724,43 @@ var App = function (_React$Component) {
             fetch(apiUrl, init);
         }
     }, {
+        key: 'getMapdata',
+        value: function getMapdata() {
+            var _this8 = this;
+
+            var apiUrl = 'http://localhost:8080/mapdata';
+            var apiInit = {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            };
+            if (window.performance) if (performance.navigation.type === 1) {
+                this.getUserData();
+                console.log('page relaoded');
+                fetch(apiUrl, apiInit).then(function (res) {
+                    return res.json();
+                }).then(function (resJson) {
+                    var markers = resJson.markers;
+                    var _searchValue = resJson.searchValue;
+                    // console.log(_searchValue)
+                    _this8.setState(function (prevState) {
+                        return _extends({}, prevState, {
+                            memory: _extends({}, prevState.memory, {
+                                markers: markers,
+                                searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
+                            })
+                        });
+                    }, function () {
+                        _this8.fetchData(_searchValue);
+                    });
+                });
+            }
+        }
+    }, {
         key: 'fetchData',
         value: function fetchData(location) {
-            var _this8 = this;
+            var _this9 = this;
 
             var cors = 'https://cors-anywhere.herokuapp.com/';
             // 'https://cors.now.sh/';
@@ -23708,30 +23769,44 @@ var App = function (_React$Component) {
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
             var currentPosition = this.state.memory.currentPosition;
             var user = this.state.memory.user;
-            // const searchValue = this.state.memory.searchValue;
-            var apiUrl = 'http://localhost:8080/mapdata';
-            var apiInit = {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            };
-            fetch(apiUrl, apiInit).then(function (res) {
-                return res.json();
-            }).then(function (resJson) {
-                var markers = resJson.markers;
-                var searchValue = resJson.serachValue;
+            var searchValue = this.state.memory.searchValue;
+            // const apiUrl = 'http://localhost:8080/mapdata';
+            // const apiInit = {
+            //     method: 'GET',
+            //     headers: {
+            //         'Accept': 'application/json'
+            //     }
+            // }
+            //      const getMapdata = () => {
+            //         // if (window.performance)
+            //         // if (performance.navigation.type === 1) {
+            //             this.getUserData();
+            //             console.log('page relaoded');
+            //             fetch(apiUrl, apiInit)
+            //             .then(res => res.json())
+            //             .then(resJson => {
+            //                 const markers = resJson.markers;
+            //                 const _searchValue = resJson.searchValue;
+            // console.log(_searchValue)
+            //                 this.setState(prevState => ({
+            //                     ...prevState,
+            //                     memory: {
+            //                         ...prevState.memory,
+            //                         markers: markers,
+            //                         searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
+            //                     }
+            //                 }), () => {
+            //                     this.fetchData(_searchValue);
+            //
+            //                 });
+            //             });
+            //         //     return true;
+            //         // }
+            //         // return false;
+            //     }
+            //     if(performance.navigation.type === 1) getMapdata();
 
-                _this8.setState(_extends({}, _this8.state, {
-                    memory: _extends({}, _this8.state.memory, {
-                        markers: markers,
-                        searchValue: searchValue
-                    })
-                }), function () {
-                    return console.log('state.memory After fetching mapdata:', _this8.state.memory);
-                });
-            });
-
+            console.log('searchValue outside of reloadFetch:', searchValue);
             var city = function city() {
                 var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
                 // cities = ['chicago'];
@@ -23741,7 +23816,8 @@ var App = function (_React$Component) {
             var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng : 'location=' + city();
 
             if (location) query = 'location=' + location;
-
+            if (searchValue) query = 'location=' + searchValue;
+            console.log('query @ fetchData:', query);
             var headers = new Headers({
                 'Authorization': 'Bearer ' + key,
                 'Access-Control-Allow-Origin': '*',
@@ -23757,16 +23833,16 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this8.setState(function (prevState) {
+                return _this9.setState(function (prevState) {
                     return _extends({}, prevState, {
                         businesses: resJson.businesses
                     });
                 }, function () {
-                    console.log('location:', new Boolean(location));
+
                     var buses = resJson.businesses;
 
-                    _this8.makeMarkerData(buses);
-                    _this8.makeInfowindowContent(buses);
+                    _this9.makeMarkerData(buses);
+                    _this9.makeInfowindowContent(buses);
 
                     // Get data on # of people going to each business
                     var apiUrl = 'http://localhost:8080/goingsdata';
@@ -23779,7 +23855,7 @@ var App = function (_React$Component) {
                     fetch(apiUrl, init).then(function (res) {
                         return res.json();
                     }).then(function (goingsData) {
-                        return _this8.setState(function (prevState) {
+                        return _this9.setState(function (prevState) {
                             return _extends({}, prevState, {
                                 memory: _extends({}, prevState.memory, {
                                     goings: goingsData
@@ -23788,9 +23864,9 @@ var App = function (_React$Component) {
                         }, function () {
                             // When doing a search (of a location), insert data on who's going into businesses data
                             if (location && user) {
-                                var going = _this8.state.memory.user.going;
-                                console.log('going insdie of fetchData:', going);
-                                _this8.insertGoingData(buses, going, goingsData);
+                                var going = _this9.state.memory.user.going;
+
+                                _this9.insertGoingData(buses, going, goingsData);
                             }
                         });
                     });
@@ -23800,7 +23876,11 @@ var App = function (_React$Component) {
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.fetchData(null);
+            this.getMapdata();
+            if (performance.navigation.type !== 1) {
+                console.log('not reload, fetching data(null)');
+                this.fetchData(null);
+            }
         }
     }, {
         key: 'componentDidMount',
@@ -24079,7 +24159,7 @@ var Search = exports.Search = function (_React$Component) {
         key: 'going',
         value: function going(e) {
             var id = e.target.id;
-            console.log('place_id @ going(e):', id);
+
             var url = 'http://localhost:8080/going';
             var init = {
                 method: 'POST',
@@ -24100,7 +24180,7 @@ var Search = exports.Search = function (_React$Component) {
 
             // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
             var searchValue = this.props.state.memory.searchValue;
-            console.log('searchValue @ getCoords:', searchValue);
+
             var businesses = this.props.state.businesses;
 
             //
@@ -24109,13 +24189,13 @@ var Search = exports.Search = function (_React$Component) {
                 return value.trim().replace(/\s/g, '+');
             };
             var address = formatAddress(searchValue);
-            console.log('address @ getCoords:', address);
+
             fetch(url + address + apiKey).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
                 //
                 var coords = resJson.results[0].geometry.location;
-                console.log('coords @ getCoords:', coords);
+
                 _this2.setState({
                     coords: coords
                 });
@@ -24201,9 +24281,9 @@ var Search = exports.Search = function (_React$Component) {
             infowindow = new google.maps.InfoWindow();
             var marker = void 0;
             var busContainers = document.getElementsByClassName('bus-container');
-            // console.log('busContainers:', busContainers);
+            //
             // const popupLinks = document.getElementsByClassName('popup-link');
-            // console.log('markers:', markers);
+            //
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
 
@@ -24303,9 +24383,8 @@ var Search = exports.Search = function (_React$Component) {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
             var p_state = this.props.state;
-            console.log('this.state.coords @ componentDIdupdate:', this.state.coords);
+
             var coords = this.state.coords || p_state.memory.currentPosition;
-            console.log('coords @ componentDidUpdate:', coords);
 
             // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             var markers = p_state.memory.markers;
@@ -24314,11 +24393,11 @@ var Search = exports.Search = function (_React$Component) {
             var isPopupOpen = p_state.ui.popupLink;
 
             var business = p_state.memory.business;
-            if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+            if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
 
             // const businesses = p_state.businesses;
             // const going = p_state.memory.user.going;
-            // console.log('p_state.memory.user.going:', going);
+            //
             //
 
             // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
@@ -24335,7 +24414,7 @@ var Search = exports.Search = function (_React$Component) {
             var getSearchValue = this.props.getSearchValue;
             var handleSearch = this.props.handleSearch;
             var value = p_state.memory.searchValue;
-            // console.log('businesses @ Search render():', businesses);
+            //
             // const going = state.memory.user.going;
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
@@ -24371,7 +24450,7 @@ var Search = exports.Search = function (_React$Component) {
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(
                                 'div',
-                                { key: i, className: 'bus-container', ref: 'busc' },
+                                { key: i, className: 'bus-container', ref: 'busC' },
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'name-wrapper' },

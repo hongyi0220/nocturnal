@@ -36,6 +36,20 @@ class App extends React.Component {
         this.toggleGoing = this.toggleGoing.bind(this);
         this.insertGoingData = this.insertGoingData.bind(this);
         this.timeout = null;
+        this.storeSearchValueInSession = this.storeSearchValueInSession.bind(this);
+        this.getMapdata = this.getMapdata.bind(this);
+    }
+
+    storeSearchValueInSession(value) {
+        const apiUrl = 'http://localhost:8080/searchvalue';
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({searchValue: value})
+        }
+        fetch(apiUrl, init);
     }
 
     // Insert #of people going to a bar, and if the authenticated user is going to that bar
@@ -43,25 +57,25 @@ class App extends React.Component {
     insertGoingData(businesses, going, goingsData) {
         // Insert data on bars the user is going to
         const buses = businesses.map(bus => {
-            // console.log('bus @ insertGoingData:', bus);
+            //
             const isGoing = () => {
                 for (let i = 0; i < going.length; i++) {
                     if (bus.id === going[i]) {
-                        // console.log('if triggered; bus.id === going[i]:', bus.id === going[i]);
+                        //
                         bus.going = 1;
                         return true;
                     }
                 }
                 return false;
             }
-            // console.log('isGoing():', isGoing());
+            //
             if (!isGoing()) bus.going = 0;
             return bus;
         });
 
         // Insert data on # of people going to each bar
         const busesTransformed = buses.map(bus => {
-            // console.log('bus inside 2nd mapping of businesses:', bus);
+            //
             bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
             return bus;
         });
@@ -70,11 +84,11 @@ class App extends React.Component {
             ...prevState,
             businesses: busesTransformed
         }));
-        // , () => console.log('bus transformed:',this.state.businesses)
+        // , () =>
     }
 
     toggleGoing(e) {
-        console.log('toggleGoing triggered');
+
         const place_id = e.target.id;
         const memory = {...this.state.memory};
         const user = memory.user;
@@ -82,19 +96,19 @@ class App extends React.Component {
         const businesses = state.businesses;
         const going = user.going;
         const goings = memory.goings;
-        console.log('going in toggleGoing:', going);
+
         // Push or pull going data in user data
         const isGoing = () => {
             for (let i = 0; i < going.length; i++) {
                 if (going[i] === place_id) {
-                    // console.log('going inside loop B4 splice:', going);
-                    // console.log('goingS inside loop B4 subtraction:', goings);
+                    //
+                    //
                     going.splice(i, 1);
                     // if (goings[place_id])
                     goings[place_id] -= 1;
                     // else goings[place_id] = 1;
-                    // console.log('going inside loop after splice:', going);
-                    // console.log('goingS inside loop after subtraction:', goings);
+                    //
+                    //
                     return true;
                 }
             }
@@ -109,7 +123,7 @@ class App extends React.Component {
         }
 
         this.setState({ user }, () => {
-            console.log('memory after toggleGoing:', this.state.memory);
+
             this.insertGoingData(businesses, going, goings);
 
         });
@@ -131,15 +145,16 @@ class App extends React.Component {
                 }
             });
 
-            const apiUrl = 'http://localhost:8080/searchvalue';
-            const init = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({searchValue: location})
-            }
-            fetch(apiUrl, init);
+            this.storeSearchValueInSession(location);
+            // const apiUrl = 'http://localhost:8080/searchvalue';
+            // const init = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({searchValue: location})
+            // }
+            // fetch(apiUrl, init);
 
         }, 500);
 
@@ -169,7 +184,7 @@ class App extends React.Component {
     getUserData() {
         const url = 'http://localhost:8080/user'
         // const businesses = this.state.businesses;
-        // console.log('businesses @ getUserData:', businesses);
+        //
         fetch(url)
         .then(res => res.json())
         .then(resJson => this.setState({
@@ -194,7 +209,7 @@ class App extends React.Component {
         }
         if (navigator.geolocation)
             navigator.geolocation.getCurrentPosition(pos => {
-                console.log('geolocation:', 'lat:', pos.coords.latitude,'long:',pos.coords.longitude);
+
                 this.setState({
                     ...this.state,
                     memory: {
@@ -263,6 +278,16 @@ class App extends React.Component {
                 popupLink: true
             }
         }));
+        this.storeSearchValueInSession(cityName);
+        // const apiUrl = 'http://localhost:8080/searchvalue';
+        // const init = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({searchValue: cityName})
+        // }
+        // fetch(apiUrl, init);
         this.fetchData(cityName);
         e.stopPropagation();
     }
@@ -302,8 +327,8 @@ class App extends React.Component {
                 ...this.state.memory,
                 markers: markers
             }
-        });
-// , () => console.log('after makeMarkerData:',this.state.memory)
+        }, () => console.log('markers after makingMarkers:', markers));
+
         const apiUrl ='http://localhost:8080/markers';
         const init = {
             method: 'POST',
@@ -315,6 +340,38 @@ class App extends React.Component {
         fetch(apiUrl, init);
     }
 
+    getMapdata() {
+        const apiUrl = 'http://localhost:8080/mapdata';
+        const apiInit = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+       if (window.performance)
+       if (performance.navigation.type === 1) {
+           this.getUserData();
+           console.log('page relaoded');
+           fetch(apiUrl, apiInit)
+           .then(res => res.json())
+           .then(resJson => {
+               const markers = resJson.markers;
+               const _searchValue = resJson.searchValue;
+               // console.log(_searchValue)
+               this.setState(prevState => ({
+                   ...prevState,
+                   memory: {
+                       ...prevState.memory,
+                       markers: markers,
+                       searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
+                   }
+               }), () => {
+                   this.fetchData(_searchValue);
+               });
+           });
+       }
+    }
+
     fetchData(location) {
         const cors = 'https://cors-anywhere.herokuapp.com/';
         // 'https://cors.now.sh/';
@@ -323,30 +380,44 @@ class App extends React.Component {
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
         const currentPosition = this.state.memory.currentPosition;
         const user = this.state.memory.user;
-        // const searchValue = this.state.memory.searchValue;
-        const apiUrl = 'http://localhost:8080/mapdata';
-        const apiInit = {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }
-        fetch(apiUrl, apiInit)
-        .then(res => res.json())
-        .then(resJson => {
-            const markers = resJson.markers;
-            const searchValue = resJson.serachValue;
+        let searchValue = this.state.memory.searchValue;
+        // const apiUrl = 'http://localhost:8080/mapdata';
+        // const apiInit = {
+        //     method: 'GET',
+        //     headers: {
+        //         'Accept': 'application/json'
+        //     }
+        // }
+    //      const getMapdata = () => {
+    //         // if (window.performance)
+    //         // if (performance.navigation.type === 1) {
+    //             this.getUserData();
+    //             console.log('page relaoded');
+    //             fetch(apiUrl, apiInit)
+    //             .then(res => res.json())
+    //             .then(resJson => {
+    //                 const markers = resJson.markers;
+    //                 const _searchValue = resJson.searchValue;
+    // console.log(_searchValue)
+    //                 this.setState(prevState => ({
+    //                     ...prevState,
+    //                     memory: {
+    //                         ...prevState.memory,
+    //                         markers: markers,
+    //                         searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
+    //                     }
+    //                 }), () => {
+    //                     this.fetchData(_searchValue);
+    //
+    //                 });
+    //             });
+    //         //     return true;
+    //         // }
+    //         // return false;
+    //     }
+    //     if(performance.navigation.type === 1) getMapdata();
 
-            this.setState({
-                ...this.state,
-                memory: {
-                    ...this.state.memory,
-                    markers: markers,
-                    searchValue: searchValue
-                }
-            }, () => console.log('state.memory After fetching mapdata:', this.state.memory));
-        });
-
+        console.log('searchValue outside of reloadFetch:', searchValue);
         const city = () => {
             let cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
             // cities = ['chicago'];
@@ -356,7 +427,8 @@ class App extends React.Component {
         let query = currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng) : ('location=' + city());
 
         if (location) query = 'location=' + location;
-
+        if (searchValue) query = 'location=' + searchValue;
+        console.log('query @ fetchData:', query);
         const headers = new Headers({
             'Authorization': 'Bearer ' + key,
             'Access-Control-Allow-Origin': '*',
@@ -375,7 +447,7 @@ class App extends React.Component {
             ...prevState,
             businesses: resJson.businesses
         }), () => {
-            console.log('location:', new Boolean(location));
+
             const buses = resJson.businesses;
 
             this.makeMarkerData(buses);
@@ -401,7 +473,7 @@ class App extends React.Component {
                 // When doing a search (of a location), insert data on who's going into businesses data
                 if (location && user) {
                     const going = this.state.memory.user.going;
-                    console.log('going insdie of fetchData:', going);
+
                     this.insertGoingData(buses, going, goingsData);
                 }
 
@@ -412,7 +484,12 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        this.fetchData(null)
+        this.getMapdata();
+        if(performance.navigation.type !== 1) {
+            console.log('not reload, fetching data(null)');
+            this.fetchData(null);
+        }
+
     }
 
     componentDidMount() {
