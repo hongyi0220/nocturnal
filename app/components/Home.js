@@ -37,8 +37,8 @@ export const Home = props => {
             {popUp ? <PopUp state={state}/> : ''}
             <div className='search-container'>
                 <div className='search-wrapper'>
-                    <input onChange={getSearchValue} onKeyDown={handleSearch} type='text' value={value}
-                        placeholder='Enter city, state or zip'/>
+                    <input id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
+                        placeholder='City, state or zip'/>
                 </div>
                 <div className='button-wrapper'>
                     <div onClick={getCurrentLocation} className='button'><i className="fa fa-location-arrow" aria-hidden="true"></i></div>

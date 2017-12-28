@@ -3,7 +3,7 @@ import { Nav } from './Nav';
 // import { PopUp } from './PopUp';
 // import { FormSignup } from './FormSignup';
 // import { FormLogin } from './FormLogin';
-// import { Switch, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export class Search extends React.Component {
     constructor() {
@@ -242,6 +242,7 @@ export class Search extends React.Component {
         const isPopupOpen = p_state.ui.popupLink;
 
         const business = p_state.memory.business;
+
         // const businesses = p_state.businesses;
         // const going = p_state.memory.user.going;
         // console.log('p_state.memory.user.going:', going);
@@ -256,6 +257,10 @@ export class Search extends React.Component {
         // p_state: parent's state
         const p_state = this.props.state;
         const businesses = p_state.businesses;
+        const auth = p_state.authenticated;
+        const getSearchValue = this.props.getSearchValue;
+        const handleSearch = this.props.handleSearch;
+        const value = p_state.memory.searchValue;
         // console.log('businesses @ Search render():', businesses);
         // const going = state.memory.user.going;
         const going = this.going;
@@ -269,19 +274,33 @@ export class Search extends React.Component {
                 </div>
                 <div className='map-results-container'>
                     <div ref='map' className='map-wrapper'>map goes here</div>
-                    <div className='results-container'>results go here
+                    <div className='results-container'>
+                        <div className='search-wrapper'>
+                            <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
+                                placeholder='Somewhere else?'/>
+                        </div>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} className='bus-container'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
                                 {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} */}
-                                <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
+                                {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
                                     {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
                                         id={bus.id} className='not-wrapper'>going&nbsp;</div>
                                         : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
                                         id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
-                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}</div>
+                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
+                                </div>
+                                    : <div><Link to='/'>Sign in</Link> to RSVP</div>}
+
+                                {/* <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
+                                    {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                        id={bus.id} className='not-wrapper'>going&nbsp;</div>
+                                        : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                        id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
+                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
+                                </div> */}
                                     {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
                                         id={bus.id} */}
                             </div>

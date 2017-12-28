@@ -36,7 +36,7 @@ class App extends React.Component {
         this.makeInfowindowContent = this.makeInfowindowContent.bind(this);
         this.toggleGoing = this.toggleGoing.bind(this);
         this.insertGoingData = this.insertGoingData.bind(this);
-        // this.getCoords = this.getCoords.bind(this);
+        this.timeout = null;
     }
 
     // Insert #of people going to a bar, and if the authenticated user is going to that bar
@@ -117,18 +117,32 @@ class App extends React.Component {
     }
 
     handleSearch(e) {
-        const key = e.key;
+        const id = e.target.id;
+        clearTimeout(this.timeout);
         const location = this.state.memory.searchValue;
+        this.timeout = setTimeout(() => {
+            this.fetchData(location);
+            if (id === 'home') this.props.history.push('/search');
+            this.setState({
+                ...this.state,
+                memory: {
+                    ...this.state.memory,
+                    searchValue: ''
+                }
+            });
+        }, 500);
+
+        // const key = e.key;
+
         // const businesses = this.state.businesses;
         // const going = this.state.memory.user.going;
 
-        if (key === 'Enter') {
-            this.fetchData(location);
-            // this.insertGoingData(businesses, going);
-            // this.makeMarkerData(businesses);
-            this.props.history.push('/search');
-
-        }
+        // if (key === 'Enter') {
+        //     this.fetchData(location);
+        //
+        //     this.props.history.push('/search');
+        //
+        // }
     }
 
     getSearchValue(e) {
@@ -182,15 +196,15 @@ class App extends React.Component {
     signOut() {
         const auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut()
-        .then(() => this.setState(prevState =>
-            ({
-                ...prevState,
+        .then(() => this.setState(
+            {
+                ...this.state,
                 authenticated: false,
                 memory: {
-                    ...prevState.memory,
+                    ...this.state.memory,
                     user: null
                 }
-            })
+            }
         ));
         // Destroy session
         const apiUrl = 'http://localhost:8080/signout';
@@ -386,7 +400,8 @@ class App extends React.Component {
         return (
             <div onClick={closeAll} className='container'>
                 <Switch>
-                    <Route path='/search' render={() => <Search toggleGoing={toggleGoing} state={state}/>}/>
+                    <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch}
+                        toggleGoing={toggleGoing} state={state}/>}/>
                     <Route path='/' render={() => <Home auth={auth} getCurrentLocation={getCurrentLocation}
                         getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
                         history={history} handleSearch={handleSearch} openHomeUi={openHomeUi} state={state}/>}/>
