@@ -10,8 +10,7 @@ export const Home = props => {
     const value = memory.searchValue;
     const ui = state.ui;
     const popup = ui.popup;
-    const signup = ui.signup;
-    const login = ui.login;
+    const loading = ui.loading;
     const openPopup = props.openPopup;
     const signOut = props.signOut;
     const closeAll = props.closeAll;
@@ -35,6 +34,8 @@ export const Home = props => {
             {popup ? <PopUp fetchData={fetchData} state={state}/> : ''}
             <div className='search-container'>
                 <div className='search-wrapper'>
+                    {loading ? <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                        <span className="sr-only">Loading...</span></div> : ''}
                     <input id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
                         placeholder='City, state or zip'/>
                 </div>

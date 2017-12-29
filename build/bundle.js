@@ -23400,7 +23400,7 @@ var App = function (_React$Component) {
             },
             ui: {
                 popup: false,
-                fauxUi: false
+                loading: false
             }
         };
         _this.fetchData = _this.fetchData.bind(_this);
@@ -23419,6 +23419,8 @@ var App = function (_React$Component) {
         _this.storeSearchValueInSession = _this.storeSearchValueInSession.bind(_this);
         _this.getMapdata = _this.getMapdata.bind(_this);
         _this.getGoingsData = _this.getGoingsData.bind(_this);
+        _this.toggleLoading = _this.toggleLoading.bind(_this);
+        _this.xhr = null;
         return _this;
     }
 
@@ -23519,31 +23521,34 @@ var App = function (_React$Component) {
     }, {
         key: 'handleSearch',
         value: function handleSearch(e) {
+            var _this3 = this;
+
             var id = e.target.id;
             clearTimeout(this.timeout);
             var location = this.state.memory.searchValue;
-
-            // this.timeout = setTimeout(() => {
-            //     this.fetchData(location, null);
-            //     if (id === 'home') this.props.history.push('/search');
-            //     this.setState({
-            //         ...this.state,
-            //         memory: {
-            //             ...this.state.memory,
-            //             searchValue: ''
-            //         }
-            //     });
-            //
-            //     this.storeSearchValueInSession(location);
-            //
-            // }, 500);
-
             var key = e.key;
+            this.xhr.abort();
+            console.log('xhr.readyState, xhr.status:', this.xhr.readyState, this.xhr.status);
+            var search = function search() {
+                _this3.fetchData(location, null);
+
+                _this3.setState(_extends({}, _this3.state, {
+                    memory: _extends({}, _this3.state.memory, {
+                        searchValue: ''
+                    }),
+                    ui: _extends({}, _this3.state.ui, {
+                        loading: true
+                    })
+                }));
+
+                _this3.storeSearchValueInSession(location);
+            };
+
+            // this.timeout = setTimeout(search, 500);
 
             if (key === 'Enter') {
-                this.fetchData(location, null);
-                // setTimeout(() => {this.props.history.push('/search')}, 10000);
-                // this.props.history.push('/search');
+                // clearTimeout(this.timeout);
+                search();
             }
         }
     }, {
@@ -23559,7 +23564,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getUserData',
         value: function getUserData() {
-            var _this3 = this;
+            var _this4 = this;
 
             var url = 'http://localhost:8080/user';
             // const businesses = this.state.businesses;
@@ -23567,9 +23572,9 @@ var App = function (_React$Component) {
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this3.setState(_extends({}, _this3.state, {
+                return _this4.setState(_extends({}, _this4.state, {
                     authenticated: true,
-                    memory: _extends({}, _this3.state.memory, {
+                    memory: _extends({}, _this4.state.memory, {
                         user: resJson
                     })
                 }));
@@ -23579,7 +23584,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getCurrentPosition',
         value: function getCurrentPosition() {
-            var _this4 = this;
+            var _this5 = this;
 
             var options = {
                 enableHighAccuracy: true,
@@ -23596,12 +23601,12 @@ var App = function (_React$Component) {
                     lng: parseFloat(pos.coords.longitude)
                 };
 
-                _this4.setState(_extends({}, _this4.state, {
-                    memory: _extends({}, _this4.state.memory, {
+                _this5.setState(_extends({}, _this5.state, {
+                    memory: _extends({}, _this5.state.memory, {
                         currentPosition: coords
                     })
                 }), function () {
-                    _this4.fetchData(null, coords);
+                    _this5.fetchData(null, coords);
                     // this.props.history.push('/search');
                 });
             }, error, options);
@@ -23609,13 +23614,13 @@ var App = function (_React$Component) {
     }, {
         key: 'signOut',
         value: function signOut() {
-            var _this5 = this;
+            var _this6 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return _this5.setState(_extends({}, _this5.state, {
+                return _this6.setState(_extends({}, _this6.state, {
                     authenticated: false,
-                    memory: _extends({}, _this5.state.memory, {
+                    memory: _extends({}, _this6.state.memory, {
                         user: null
                     })
                 }));
@@ -23637,13 +23642,13 @@ var App = function (_React$Component) {
     }, {
         key: 'openPopup',
         value: function openPopup(e) {
-            var _this6 = this;
+            var _this7 = this;
 
             var id = e.target.id;
             // const cityName = e.target.className;
 
             var findBusiness = function findBusiness(id) {
-                return _this6.state.businesses.filter(function (bus) {
+                return _this7.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
@@ -23656,10 +23661,9 @@ var App = function (_React$Component) {
                         business: bus,
                         searchValue: cityName
                     }),
-                    ui: _extends({}, prevState.ui, {
-                        popup: true,
-                        fauxUi: prevState.ui.fauxUi ? false : true
-                    })
+                    ui: {
+                        popup: true
+                    }
                 });
             });
             this.storeSearchValueInSession(cityName);
@@ -23714,7 +23718,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getMapdata',
         value: function getMapdata() {
-            var _this7 = this;
+            var _this8 = this;
 
             var apiUrl = 'http://localhost:8080/mapdata';
             var apiInit = {
@@ -23732,7 +23736,7 @@ var App = function (_React$Component) {
                 var markers = resJson.markers;
                 var searchValue = resJson.searchValue;
                 // console.log(_searchValue)
-                _this7.setState(function (prevState) {
+                _this8.setState(function (prevState) {
                     return _extends({}, prevState, {
                         memory: _extends({}, prevState.memory, {
                             markers: markers,
@@ -23740,7 +23744,7 @@ var App = function (_React$Component) {
                         })
                     });
                 }, function () {
-                    _this7.fetchData(searchValue, null);
+                    _this8.fetchData(searchValue, null);
                 });
             });
             // }
@@ -23748,7 +23752,7 @@ var App = function (_React$Component) {
     }, {
         key: 'fetchData',
         value: function fetchData(location, position) {
-            var _this8 = this;
+            var _this9 = this;
 
             var cors = 'https://cors-anywhere.herokuapp.com/';
             // 'https://cors.now.sh/';
@@ -23773,42 +23777,90 @@ var App = function (_React$Component) {
             // if (location) query = 'location=' + location;
             // if (searchValue) query = 'location=' + searchValue;
             console.log('query @ fetchData:', query);
-            var headers = new Headers({
-                'Authorization': 'Bearer ' + key,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
-                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
-            });
-            var init = {
-                method: 'GET',
-                headers: headers,
-                mode: 'cors'
-            };
 
-            fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
-                return res.json();
-            }).then(function (resJson) {
-                return _this8.setState(function (prevState) {
-                    return _extends({}, prevState, {
-                        businesses: resJson.businesses
-                    });
-                }, function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', cors + url + '?term=bars&' + query, true);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + key);
+            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE');
+            xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+            xhr.onload = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var resJson = JSON.parse(xhr.response);
 
-                    var buses = resJson.businesses;
-                    if (location || position) {
-                        console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-                        _this8.makeMarkerData(buses);
-                        _this8.makeInfowindowContent(buses);
-                        _this8.getGoingsData(buses);
-                        _this8.props.history.push('/search');
+                        _this9.setState(function (prevState) {
+                            return _extends({}, prevState, {
+                                businesses: resJson.businesses
+                            });
+                        }, function () {
+
+                            var buses = resJson.businesses;
+                            if (location || position) {
+                                console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
+
+                                _this9.makeMarkerData(buses);
+                                _this9.toggleLoading();
+                                _this9.makeInfowindowContent(buses);
+                                _this9.getGoingsData(buses);
+                                _this9.props.history.push('/search');
+                            }
+                        });
+                    } else if (xhr.status >= 400) {
+                        console.log('xhr error:', xhr.status);
                     }
+                }
+            };
+            xhr.send();
+            this.xhr = xhr;
+
+            // const headers = new Headers({
+            //     'Authorization': 'Bearer ' + key,
+            //     'Access-Control-Allow-Origin': '*',
+            //     'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+            //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+            // });
+            // const init = {
+            //     method: 'GET',
+            //     headers: headers,
+            //     mode: 'cors'
+            // }
+            //
+            // fetch(cors + url + '?term=bars&' + query, init)
+            // .then(res => res.json())
+            // .then(resJson => this.setState(prevState => ({
+            //     ...prevState,
+            //     businesses: resJson.businesses
+            // }), () => {
+            //
+            //     const buses = resJson.businesses;
+            //     if (location || position) {
+            //         console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
+            //
+            //         this.makeMarkerData(buses);
+            //         this.toggleLoading();
+            //         this.makeInfowindowContent(buses);
+            //         this.getGoingsData(buses);
+            //         this.props.history.push('/search');
+            //     }
+            //
+            // }));
+        }
+    }, {
+        key: 'toggleLoading',
+        value: function toggleLoading() {
+            this.setState(function (prevState) {
+                return _extends({}, prevState, {
+                    ui: _extends({}, prevState.ui, {
+                        loading: prevState.ui.loading ? false : true
+                    })
                 });
             });
         }
     }, {
         key: 'getGoingsData',
         value: function getGoingsData(buses) {
-            var _this9 = this;
+            var _this10 = this;
 
             var user = this.state.memory.user;
             // Get data on # of people going to each business
@@ -23822,7 +23874,7 @@ var App = function (_React$Component) {
             fetch(apiUrl, init).then(function (res) {
                 return res.json();
             }).then(function (goingsData) {
-                return _this9.setState(function (prevState) {
+                return _this10.setState(function (prevState) {
                     return _extends({}, prevState, {
                         memory: _extends({}, prevState.memory, {
                             goings: goingsData
@@ -23833,9 +23885,9 @@ var App = function (_React$Component) {
                     //how many people are going and if the user is going to each business
                     if (user) {
                         console.log('user is signed in, exe. fn. insertGoingData');
-                        var going = _this9.state.memory.user.going;
+                        var going = _this10.state.memory.user.going;
 
-                        _this9.insertGoingData(buses, going, goingsData);
+                        _this10.insertGoingData(buses, going, goingsData);
                     }
                 });
             });
@@ -23929,12 +23981,10 @@ var Home = exports.Home = function Home(props) {
     var value = memory.searchValue;
     var ui = state.ui;
     var popup = ui.popup;
-    var signup = ui.signup;
-    var login = ui.login;
+    var loading = ui.loading;
     var openPopup = props.openPopup;
     var signOut = props.signOut;
     var closeAll = props.closeAll;
-    var uiFns = { openPopup: openPopup, closeAll: closeAll };
     var getCurrentPosition = props.getCurrentPosition;
     var auth = props.auth;
     var getSearchValue = props.getSearchValue;
@@ -23978,6 +24028,16 @@ var Home = exports.Home = function Home(props) {
             _react2.default.createElement(
                 'div',
                 { className: 'search-wrapper' },
+                loading ? _react2.default.createElement(
+                    'div',
+                    { className: 'loading-wrapper' },
+                    _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' }),
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'sr-only' },
+                        'Loading...'
+                    )
+                ) : '',
                 _react2.default.createElement('input', { id: 'home', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
                     placeholder: 'City, state or zip' })
             ),
@@ -23998,7 +24058,7 @@ var Home = exports.Home = function Home(props) {
                 return _react2.default.createElement(
                     'div',
                     { key: i, className: 'pic-wrapper' },
-                    _react2.default.createElement('img', { onClick: openPopup, id: bus.id, className: bus.location.city, src: bus.image_url })
+                    _react2.default.createElement('img', { onClick: openPopup, id: bus.id, className: 'img', src: bus.image_url })
                 );
             }) : ''
         )
@@ -24382,7 +24442,7 @@ var Search = exports.Search = function (_React$Component) {
                             'div',
                             { className: 'search-wrapper' },
                             _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                                placeholder: 'city, state or zip' })
+                                placeholder: 'City, state or zip' })
                         ),
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(

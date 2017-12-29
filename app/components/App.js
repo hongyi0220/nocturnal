@@ -19,7 +19,8 @@ class App extends React.Component {
                 goings: null
             },
             ui: {
-                popup: false
+                popup: false,
+                loading: false
             }
         }
         this.fetchData = this.fetchData.bind(this);
@@ -38,6 +39,8 @@ class App extends React.Component {
         this.storeSearchValueInSession = this.storeSearchValueInSession.bind(this);
         this.getMapdata = this.getMapdata.bind(this);
         this.getGoingsData = this.getGoingsData.bind(this);
+        this.toggleLoading = this.toggleLoading.bind(this);
+        this.xhr = null;
     }
 
     storeSearchValueInSession(value) {
@@ -133,29 +136,32 @@ class App extends React.Component {
         const id = e.target.id;
         clearTimeout(this.timeout);
         const location = this.state.memory.searchValue;
-
-        // this.timeout = setTimeout(() => {
-        //     this.fetchData(location, null);
-        //     if (id === 'home') this.props.history.push('/search');
-        //     this.setState({
-        //         ...this.state,
-        //         memory: {
-        //             ...this.state.memory,
-        //             searchValue: ''
-        //         }
-        //     });
-        //
-        //     this.storeSearchValueInSession(location);
-        //
-        // }, 500);
-
         const key = e.key;
+        this.xhr.abort();
+        console.log('xhr.readyState, xhr.status:',this.xhr.readyState,this.xhr.status);
+        const search = () => {
+            this.fetchData(location, null);
+
+            this.setState({
+                ...this.state,
+                memory: {
+                    ...this.state.memory,
+                    searchValue: ''
+                },
+                ui: {
+                    ...this.state.ui,
+                    loading: true
+                }
+            });
+
+            this.storeSearchValueInSession(location);
+        }
+
+        // this.timeout = setTimeout(search, 500);
 
         if (key === 'Enter') {
-            this.fetchData(location, null);
-            // setTimeout(() => {this.props.history.push('/search')}, 10000);
-            // this.props.history.push('/search');
-
+            // clearTimeout(this.timeout);
+            search();
         }
     }
 
@@ -380,36 +386,87 @@ class App extends React.Component {
         // if (location) query = 'location=' + location;
         // if (searchValue) query = 'location=' + searchValue;
         console.log('query @ fetchData:', query);
-        const headers = new Headers({
-            'Authorization': 'Bearer ' + key,
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
-            'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
-        });
-        const init = {
-            method: 'GET',
-            headers: headers,
-            mode: 'cors'
-        }
 
-        fetch(cors + url + '?term=bars&' + query, init)
-        .then(res => res.json())
-        .then(resJson => this.setState(prevState => ({
-            ...prevState,
-            businesses: resJson.businesses
-        }), () => {
 
-            const buses = resJson.businesses;
-            if (location || position) {
-                console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-                this.makeMarkerData(buses);
-                this.makeInfowindowContent(buses);
-                this.getGoingsData(buses);
-                this.props.history.push('/search');
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', cors + url + '?term=bars&' + query, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + key);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
+        xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
+        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+        xhr.onload = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const resJson = JSON.parse(xhr.response);
+
+                    this.setState(prevState => ({
+                        ...prevState,
+                        businesses: resJson.businesses
+                    }), () => {
+
+                        const buses = resJson.businesses;
+                        if (location || position) {
+                            console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
+
+                            this.makeMarkerData(buses);
+                            this.toggleLoading();
+                            this.makeInfowindowContent(buses);
+                            this.getGoingsData(buses);
+                            this.props.history.push('/search');
+                        }
+
+                    })
+                } else if (xhr.status >= 400) {
+                    console.log('xhr error:', xhr.status);
+                }
             }
 
-        }));
+        };
+        xhr.send();
+        this.xhr = xhr;
 
+        // const headers = new Headers({
+        //     'Authorization': 'Bearer ' + key,
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
+        //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+        // });
+        // const init = {
+        //     method: 'GET',
+        //     headers: headers,
+        //     mode: 'cors'
+        // }
+        //
+        // fetch(cors + url + '?term=bars&' + query, init)
+        // .then(res => res.json())
+        // .then(resJson => this.setState(prevState => ({
+        //     ...prevState,
+        //     businesses: resJson.businesses
+        // }), () => {
+        //
+        //     const buses = resJson.businesses;
+        //     if (location || position) {
+        //         console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
+        //
+        //         this.makeMarkerData(buses);
+        //         this.toggleLoading();
+        //         this.makeInfowindowContent(buses);
+        //         this.getGoingsData(buses);
+        //         this.props.history.push('/search');
+        //     }
+        //
+        // }));
+
+    }
+
+    toggleLoading() {
+        this.setState(prevState => ({
+            ...prevState,
+            ui: {
+                ...prevState.ui,
+                loading: prevState.ui.loading ? false : true
+            }
+        }));
     }
 
     getGoingsData(buses) {
