@@ -23399,7 +23399,8 @@ var App = function (_React$Component) {
                 goings: null
             },
             ui: {
-                popup: false
+                popup: false,
+                fauxUi: false
             }
         };
         _this.fetchData = _this.fetchData.bind(_this);
@@ -23655,9 +23656,10 @@ var App = function (_React$Component) {
                         business: bus,
                         searchValue: cityName
                     }),
-                    ui: {
-                        popup: true
-                    }
+                    ui: _extends({}, prevState.ui, {
+                        popup: true,
+                        fauxUi: prevState.ui.fauxUi ? false : true
+                    })
                 });
             });
             this.storeSearchValueInSession(cityName);
@@ -24283,6 +24285,7 @@ var Search = exports.Search = function (_React$Component) {
             for (var i = 0; i < markers.length; i++) {
                 _loop(i);
             }
+            console.log('popup?', popup);
             // This opens the marker & fill it with content when the link inside a popup is clicked
             if (popup) {
                 var name = business.name;
@@ -24350,7 +24353,6 @@ var Search = exports.Search = function (_React$Component) {
             var handleSearch = this.props.handleSearch;
             var value = p_state.memory.searchValue;
 
-            // const going = state.memory.user.going;
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
 

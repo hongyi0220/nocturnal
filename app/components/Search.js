@@ -186,6 +186,7 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
+        console.log('popup?',popup);
         // This opens the marker & fill it with content when the link inside a popup is clicked
         if (popup) {
             const name = business.name;
@@ -265,7 +266,7 @@ export class Search extends React.Component {
                     <div className='results-container'>
                         <div className='search-wrapper'>
                             <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                                placeholder='city, state or zip'/>
+                                placeholder='City, state or zip'/>
                         </div>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} className='bus-container' ref='busC'>

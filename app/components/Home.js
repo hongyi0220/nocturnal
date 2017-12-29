@@ -15,7 +15,6 @@ export const Home = props => {
     const openPopup = props.openPopup;
     const signOut = props.signOut;
     const closeAll = props.closeAll;
-    const uiFns = { openPopup, closeAll };
     const getCurrentPosition = props.getCurrentPosition;
     const auth = props.auth;
     const getSearchValue = props.getSearchValue;
@@ -46,7 +45,7 @@ export const Home = props => {
             <div className='pics-container'>
                 {businesses ? businesses.map((bus, i) =>
                     <div key={i} className='pic-wrapper'>
-                        <img onClick={openPopup} id={bus.id} className={bus.location.city} src={bus.image_url}/>
+                        <img onClick={openPopup} id={bus.id} className='img' src={bus.image_url}/>
                     </div>) : ''}
             </div>
         </div>
