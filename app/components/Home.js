@@ -9,18 +9,19 @@ export const Home = props => {
     const user = memory.user;
     const value = memory.searchValue;
     const ui = state.ui;
-    const popUp = ui.pic;
+    const popup = ui.popup;
     const signup = ui.signup;
     const login = ui.login;
-    const openHomeUi = props.openHomeUi;
+    const openPopup = props.openPopup;
     const signOut = props.signOut;
     const closeAll = props.closeAll;
-    const uiFns = { openHomeUi, closeAll };
+    const uiFns = { openPopup, closeAll };
     const getCurrentPosition = props.getCurrentPosition;
     const auth = props.auth;
     const getSearchValue = props.getSearchValue;
     const handleSearch = props.handleSearch;
     const history = props.history;
+    const fetchData = props.fetchData;
 
     return (
         <div className='home-container'>
@@ -32,7 +33,7 @@ export const Home = props => {
                     <div className='link-wrapper'><a onClick={signOut}>Sign out</a></div>
                 </div>
             : ''}
-            {popUp ? <PopUp state={state}/> : ''}
+            {popup ? <PopUp fetchData={fetchData} state={state}/> : ''}
             <div className='search-container'>
                 <div className='search-wrapper'>
                     <input id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
@@ -45,7 +46,7 @@ export const Home = props => {
             <div className='pics-container'>
                 {businesses ? businesses.map((bus, i) =>
                     <div key={i} className='pic-wrapper'>
-                        <img onClick={openHomeUi} id={bus.id} className={bus.location.city} src={bus.image_url}/>
+                        <img onClick={openPopup} id={bus.id} className={bus.location.city} src={bus.image_url}/>
                     </div>) : ''}
             </div>
         </div>

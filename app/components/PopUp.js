@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export const PopUp = props => {
     const state = props.state;
-    let bus
+    const location = state.memory.searchValue;
+    const fetchData = props.fetchData;
+    let bus;
     if (state) bus = state.memory.business;
     const yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png',
                        'three_half.png', 'four.png', 'four_half.png', 'five.png'];
@@ -19,9 +21,7 @@ export const PopUp = props => {
                 <div className="price-category-wrapper">{bus.price}&nbsp;{bus.categories[0].title}</div>
             </div>
 
-            {/* <div className='img-wrapper'><img src={bus ? bus.image_url : ''}/></div>
-            <div className='name-wrapper'>{bus ? bus.name : ''}</div> */}
-            <div className='link-wrapper'><Link className='popup-link' to='/search'>Take me here</Link></div>
+            <div className='link-wrapper'><a onClick={e => {e.preventDefault(); fetchData(location)}} className='popup-link'>Take me here</a></div>
         </div>
     );
 }

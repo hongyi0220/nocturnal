@@ -5,9 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export const Nav = props => {
-    // const uiFns = props.uiFns;
-    // const openHomeUi = uiFns.openHomeUi;
-    // const closeAll = uiFns.closeAll;
+
     return (
         <div className='nav-container'>
             <Link to='/'><img src='/img/logo.png'/></Link>

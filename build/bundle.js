@@ -474,65 +474,6 @@ module.exports = emptyFunction;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(48);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(52);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(31);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(54);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(57);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(60);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(62);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(32);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(18);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(68);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(70);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(72);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(73);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -629,7 +570,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -687,6 +628,65 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(48);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(52);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(31);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(54);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(57);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(60);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(62);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(32);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(18);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(68);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(70);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(72);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(73);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /***/ }),
 /* 9 */
@@ -1010,7 +1010,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(8);
+  var invariant = __webpack_require__(7);
   var warning = __webpack_require__(12);
   var ReactPropTypesSecret = __webpack_require__(15);
   var loggedTypeFailures = {};
@@ -2396,7 +2396,7 @@ var _reactDom = __webpack_require__(39);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
 
 var _App = __webpack_require__(76);
 
@@ -2424,7 +2424,7 @@ _reactDom2.default.render(_react2.default.createElement(
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(7),n=__webpack_require__(11),p=__webpack_require__(5),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
+var m=__webpack_require__(6),n=__webpack_require__(11),p=__webpack_require__(5),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function A(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}A.prototype.isReactComponent={};A.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?y("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};A.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function B(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}function C(){}C.prototype=A.prototype;var D=B.prototype=new C;D.constructor=B;m(D,A.prototype);D.isPureReactComponent=!0;function E(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}var F=E.prototype=new C;F.constructor=E;m(F,A.prototype);F.unstable_isAsyncReactComponent=!0;F.render=function(){return this.props.children};var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
@@ -2460,9 +2460,9 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(7);
+var _assign = __webpack_require__(6);
 var emptyObject = __webpack_require__(11);
-var invariant = __webpack_require__(8);
+var invariant = __webpack_require__(7);
 var warning = __webpack_require__(12);
 var emptyFunction = __webpack_require__(5);
 var checkPropTypes = __webpack_require__(14);
@@ -3866,7 +3866,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),l=__webpack_require__(22),B=__webpack_require__(7),C=__webpack_require__(5),ba=__webpack_require__(23),da=__webpack_require__(24),ea=__webpack_require__(25),fa=__webpack_require__(26),ia=__webpack_require__(27),D=__webpack_require__(11);
+var aa=__webpack_require__(0),l=__webpack_require__(22),B=__webpack_require__(6),C=__webpack_require__(5),ba=__webpack_require__(23),da=__webpack_require__(24),ea=__webpack_require__(25),fa=__webpack_require__(26),ia=__webpack_require__(27),D=__webpack_require__(11);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -4164,10 +4164,10 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(0);
-var invariant = __webpack_require__(8);
+var invariant = __webpack_require__(7);
 var warning = __webpack_require__(12);
 var ExecutionEnvironment = __webpack_require__(22);
-var _assign = __webpack_require__(7);
+var _assign = __webpack_require__(6);
 var emptyFunction = __webpack_require__(5);
 var EventListener = __webpack_require__(23);
 var getActiveElement = __webpack_require__(24);
@@ -19781,9 +19781,9 @@ BrowserRouter.propTypes = {
 
 
 var emptyFunction = __webpack_require__(5);
-var invariant = __webpack_require__(8);
+var invariant = __webpack_require__(7);
 var warning = __webpack_require__(12);
-var assign = __webpack_require__(7);
+var assign = __webpack_require__(6);
 
 var ReactPropTypesSecret = __webpack_require__(15);
 var checkPropTypes = __webpack_require__(14);
@@ -20331,7 +20331,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 var emptyFunction = __webpack_require__(5);
-var invariant = __webpack_require__(8);
+var invariant = __webpack_require__(7);
 var ReactPropTypesSecret = __webpack_require__(15);
 
 module.exports = function() {
@@ -23364,7 +23364,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
 
 var _Home = __webpack_require__(77);
 
@@ -23399,12 +23399,11 @@ var App = function (_React$Component) {
                 goings: null
             },
             ui: {
-                pic: false,
-                popupLink: false
+                popup: false
             }
         };
         _this.fetchData = _this.fetchData.bind(_this);
-        _this.openHomeUi = _this.openHomeUi.bind(_this);
+        _this.openPopup = _this.openPopup.bind(_this);
         _this.closeAll = _this.closeAll.bind(_this);
         _this.signOut = _this.signOut.bind(_this);
         _this.getCurrentPosition = _this.getCurrentPosition.bind(_this);
@@ -23418,6 +23417,7 @@ var App = function (_React$Component) {
         _this.timeout = null;
         _this.storeSearchValueInSession = _this.storeSearchValueInSession.bind(_this);
         _this.getMapdata = _this.getMapdata.bind(_this);
+        _this.getGoingsData = _this.getGoingsData.bind(_this);
         return _this;
     }
 
@@ -23518,41 +23518,31 @@ var App = function (_React$Component) {
     }, {
         key: 'handleSearch',
         value: function handleSearch(e) {
-            var _this3 = this;
-
             var id = e.target.id;
             clearTimeout(this.timeout);
             var location = this.state.memory.searchValue;
 
-            this.timeout = setTimeout(function () {
-                _this3.fetchData(location);
-                if (id === 'home') _this3.props.history.push('/search');
-                _this3.setState(_extends({}, _this3.state, {
-                    memory: _extends({}, _this3.state.memory, {
-                        searchValue: ''
-                    })
-                }));
-
-                _this3.storeSearchValueInSession(location);
-                // const apiUrl = 'http://localhost:8080/searchvalue';
-                // const init = {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({searchValue: location})
-                // }
-                // fetch(apiUrl, init);
-            }, 500);
+            // this.timeout = setTimeout(() => {
+            //     this.fetchData(location, null);
+            //     if (id === 'home') this.props.history.push('/search');
+            //     this.setState({
+            //         ...this.state,
+            //         memory: {
+            //             ...this.state.memory,
+            //             searchValue: ''
+            //         }
+            //     });
+            //
+            //     this.storeSearchValueInSession(location);
+            //
+            // }, 500);
 
             var key = e.key;
 
-            // const businesses = this.state.businesses;
-            // const going = this.state.memory.user.going;
-
             if (key === 'Enter') {
-                this.fetchData(location);
-                this.props.history.push('/search');
+                this.fetchData(location, null);
+                // setTimeout(() => {this.props.history.push('/search')}, 10000);
+                // this.props.history.push('/search');
             }
         }
     }, {
@@ -23568,7 +23558,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getUserData',
         value: function getUserData() {
-            var _this4 = this;
+            var _this3 = this;
 
             var url = 'http://localhost:8080/user';
             // const businesses = this.state.businesses;
@@ -23576,9 +23566,9 @@ var App = function (_React$Component) {
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this4.setState(_extends({}, _this4.state, {
+                return _this3.setState(_extends({}, _this3.state, {
                     authenticated: true,
-                    memory: _extends({}, _this4.state.memory, {
+                    memory: _extends({}, _this3.state.memory, {
                         user: resJson
                     })
                 }));
@@ -23588,7 +23578,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getCurrentPosition',
         value: function getCurrentPosition() {
-            var _this5 = this;
+            var _this4 = this;
 
             var options = {
                 enableHighAccuracy: true,
@@ -23600,29 +23590,31 @@ var App = function (_React$Component) {
             };
             if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
-                _this5.setState(_extends({}, _this5.state, {
-                    memory: _extends({}, _this5.state.memory, {
-                        currentPosition: {
-                            lat: parseFloat(pos.coords.latitude),
-                            lng: parseFloat(pos.coords.longitude)
-                        }
+                var coords = {
+                    lat: parseFloat(pos.coords.latitude),
+                    lng: parseFloat(pos.coords.longitude)
+                };
+
+                _this4.setState(_extends({}, _this4.state, {
+                    memory: _extends({}, _this4.state.memory, {
+                        currentPosition: coords
                     })
                 }), function () {
-                    _this5.fetchData(null);
-                    _this5.props.history.push('/search');
+                    _this4.fetchData(null, coords);
+                    // this.props.history.push('/search');
                 });
             }, error, options);
         }
     }, {
         key: 'signOut',
         value: function signOut() {
-            var _this6 = this;
+            var _this5 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                return _this6.setState(_extends({}, _this6.state, {
+                return _this5.setState(_extends({}, _this5.state, {
                     authenticated: false,
-                    memory: _extends({}, _this6.state.memory, {
+                    memory: _extends({}, _this5.state.memory, {
                         user: null
                     })
                 }));
@@ -23637,47 +23629,40 @@ var App = function (_React$Component) {
 
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
-                    pic: false,
-                    popupLinke: false
+                    popup: false
                 })
             }));
         }
     }, {
-        key: 'openHomeUi',
-        value: function openHomeUi(e) {
-            var _this7 = this;
+        key: 'openPopup',
+        value: function openPopup(e) {
+            var _this6 = this;
 
             var id = e.target.id;
-            var cityName = e.target.className;
+            // const cityName = e.target.className;
 
-            var business = function business(id) {
-                return _this7.state.businesses.filter(function (bus) {
+            var findBusiness = function findBusiness(id) {
+                return _this6.state.businesses.filter(function (bus) {
                     return bus.id === id;
                 })[0];
             };
+            var bus = findBusiness(id);
+            var cityName = bus.location.city;
+            console.log('bus, cityName @ openPopup:', bus, cityName);
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
                     memory: _extends({}, prevState.memory, {
-                        business: business(id),
+                        business: bus,
                         searchValue: cityName
                     }),
-                    ui: _extends({}, prevState.ui, {
-                        pic: true,
-                        popupLink: true
-                    })
+                    ui: {
+                        popup: true
+                    }
                 });
             });
             this.storeSearchValueInSession(cityName);
-            // const apiUrl = 'http://localhost:8080/searchvalue';
-            // const init = {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({searchValue: cityName})
-            // }
-            // fetch(apiUrl, init);
-            this.fetchData(cityName);
+
+            // this.fetchData(cityName, null);
             e.stopPropagation();
         }
     }, {
@@ -23713,6 +23698,7 @@ var App = function (_React$Component) {
                 return console.log('markers after makingMarkers:', markers);
             });
 
+            // Send markers to be stored in session in case of a page refresh
             var apiUrl = 'http://localhost:8080/markers';
             var init = {
                 method: 'POST',
@@ -23726,7 +23712,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getMapdata',
         value: function getMapdata() {
-            var _this8 = this;
+            var _this7 = this;
 
             var apiUrl = 'http://localhost:8080/mapdata';
             var apiInit = {
@@ -23734,89 +23720,56 @@ var App = function (_React$Component) {
                 headers: {
                     'Accept': 'application/json'
                 }
-            };
-            if (window.performance) if (performance.navigation.type === 1) {
-                this.getUserData();
-                console.log('page relaoded');
-                fetch(apiUrl, apiInit).then(function (res) {
-                    return res.json();
-                }).then(function (resJson) {
-                    var markers = resJson.markers;
-                    var _searchValue = resJson.searchValue;
-                    // console.log(_searchValue)
-                    _this8.setState(function (prevState) {
-                        return _extends({}, prevState, {
-                            memory: _extends({}, prevState.memory, {
-                                markers: markers,
-                                searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
-                            })
-                        });
-                    }, function () {
-                        _this8.fetchData(_searchValue);
+                // if (window.performance)
+                // if (performance.navigation.type === 1) {
+
+            };console.log('page relaoded');
+            fetch(apiUrl, apiInit).then(function (res) {
+                return res.json();
+            }).then(function (resJson) {
+                var markers = resJson.markers;
+                var searchValue = resJson.searchValue;
+                // console.log(_searchValue)
+                _this7.setState(function (prevState) {
+                    return _extends({}, prevState, {
+                        memory: _extends({}, prevState.memory, {
+                            markers: markers,
+                            searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : searchValue
+                        })
                     });
+                }, function () {
+                    _this7.fetchData(searchValue, null);
                 });
-            }
+            });
+            // }
         }
     }, {
         key: 'fetchData',
-        value: function fetchData(location) {
-            var _this9 = this;
+        value: function fetchData(location, position) {
+            var _this8 = this;
 
             var cors = 'https://cors-anywhere.herokuapp.com/';
             // 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
 
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
-            var currentPosition = this.state.memory.currentPosition;
-            var user = this.state.memory.user;
-            var searchValue = this.state.memory.searchValue;
-            // const apiUrl = 'http://localhost:8080/mapdata';
-            // const apiInit = {
-            //     method: 'GET',
-            //     headers: {
-            //         'Accept': 'application/json'
-            //     }
-            // }
-            //      const getMapdata = () => {
-            //         // if (window.performance)
-            //         // if (performance.navigation.type === 1) {
-            //             this.getUserData();
-            //             console.log('page relaoded');
-            //             fetch(apiUrl, apiInit)
-            //             .then(res => res.json())
-            //             .then(resJson => {
-            //                 const markers = resJson.markers;
-            //                 const _searchValue = resJson.searchValue;
-            // console.log(_searchValue)
-            //                 this.setState(prevState => ({
-            //                     ...prevState,
-            //                     memory: {
-            //                         ...prevState.memory,
-            //                         markers: markers,
-            //                         searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : _searchValue
-            //                     }
-            //                 }), () => {
-            //                     this.fetchData(_searchValue);
-            //
-            //                 });
-            //             });
-            //         //     return true;
-            //         // }
-            //         // return false;
-            //     }
-            //     if(performance.navigation.type === 1) getMapdata();
+            // const currentPosition = this.state.memory.currentPosition;
+            // const user = this.state.memory.user;
+            // let searchValue = this.state.memory.searchValue;
 
-            console.log('searchValue outside of reloadFetch:', searchValue);
+            // console.log('searchValue outside of reloadFetch:', searchValue);
             var city = function city() {
                 var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
-                // cities = ['chicago'];
+
                 var i = Math.floor(Math.random() * cities.length);
                 return cities[i];
             };
-            var query = currentPosition ? 'latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng : 'location=' + city();
+            var query = void 0;
+            if (location) query = 'location=' + location;else if (position) query = 'latitude=' + position.lat + '&longitude=' + position.lng;else query = 'location=' + city();
+            // currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng) : ('location=' + city());
 
-            if (location) query = 'location=' + location;
-            if (searchValue) query = 'location=' + searchValue;
+            // if (location) query = 'location=' + location;
+            // if (searchValue) query = 'location=' + searchValue;
             console.log('query @ fetchData:', query);
             var headers = new Headers({
                 'Authorization': 'Bearer ' + key,
@@ -23833,53 +23786,67 @@ var App = function (_React$Component) {
             fetch(cors + url + '?term=bars&' + query, init).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
-                return _this9.setState(function (prevState) {
+                return _this8.setState(function (prevState) {
                     return _extends({}, prevState, {
                         businesses: resJson.businesses
                     });
                 }, function () {
 
                     var buses = resJson.businesses;
+                    if (location || position) {
+                        console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
+                        _this8.makeMarkerData(buses);
+                        _this8.makeInfowindowContent(buses);
+                        _this8.getGoingsData(buses);
+                        _this8.props.history.push('/search');
+                    }
+                });
+            });
+        }
+    }, {
+        key: 'getGoingsData',
+        value: function getGoingsData(buses) {
+            var _this9 = this;
 
-                    _this9.makeMarkerData(buses);
-                    _this9.makeInfowindowContent(buses);
-
-                    // Get data on # of people going to each business
-                    var apiUrl = 'http://localhost:8080/goingsdata';
-                    var init = {
-                        method: 'get',
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    };
-                    fetch(apiUrl, init).then(function (res) {
-                        return res.json();
-                    }).then(function (goingsData) {
-                        return _this9.setState(function (prevState) {
-                            return _extends({}, prevState, {
-                                memory: _extends({}, prevState.memory, {
-                                    goings: goingsData
-                                })
-                            });
-                        }, function () {
-                            // When doing a search (of a location), insert data on who's going into businesses data
-                            if (location && user) {
-                                var going = _this9.state.memory.user.going;
-
-                                _this9.insertGoingData(buses, going, goingsData);
-                            }
-                        });
+            var user = this.state.memory.user;
+            // Get data on # of people going to each business
+            var apiUrl = 'http://localhost:8080/goingsdata';
+            var init = {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            };
+            fetch(apiUrl, init).then(function (res) {
+                return res.json();
+            }).then(function (goingsData) {
+                return _this9.setState(function (prevState) {
+                    return _extends({}, prevState, {
+                        memory: _extends({}, prevState.memory, {
+                            goings: goingsData
+                        })
                     });
+                }, function () {
+                    // When user is signed-in, modify 'businesses' data in state to include
+                    //how many people are going and if the user is going to each business
+                    if (user) {
+                        console.log('user is signed in, exe. fn. insertGoingData');
+                        var going = _this9.state.memory.user.going;
+
+                        _this9.insertGoingData(buses, going, goingsData);
+                    }
                 });
             });
         }
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.getMapdata();
-            if (performance.navigation.type !== 1) {
+            this.getUserData();
+            if (window.performance) if (performance.navigation.type === 1) {
+                this.getMapdata();
+            } else {
                 console.log('not reload, fetching data(null)');
-                this.fetchData(null);
+                this.fetchData(null, null);
             }
         }
     }, {
@@ -23893,7 +23860,7 @@ var App = function (_React$Component) {
         value: function render() {
             var state = this.state;
             var auth = this.state.authenticated;
-            var openHomeUi = this.openHomeUi;
+            var openPopup = this.openPopup;
             var closeAll = this.closeAll;
             var signOut = this.signOut;
             var getCurrentPosition = this.getCurrentPosition;
@@ -23902,6 +23869,7 @@ var App = function (_React$Component) {
             var handleSearch = this.handleSearch;
             var history = this.props.history;
             var toggleGoing = this.toggleGoing;
+            var fetchData = this.fetchData;
 
             return _react2.default.createElement(
                 'div',
@@ -23914,9 +23882,9 @@ var App = function (_React$Component) {
                                 toggleGoing: toggleGoing, state: state });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-                            return _react2.default.createElement(_Home.Home, { auth: auth, getCurrentPosition: getCurrentPosition,
+                            return _react2.default.createElement(_Home.Home, { fetchData: fetchData, auth: auth, getCurrentPosition: getCurrentPosition,
                                 getSearchValue: getSearchValue, closeAll: closeAll, signOut: signOut,
-                                history: history, handleSearch: handleSearch, openHomeUi: openHomeUi, state: state });
+                                history: history, handleSearch: handleSearch, openPopup: openPopup, state: state });
                         } })
                 ),
                 _react2.default.createElement('input', { id: 'auth', type: 'hidden' })
@@ -23947,7 +23915,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _PopUp = __webpack_require__(78);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23958,18 +23926,19 @@ var Home = exports.Home = function Home(props) {
     var user = memory.user;
     var value = memory.searchValue;
     var ui = state.ui;
-    var popUp = ui.pic;
+    var popup = ui.popup;
     var signup = ui.signup;
     var login = ui.login;
-    var openHomeUi = props.openHomeUi;
+    var openPopup = props.openPopup;
     var signOut = props.signOut;
     var closeAll = props.closeAll;
-    var uiFns = { openHomeUi: openHomeUi, closeAll: closeAll };
+    var uiFns = { openPopup: openPopup, closeAll: closeAll };
     var getCurrentPosition = props.getCurrentPosition;
     var auth = props.auth;
     var getSearchValue = props.getSearchValue;
     var handleSearch = props.handleSearch;
     var history = props.history;
+    var fetchData = props.fetchData;
 
     return _react2.default.createElement(
         'div',
@@ -24000,7 +23969,7 @@ var Home = exports.Home = function Home(props) {
                 )
             )
         ) : '',
-        popUp ? _react2.default.createElement(_PopUp.PopUp, { state: state }) : '',
+        popup ? _react2.default.createElement(_PopUp.PopUp, { fetchData: fetchData, state: state }) : '',
         _react2.default.createElement(
             'div',
             { className: 'search-container' },
@@ -24027,7 +23996,7 @@ var Home = exports.Home = function Home(props) {
                 return _react2.default.createElement(
                     'div',
                     { key: i, className: 'pic-wrapper' },
-                    _react2.default.createElement('img', { onClick: openHomeUi, id: bus.id, className: bus.location.city, src: bus.image_url })
+                    _react2.default.createElement('img', { onClick: openPopup, id: bus.id, className: bus.location.city, src: bus.image_url })
                 );
             }) : ''
         )
@@ -24050,12 +24019,14 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(6);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { Link } from 'react-router-dom';
 
 var PopUp = exports.PopUp = function PopUp(props) {
     var state = props.state;
+    var location = state.memory.searchValue;
+    var fetchData = props.fetchData;
     var bus = void 0;
     if (state) bus = state.memory.business;
     var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
@@ -24092,8 +24063,10 @@ var PopUp = exports.PopUp = function PopUp(props) {
             'div',
             { className: 'link-wrapper' },
             _react2.default.createElement(
-                _reactRouterDom.Link,
-                { className: 'popup-link', to: '/search' },
+                'a',
+                { onClick: function onClick(e) {
+                        e.preventDefault();fetchData(location);
+                    }, className: 'popup-link' },
                 'Take me here'
             )
         )
@@ -24120,7 +24093,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Nav = __webpack_require__(80);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24204,7 +24177,7 @@ var Search = exports.Search = function (_React$Component) {
         }
     }, {
         key: 'initMap',
-        value: function initMap(coords, markers, infowindowContent, business, isPopupOpen) {
+        value: function initMap(coords, markers, infowindowContent, business, popup) {
             var map;
             var infowindow;
             var bounds;
@@ -24281,11 +24254,6 @@ var Search = exports.Search = function (_React$Component) {
             infowindow = new google.maps.InfoWindow();
             var marker = void 0;
             var busContainers = document.getElementsByClassName('bus-container');
-            //
-            // const popupLinks = document.getElementsByClassName('popup-link');
-            //
-
-            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
 
             var _loop = function _loop(i) {
                 var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
@@ -24315,14 +24283,15 @@ var Search = exports.Search = function (_React$Component) {
             for (var i = 0; i < markers.length; i++) {
                 _loop(i);
             }
-            // This opens the marker & fill it with content when a popup link is clicked at homepage
-            if (isPopupOpen) {
+            // This opens the marker & fill it with content when the link inside a popup is clicked
+            if (popup) {
                 var name = business.name;
-                // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
-                var _marker = markers.filter(function (marker) {
-                    return marker[0] === name;
+                var _marker = markers.filter(function (mkr) {
+                    return mkr[0] === name;
                 })[0];
-
+                console.log('marker found @ initMap if(popup):', _marker);
+                var title = _marker[0];
+                console.log('title of marker:', title);
                 var infoContent = void 0;
                 for (var i = 0; i < infowindowContent.length; i++) {
                     if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -24331,54 +24300,29 @@ var Search = exports.Search = function (_React$Component) {
                     }
                 }
 
+                console.log('infoContent @ initMap if(popup):', infoContent);
                 var position = new google.maps.LatLng(_marker[1], _marker[2]);
 
-                // bounds.extend(position);
-                var title = _marker[0];
                 _marker = new google.maps.Marker({
                     position: position,
                     map: map,
                     title: title
                 });
+                console.log('marker after new google.maps.Marker:', _marker);
 
-                // const infowindow = new google.maps.InfoWindow();
                 infowindow.setContent(infoContent);
                 infowindow.open(map, _marker);
+                console.log('Everything in if(popup) is run!');
             }
         }
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {}
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var p_state = this.props.state;
             var currentPosition = p_state.memory.currentPosition;
-            // const businesses = p_state.businesses;
-            // const going = p_state.memory.user.going;
+
             if (!currentPosition) this.getCoords();
-            // this.insertGoingData(businesses, going);
-
-
-            // const coords = this.state.coords;
-            // const p_state = this.props.state;
-            //
-            // // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
-            // const markers = p_state.memory.markers;
-            //
-            // const infowindowContent = p_state.memory.infowindowContent;
-            // const isPopupOpen = p_state.ui.popupLink;
-            //
-            // const business = p_state.memory.business;
-            // if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
-
-            // this.setState({
-            //     busContainers: document.getElementsByClassName('bus-container')
-            // });
         }
-
-        // If/when component's prop updates, draw the map
-
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
@@ -24386,35 +24330,26 @@ var Search = exports.Search = function (_React$Component) {
 
             var coords = this.state.coords || p_state.memory.currentPosition;
 
-            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
             var markers = p_state.memory.markers;
 
             var infowindowContent = p_state.memory.infowindowContent;
-            var isPopupOpen = p_state.ui.popupLink;
+            var popup = p_state.ui.popup;
 
             var business = p_state.memory.business;
-            if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
-
-            // const businesses = p_state.businesses;
-            // const going = p_state.memory.user.going;
-            //
-            //
-
-            // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
-
-            // this.insertGoingData(businesses, going)
+            // If/when component's prop updates, draw the map
+            if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
         }
     }, {
         key: 'render',
         value: function render() {
-            // p_state: parent's state
+            // p_state -> parent's state
             var p_state = this.props.state;
             var businesses = p_state.businesses;
             var auth = p_state.authenticated;
             var getSearchValue = this.props.getSearchValue;
             var handleSearch = this.props.handleSearch;
             var value = p_state.memory.searchValue;
-            //
+
             // const going = state.memory.user.going;
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
@@ -24523,14 +24458,12 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = exports.Nav = function Nav(props) {
-    // const uiFns = props.uiFns;
-    // const openHomeUi = uiFns.openHomeUi;
-    // const closeAll = uiFns.closeAll;
+
     return _react2.default.createElement(
         'div',
         { className: 'nav-container' },

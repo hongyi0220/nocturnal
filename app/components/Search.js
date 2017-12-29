@@ -64,7 +64,7 @@ export class Search extends React.Component {
         // , () => this.createMap()(coords, markers)
     }
 
-    initMap(coords, markers, infowindowContent, business, isPopupOpen) {
+    initMap(coords, markers, infowindowContent, business, popup) {
         var map;
         var infowindow;
         var bounds;
@@ -160,11 +160,7 @@ export class Search extends React.Component {
         infowindow = new google.maps.InfoWindow();
         let marker;
         const busContainers = document.getElementsByClassName('bus-container');
-        //
-        // const popupLinks = document.getElementsByClassName('popup-link');
-        //
 
-        // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
             bounds.extend(position);
@@ -190,12 +186,13 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
-        // This opens the marker & fill it with content when a popup link is clicked at homepage
-        if (isPopupOpen) {
+        // This opens the marker & fill it with content when the link inside a popup is clicked
+        if (popup) {
             const name = business.name;
-            // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
-            let marker = markers.filter(marker => marker[0] === name)[0];
-
+            let marker = markers.filter(mkr => mkr[0] === name)[0];
+            console.log('marker found @ initMap if(popup):', marker)
+            const title = marker[0];
+            console.log('title of marker:', title);
             let infoContent;
             for (let i = 0; i < infowindowContent.length; i++) {
                 if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -204,90 +201,56 @@ export class Search extends React.Component {
                 }
             }
 
+            console.log('infoContent @ initMap if(popup):', infoContent);
             const position = new google.maps.LatLng(marker[1], marker[2]);
 
-            // bounds.extend(position);
-            const title = marker[0];
+
             marker = new google.maps.Marker({
                 position: position,
                 map: map,
                 title: title
             });
+            console.log('marker after new google.maps.Marker:', marker);
 
-
-            // const infowindow = new google.maps.InfoWindow();
             infowindow.setContent(infoContent);
             infowindow.open(map, marker);
+            console.log('Everything in if(popup) is run!');
         }
-    }
-
-    componentWillMount() {
-
     }
 
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
-        // const businesses = p_state.businesses;
-        // const going = p_state.memory.user.going;
+
         if (!currentPosition) this.getCoords();
-        // this.insertGoingData(businesses, going);
-
-
-        // const coords = this.state.coords;
-        // const p_state = this.props.state;
-        //
-        // // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
-        // const markers = p_state.memory.markers;
-        //
-        // const infowindowContent = p_state.memory.infowindowContent;
-        // const isPopupOpen = p_state.ui.popupLink;
-        //
-        // const business = p_state.memory.business;
-        // if (this.refs.busc) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
-
-        // this.setState({
-        //     busContainers: document.getElementsByClassName('bus-container')
-        // });
     }
 
-    // If/when component's prop updates, draw the map
+
     componentDidUpdate() {
         const p_state = this.props.state;
 
         const coords = this.state.coords || p_state.memory.currentPosition;
 
-
-        // NEED MARKERS VALUE WHEN REFRESHING /SEARCH PAGE
         const markers = p_state.memory.markers;
 
         const infowindowContent = p_state.memory.infowindowContent;
-        const isPopupOpen = p_state.ui.popupLink;
+        const popup = p_state.ui.popup;
 
         const business = p_state.memory.business;
-        if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, isPopupOpen);
+            // If/when component's prop updates, draw the map
+        if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
 
-
-        // const businesses = p_state.businesses;
-        // const going = p_state.memory.user.going;
-        //
-//
-
-        // if (isPopupLinkOpen) this.showBusDetail(coords, business, markers, infowindowContent);
-
-        // this.insertGoingData(businesses, going)
     }
 
     render() {
-        // p_state: parent's state
+        // p_state -> parent's state
         const p_state = this.props.state;
         const businesses = p_state.businesses;
         const auth = p_state.authenticated;
         const getSearchValue = this.props.getSearchValue;
         const handleSearch = this.props.handleSearch;
         const value = p_state.memory.searchValue;
-        //
-        // const going = state.memory.user.going;
+
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
 
@@ -319,15 +282,6 @@ export class Search extends React.Component {
                                 </div>
                                     : <div><Link to='/'>Sign in</Link> to RSVP</div>}
 
-                                {/* <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
-                                    {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                        id={bus.id} className='not-wrapper'>going&nbsp;</div>
-                                        : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                        id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
-                                    {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
-                                </div> */}
-                                    {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                        id={bus.id} */}
                             </div>
                         ) : ''}
                     </div>
