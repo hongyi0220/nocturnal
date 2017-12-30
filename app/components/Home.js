@@ -20,6 +20,7 @@ export const Home = props => {
     const handleSearch = props.handleSearch;
     const history = props.history;
     const fetchData = props.fetchData;
+    const toggleLoading = props.toggleLoading;
 
     return (
         <div className='home-container'>
@@ -31,7 +32,7 @@ export const Home = props => {
                     <div className='link-wrapper'><a onClick={signOut}>Sign out</a></div>
                 </div>
             : ''}
-            {popup ? <PopUp fetchData={fetchData} state={state}/> : ''}
+            {popup ? <PopUp toggleLoading={toggleLoading} fetchData={fetchData} state={state}/> : ''}
             <div className='search-container'>
                 <div className='search-wrapper'>
                     {loading ? <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>

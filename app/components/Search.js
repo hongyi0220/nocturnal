@@ -186,14 +186,14 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
-        console.log('popup?',popup);
+    // console.log('popup?',popup);
         // This opens the marker & fill it with content when the link inside a popup is clicked
         if (popup) {
             const name = business.name;
             let marker = markers.filter(mkr => mkr[0] === name)[0];
-            console.log('marker found @ initMap if(popup):', marker)
+        // console.log('marker found @ initMap if(popup):', marker)
             const title = marker[0];
-            console.log('title of marker:', title);
+        // console.log('title of marker:', title);
             let infoContent;
             for (let i = 0; i < infowindowContent.length; i++) {
                 if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -202,7 +202,7 @@ export class Search extends React.Component {
                 }
             }
 
-            console.log('infoContent @ initMap if(popup):', infoContent);
+        // console.log('infoContent @ initMap if(popup):', infoContent);
             const position = new google.maps.LatLng(marker[1], marker[2]);
 
 
@@ -211,11 +211,11 @@ export class Search extends React.Component {
                 map: map,
                 title: title
             });
-            console.log('marker after new google.maps.Marker:', marker);
+        // console.log('marker after new google.maps.Marker:', marker);
 
             infowindow.setContent(infoContent);
             infowindow.open(map, marker);
-            console.log('Everything in if(popup) is run!');
+        // console.log('Everything in if(popup) is run!');
         }
     }
 
@@ -224,6 +224,16 @@ export class Search extends React.Component {
         const currentPosition = p_state.memory.currentPosition;
 
         if (!currentPosition) this.getCoords();
+        this.props.toggleLoading();
+        // const g = document.getElementById('g-signin-wrapper');
+        // console.log('g:',g);
+        // const div = document.createElement('div');
+        // // <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-longtitle="true"></div>
+        //
+        // div.className = "g-signin2";
+        // div.setAttribute('data-onsuccess','onSignIn');
+        // const gDiv = g.appendChild(div);
+
     }
 
 
@@ -238,6 +248,7 @@ export class Search extends React.Component {
         const popup = p_state.ui.popup;
 
         const business = p_state.memory.business;
+
             // If/when component's prop updates, draw the map
         if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
 
@@ -254,10 +265,12 @@ export class Search extends React.Component {
 
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
+        // const toggleLoading = this.props.toggleLoading;
 
         return (
             <div onClick={e => e.stopPropagation()} className='search-page-container'>
                 <Nav/>
+                <div id='g-signin-wrapper'></div>
                 <div className='backdrop-wrapper'>
                     backdrop goes here
                 </div>

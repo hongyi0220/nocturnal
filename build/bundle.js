@@ -23493,14 +23493,12 @@ var App = function (_React$Component) {
             var isGoing = function isGoing() {
                 for (var i = 0; i < going.length; i++) {
                     if (going[i] === place_id) {
-                        //
-                        //
+
                         going.splice(i, 1);
                         // if (goings[place_id])
                         goings[place_id] -= 1;
                         // else goings[place_id] = 1;
-                        //
-                        //
+
                         return true;
                     }
                 }
@@ -23586,6 +23584,7 @@ var App = function (_React$Component) {
         value: function getCurrentPosition() {
             var _this5 = this;
 
+            // this.toggleLoading();
             var options = {
                 enableHighAccuracy: true,
                 timeout: 5000,
@@ -23632,7 +23631,7 @@ var App = function (_React$Component) {
     }, {
         key: 'closeAll',
         value: function closeAll(e) {
-
+            console.log(e.target, 'closeAll\'d');
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
                     popup: false
@@ -23661,9 +23660,9 @@ var App = function (_React$Component) {
                         business: bus,
                         searchValue: cityName
                     }),
-                    ui: {
+                    ui: _extends({}, prevState.ui, {
                         popup: true
-                    }
+                    })
                 });
             });
             this.storeSearchValueInSession(cityName);
@@ -23784,6 +23783,7 @@ var App = function (_React$Component) {
             xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
             xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE');
             xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+            this.xhr = xhr;
             xhr.onload = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
@@ -23797,70 +23797,47 @@ var App = function (_React$Component) {
 
                             var buses = resJson.businesses;
                             if (location || position) {
+                                console.log('location, position', Boolean(location), Boolean(position));
                                 console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-
-                                _this9.makeMarkerData(buses);
                                 _this9.toggleLoading();
+                                _this9.makeMarkerData(buses);
                                 _this9.makeInfowindowContent(buses);
                                 _this9.getGoingsData(buses);
                                 _this9.props.history.push('/search');
                             }
                         });
                     } else if (xhr.status >= 400) {
-                        console.log('xhr error:', xhr.status);
+                        console.log('xhr error; code: ', xhr.status);
                     }
                 }
             };
             xhr.send();
-            this.xhr = xhr;
-
-            // const headers = new Headers({
-            //     'Authorization': 'Bearer ' + key,
-            //     'Access-Control-Allow-Origin': '*',
-            //     'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
-            //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
-            // });
-            // const init = {
-            //     method: 'GET',
-            //     headers: headers,
-            //     mode: 'cors'
-            // }
-            //
-            // fetch(cors + url + '?term=bars&' + query, init)
-            // .then(res => res.json())
-            // .then(resJson => this.setState(prevState => ({
-            //     ...prevState,
-            //     businesses: resJson.businesses
-            // }), () => {
-            //
-            //     const buses = resJson.businesses;
-            //     if (location || position) {
-            //         console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-            //
-            //         this.makeMarkerData(buses);
-            //         this.toggleLoading();
-            //         this.makeInfowindowContent(buses);
-            //         this.getGoingsData(buses);
-            //         this.props.history.push('/search');
-            //     }
-            //
-            // }));
         }
     }, {
         key: 'toggleLoading',
         value: function toggleLoading() {
-            this.setState(function (prevState) {
-                return _extends({}, prevState, {
-                    ui: _extends({}, prevState.ui, {
-                        loading: prevState.ui.loading ? false : true
-                    })
-                });
+            var _this10 = this;
+
+            console.log('loading indicator toggled');
+            // this.setState(prevState => ({
+            //     ...prevState,
+            //     ui: {
+            //         ...prevState.ui,
+            //         loading: prevState.ui.loading ? false : true
+            //     }
+            // }), () => console.log('loading after toggleLoading:', this.state.ui.loading));
+            this.setState(_extends({}, this.state, {
+                ui: _extends({}, this.state.ui, {
+                    loading: this.state.ui.loading ? false : true
+                })
+            }), function () {
+                return console.log('loading after toggleLoading:', _this10.state.ui.loading);
             });
         }
     }, {
         key: 'getGoingsData',
         value: function getGoingsData(buses) {
-            var _this10 = this;
+            var _this11 = this;
 
             var user = this.state.memory.user;
             // Get data on # of people going to each business
@@ -23874,7 +23851,7 @@ var App = function (_React$Component) {
             fetch(apiUrl, init).then(function (res) {
                 return res.json();
             }).then(function (goingsData) {
-                return _this10.setState(function (prevState) {
+                return _this11.setState(function (prevState) {
                     return _extends({}, prevState, {
                         memory: _extends({}, prevState.memory, {
                             goings: goingsData
@@ -23885,9 +23862,9 @@ var App = function (_React$Component) {
                     //how many people are going and if the user is going to each business
                     if (user) {
                         console.log('user is signed in, exe. fn. insertGoingData');
-                        var going = _this10.state.memory.user.going;
+                        var going = _this11.state.memory.user.going;
 
-                        _this10.insertGoingData(buses, going, goingsData);
+                        _this11.insertGoingData(buses, going, goingsData);
                     }
                 });
             });
@@ -23899,7 +23876,7 @@ var App = function (_React$Component) {
             if (window.performance) if (performance.navigation.type === 1) {
                 this.getMapdata();
             } else {
-                console.log('not reload, fetching data(null)');
+                console.log('not reload, fetching data(null, null)');
                 this.fetchData(null, null);
             }
         }
@@ -23924,6 +23901,7 @@ var App = function (_React$Component) {
             var history = this.props.history;
             var toggleGoing = this.toggleGoing;
             var fetchData = this.fetchData;
+            var toggleLoading = this.toggleLoading;
 
             return _react2.default.createElement(
                 'div',
@@ -23933,11 +23911,11 @@ var App = function (_React$Component) {
                     null,
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
                             return _react2.default.createElement(_Search.Search, { getSearchValue: getSearchValue, handleSearch: handleSearch,
-                                toggleGoing: toggleGoing, state: state });
+                                toggleGoing: toggleGoing, state: state, toggleLoading: toggleLoading });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
                             return _react2.default.createElement(_Home.Home, { fetchData: fetchData, auth: auth, getCurrentPosition: getCurrentPosition,
-                                getSearchValue: getSearchValue, closeAll: closeAll, signOut: signOut,
+                                toggleLoading: toggleLoading, getSearchValue: getSearchValue, closeAll: closeAll, signOut: signOut,
                                 history: history, handleSearch: handleSearch, openPopup: openPopup, state: state });
                         } })
                 ),
@@ -23991,6 +23969,7 @@ var Home = exports.Home = function Home(props) {
     var handleSearch = props.handleSearch;
     var history = props.history;
     var fetchData = props.fetchData;
+    var toggleLoading = props.toggleLoading;
 
     return _react2.default.createElement(
         'div',
@@ -24021,7 +24000,7 @@ var Home = exports.Home = function Home(props) {
                 )
             )
         ) : '',
-        popup ? _react2.default.createElement(_PopUp.PopUp, { fetchData: fetchData, state: state }) : '',
+        popup ? _react2.default.createElement(_PopUp.PopUp, { toggleLoading: toggleLoading, fetchData: fetchData, state: state }) : '',
         _react2.default.createElement(
             'div',
             { className: 'search-container' },
@@ -24093,6 +24072,7 @@ var PopUp = exports.PopUp = function PopUp(props) {
     if (state) bus = state.memory.business;
     var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
     var yelpstarsIndex = bus.rating * 2 - 1;
+    var toggleLoading = props.toggleLoading;
     return _react2.default.createElement(
         'div',
         { className: 'popUp' },
@@ -24127,7 +24107,7 @@ var PopUp = exports.PopUp = function PopUp(props) {
             _react2.default.createElement(
                 'a',
                 { onClick: function onClick(e) {
-                        e.preventDefault();fetchData(location);
+                        e.stopPropagation(); /*toggleLoading();*/fetchData(location, null);
                     }, className: 'popup-link' },
                 'Take me here'
             )
@@ -24385,6 +24365,15 @@ var Search = exports.Search = function (_React$Component) {
             var currentPosition = p_state.memory.currentPosition;
 
             if (!currentPosition) this.getCoords();
+            this.props.toggleLoading();
+            // const g = document.getElementById('g-signin-wrapper');
+            // console.log('g:',g);
+            // const div = document.createElement('div');
+            // // <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-longtitle="true"></div>
+            //
+            // div.className = "g-signin2";
+            // div.setAttribute('data-onsuccess','onSignIn');
+            // const gDiv = g.appendChild(div);
         }
     }, {
         key: 'componentDidUpdate',
@@ -24399,6 +24388,7 @@ var Search = exports.Search = function (_React$Component) {
             var popup = p_state.ui.popup;
 
             var business = p_state.memory.business;
+
             // If/when component's prop updates, draw the map
             if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
         }
@@ -24415,6 +24405,7 @@ var Search = exports.Search = function (_React$Component) {
 
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
+            // const toggleLoading = this.props.toggleLoading;
 
             return _react2.default.createElement(
                 'div',
@@ -24422,6 +24413,7 @@ var Search = exports.Search = function (_React$Component) {
                         return e.stopPropagation();
                     }, className: 'search-page-container' },
                 _react2.default.createElement(_Nav.Nav, null),
+                _react2.default.createElement('div', { id: 'g-signin-wrapper' }),
                 _react2.default.createElement(
                     'div',
                     { className: 'backdrop-wrapper' },

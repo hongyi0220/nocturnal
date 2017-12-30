@@ -104,14 +104,12 @@ class App extends React.Component {
         const isGoing = () => {
             for (let i = 0; i < going.length; i++) {
                 if (going[i] === place_id) {
-                    //
-                    //
+
                     going.splice(i, 1);
                     // if (goings[place_id])
                     goings[place_id] -= 1;
                     // else goings[place_id] = 1;
-                    //
-                    //
+
                     return true;
                 }
             }
@@ -194,6 +192,7 @@ class App extends React.Component {
     }
 
     getCurrentPosition() {
+        // this.toggleLoading();
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
@@ -242,7 +241,7 @@ class App extends React.Component {
     }
 
     closeAll(e) {
-
+        console.log(e.target, 'closeAll\'d');
         this.setState({
             ...this.state,
             ui: {
@@ -270,6 +269,7 @@ class App extends React.Component {
                 searchValue: cityName
             },
             ui: {
+                ...prevState.ui,
                 popup: true
             }
         }));
@@ -394,6 +394,7 @@ class App extends React.Component {
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
         xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
         xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+        this.xhr = xhr;
         xhr.onload = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -406,10 +407,10 @@ class App extends React.Component {
 
                         const buses = resJson.businesses;
                         if (location || position) {
+                            console.log('location, position', Boolean(location), Boolean(position));
                             console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-
-                            this.makeMarkerData(buses);
                             this.toggleLoading();
+                            this.makeMarkerData(buses);
                             this.makeInfowindowContent(buses);
                             this.getGoingsData(buses);
                             this.props.history.push('/search');
@@ -417,56 +418,31 @@ class App extends React.Component {
 
                     })
                 } else if (xhr.status >= 400) {
-                    console.log('xhr error:', xhr.status);
+                    console.log('xhr error; code: ', xhr.status);
                 }
             }
 
         };
         xhr.send();
-        this.xhr = xhr;
-
-        // const headers = new Headers({
-        //     'Authorization': 'Bearer ' + key,
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Methods': 'HEAD, GET, POST, PUT, PATCH, DELETE',
-        //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
-        // });
-        // const init = {
-        //     method: 'GET',
-        //     headers: headers,
-        //     mode: 'cors'
-        // }
-        //
-        // fetch(cors + url + '?term=bars&' + query, init)
-        // .then(res => res.json())
-        // .then(resJson => this.setState(prevState => ({
-        //     ...prevState,
-        //     businesses: resJson.businesses
-        // }), () => {
-        //
-        //     const buses = resJson.businesses;
-        //     if (location || position) {
-        //         console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
-        //
-        //         this.makeMarkerData(buses);
-        //         this.toggleLoading();
-        //         this.makeInfowindowContent(buses);
-        //         this.getGoingsData(buses);
-        //         this.props.history.push('/search');
-        //     }
-        //
-        // }));
 
     }
 
     toggleLoading() {
-        this.setState(prevState => ({
-            ...prevState,
+        console.log('loading indicator toggled');
+        // this.setState(prevState => ({
+        //     ...prevState,
+        //     ui: {
+        //         ...prevState.ui,
+        //         loading: prevState.ui.loading ? false : true
+        //     }
+        // }), () => console.log('loading after toggleLoading:', this.state.ui.loading));
+        this.setState({
+            ...this.state,
             ui: {
-                ...prevState.ui,
-                loading: prevState.ui.loading ? false : true
+                ...this.state.ui,
+                loading: this.state.ui.loading ? false : true
             }
-        }));
+        }, () => console.log('loading after toggleLoading:', this.state.ui.loading));
     }
 
     getGoingsData(buses) {
@@ -506,7 +482,7 @@ class App extends React.Component {
         if (performance.navigation.type === 1) {
             this.getMapdata();
         } else {
-            console.log('not reload, fetching data(null)');
+            console.log('not reload, fetching data(null, null)');
             this.fetchData(null, null);
         }
 
@@ -530,14 +506,15 @@ class App extends React.Component {
         const history = this.props.history;
         const toggleGoing =  this.toggleGoing;
         const fetchData = this.fetchData;
+        const toggleLoading = this.toggleLoading;
 
         return (
             <div onClick={closeAll} className='container'>
                 <Switch>
                     <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch}
-                        toggleGoing={toggleGoing} state={state}/>}/>
+                        toggleGoing={toggleGoing} state={state} toggleLoading={toggleLoading}/>}/>
                     <Route path='/' render={() => <Home fetchData={fetchData} auth={auth} getCurrentPosition={getCurrentPosition}
-                        getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
+                        toggleLoading={toggleLoading} getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
                         history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
                 </Switch>
                 <input id='auth' type='hidden'/>
