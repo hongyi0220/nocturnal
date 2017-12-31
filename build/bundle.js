@@ -24391,12 +24391,12 @@ var Search = exports.Search = function (_React$Component) {
 
             // const clientHeight = this.getClientHeight();
             var height = p_state.ui.height;
-            var searchPageContainer = document.querySelector('.search-page-container');
-            var mapResultsContainer = document.querySelector('.map-results-container');
+            var searchPageContainer = document.querySelector('.search-page-container') || this.refs.searchPageContainer;
+            var mapResultsContainer = document.querySelector('.map-results-container') || this.refs.mapResultsContainer;
 
             searchPageContainer.style.height = height + 'px';
             searchPageContainer.style.border = "3px solid yellow";
-            mapResultsContainer.style.height = height - 75 - 50 + 'px';
+            mapResultsContainer.style.height = height - 75 - 55 + 'px';
         }
     }, {
         key: 'componentDidUpdate',
@@ -24427,7 +24427,7 @@ var Search = exports.Search = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { onClick: function onClick(e) {
+                { ref: 'searchPageContainer', onClick: function onClick(e) {
                         return e.stopPropagation();
                     }, className: 'search-page-container' },
                 _react2.default.createElement(_Nav.Nav, null),
@@ -24439,7 +24439,7 @@ var Search = exports.Search = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'map-results-container' },
+                    { ref: 'mapResultsContainer', className: 'map-results-container' },
                     _react2.default.createElement(
                         'div',
                         { ref: 'map', className: 'map-wrapper' },
@@ -24451,6 +24451,7 @@ var Search = exports.Search = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'search-wrapper' },
+                            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
                             _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
                                 placeholder: 'Location' })
                         ),

@@ -229,12 +229,12 @@ export class Search extends React.Component {
 
         // const clientHeight = this.getClientHeight();
         const height = p_state.ui.height;
-        const searchPageContainer = document.querySelector('.search-page-container');
-        const mapResultsContainer = document.querySelector('.map-results-container');
+        const searchPageContainer = document.querySelector('.search-page-container') || this.refs.searchPageContainer;
+        const mapResultsContainer = document.querySelector('.map-results-container') || this.refs.mapResultsContainer;
 
         searchPageContainer.style.height = height + 'px';
         searchPageContainer.style.border = "3px solid yellow";
-        mapResultsContainer.style.height = height - 75 - 50 + 'px';
+        mapResultsContainer.style.height = height - 75 - 55 + 'px';
 
     }
 
@@ -263,16 +263,17 @@ export class Search extends React.Component {
         // const toggleLoading = this.props.toggleLoading;
 
         return (
-            <div onClick={e => e.stopPropagation()} className='search-page-container'>
+            <div ref='searchPageContainer' onClick={e => e.stopPropagation()} className='search-page-container'>
                 <Nav/>
                 <div id='g-signin-wrapper'></div>
                 <div className='backdrop-wrapper'>
                     backdrop goes here
                 </div>
-                <div className='map-results-container'>
+                <div ref='mapResultsContainer' className='map-results-container'>
                     <div ref='map' className='map-wrapper'>map goes here</div>
                     <div className='results-container'>
                         <div className='search-wrapper'>
+                            <i className="fa fa-search" aria-hidden="true"></i>
                             <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
                                 placeholder='Location'/>
                         </div>

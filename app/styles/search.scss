@@ -8,11 +8,13 @@
         img {
             border: 1px solid white;
             width: 50px;
+            min-width: 50px;
         }
     }
     .backdrop-wrapper {
         border: 2px solid yellow;
         height: 75px;
+        min-height: 75px;
     }
     .map-results-container {
         // height: 100%;
@@ -34,9 +36,32 @@
             width: 30%;
             overflow: scroll;
             flex-grow: 3;
-            .bus-container {
-                .going-button {
+            &:nth-child(2n) {
+                margin-top: 40px;
+            }
+            .search-wrapper {
+                position: fixed;
+                top: 125px;
+                border: 3px dotted red;
+                input {
+                    padding-left: 1.6em;
+                    height: 40px;
+                    border: none;
+                    // width: 100%;
+                }
+                // margin-bottom: 40px;
+                i.fa-search {
+                    line-height: 40px;
+                    position: absolute;
+                    margin-left: 0.5em;
+                    color: gray;
+                    z-index: 10;
+                }
+            }
 
+            .bus-container {
+
+                .going-button {
                     border: 1px solid black;
                     .not-wrapper, .yet-wrapper {
                         display: inline-block;

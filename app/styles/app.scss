@@ -3,6 +3,8 @@ $fa-font-path: "~font-awesome/fonts";
 @import '~font-awesome/scss/font-awesome.scss';
 @import 'search';
 * {
+    margin: 0;
+    border: 0;
     box-sizing: border-box;
     .container {
         border: 5px solid green;
