@@ -23421,6 +23421,7 @@ var App = function (_React$Component) {
         _this.getGoingsData = _this.getGoingsData.bind(_this);
         _this.toggleLoading = _this.toggleLoading.bind(_this);
         _this.xhr = null;
+        _this.getClientHeight = _this.getClientHeight.bind(_this);
         return _this;
     }
 
@@ -23870,6 +23871,11 @@ var App = function (_React$Component) {
             });
         }
     }, {
+        key: 'getClientHeight',
+        value: function getClientHeight() {
+            return document.documentElement.clientHeight || window.innerHeight;
+        }
+    }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.getUserData();
@@ -23883,6 +23889,16 @@ var App = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var clientHeight = this.getClientHeight();
+            var height = clientHeight + 'px';
+            var container = document.querySelector('.container');
+            var homeContainer = document.querySelector('.home-container');
+            // const popup = document.querySelector('.popUp');
+
+            container.style.height = height;
+            homeContainer.style.height = height;
+            // popup.style.height = height;
+
             var input = document.getElementById('auth');
             input.onchange = this.getUserData;
         }
@@ -23977,9 +23993,9 @@ var Home = exports.Home = function Home(props) {
         _react2.default.createElement(
             'div',
             { className: 'logo-wrapper' },
-            _react2.default.createElement('img', { src: '/img/logo.png' })
+            _react2.default.createElement('img', { src: '/img/logo/logo-blue.png' })
         ),
-        _react2.default.createElement('div', { className: 'g-signin2', 'data-onsuccess': 'onSignIn', 'data-width': '200', 'data-longtitle': 'true' }),
+        _react2.default.createElement('div', { className: 'g-signin2', 'data-theme': 'dark', 'data-onsuccess': 'onSignIn', 'data-width': '200' /*data-longtitle="true"*/ }),
         auth ? _react2.default.createElement(
             'div',
             { className: 'user-container' },
@@ -23990,6 +24006,7 @@ var Home = exports.Home = function Home(props) {
                 user.given_name,
                 '!'
             ),
+            '\xA0',
             _react2.default.createElement(
                 'div',
                 { className: 'link-wrapper' },
@@ -24010,15 +24027,11 @@ var Home = exports.Home = function Home(props) {
                 loading ? _react2.default.createElement(
                     'div',
                     { className: 'loading-wrapper' },
-                    _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' }),
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'sr-only' },
-                        'Loading...'
-                    )
+                    _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' })
                 ) : '',
+                _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
                 _react2.default.createElement('input', { id: 'home', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                    placeholder: 'City, state or zip' })
+                    placeholder: 'Location' })
             ),
             _react2.default.createElement(
                 'div',
@@ -24078,13 +24091,19 @@ var PopUp = exports.PopUp = function PopUp(props) {
         { className: 'popUp' },
         _react2.default.createElement(
             'div',
-            { className: 'info-content' },
+            { onClick: function onClick(e) {
+                    return e.stopPropagation();
+                }, className: 'info-container' },
             _react2.default.createElement(
                 'h3',
                 null,
                 bus.name
             ),
-            _react2.default.createElement('img', { style: { width: 100 + 'px' }, src: bus.image_url }),
+            _react2.default.createElement(
+                'div',
+                { className: 'img-wrapper' },
+                _react2.default.createElement('img', { src: bus.image_url })
+            ),
             _react2.default.createElement(
                 'div',
                 { className: 'stars-wrapper' },
@@ -24098,18 +24117,22 @@ var PopUp = exports.PopUp = function PopUp(props) {
                 { className: 'price-category-wrapper' },
                 bus.price,
                 '\xA0',
-                bus.categories[0].title
-            )
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'link-wrapper' },
+                bus.categories[0].title,
+                '\xA0',
+                _react2.default.createElement('div', { className: 'seperator' }),
+                '\xA0',
+                bus.categories[1] ? bus.categories[1].title : ''
+            ),
             _react2.default.createElement(
-                'a',
-                { onClick: function onClick(e) {
-                        e.stopPropagation(); /*toggleLoading();*/fetchData(location, null);
-                    }, className: 'popup-link' },
-                'Take me here'
+                'div',
+                { className: 'link-wrapper' },
+                _react2.default.createElement(
+                    'a',
+                    { onClick: function onClick(e) {
+                            e.stopPropagation();fetchData(location, null);
+                        }, className: 'popup-link' },
+                    'Take me here'
+                )
             )
         )
     );
@@ -24325,16 +24348,16 @@ var Search = exports.Search = function (_React$Component) {
             for (var i = 0; i < markers.length; i++) {
                 _loop(i);
             }
-            console.log('popup?', popup);
+            // console.log('popup?',popup);
             // This opens the marker & fill it with content when the link inside a popup is clicked
             if (popup) {
                 var name = business.name;
                 var _marker = markers.filter(function (mkr) {
                     return mkr[0] === name;
                 })[0];
-                console.log('marker found @ initMap if(popup):', _marker);
+                // console.log('marker found @ initMap if(popup):', marker)
                 var title = _marker[0];
-                console.log('title of marker:', title);
+                // console.log('title of marker:', title);
                 var infoContent = void 0;
                 for (var i = 0; i < infowindowContent.length; i++) {
                     if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -24343,7 +24366,7 @@ var Search = exports.Search = function (_React$Component) {
                     }
                 }
 
-                console.log('infoContent @ initMap if(popup):', infoContent);
+                // console.log('infoContent @ initMap if(popup):', infoContent);
                 var position = new google.maps.LatLng(_marker[1], _marker[2]);
 
                 _marker = new google.maps.Marker({
@@ -24351,11 +24374,11 @@ var Search = exports.Search = function (_React$Component) {
                     map: map,
                     title: title
                 });
-                console.log('marker after new google.maps.Marker:', _marker);
+                // console.log('marker after new google.maps.Marker:', marker);
 
                 infowindow.setContent(infoContent);
                 infowindow.open(map, _marker);
-                console.log('Everything in if(popup) is run!');
+                // console.log('Everything in if(popup) is run!');
             }
         }
     }, {
@@ -24434,7 +24457,7 @@ var Search = exports.Search = function (_React$Component) {
                             'div',
                             { className: 'search-wrapper' },
                             _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                                placeholder: 'City, state or zip' })
+                                placeholder: 'Location' })
                         ),
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(
@@ -24524,7 +24547,7 @@ var Nav = exports.Nav = function Nav(props) {
         _react2.default.createElement(
             _reactRouterDom.Link,
             { to: '/' },
-            _react2.default.createElement('img', { src: '/img/logo.png' })
+            _react2.default.createElement('img', { src: '/img/logo/logo-transparent.png' })
         )
     );
 };

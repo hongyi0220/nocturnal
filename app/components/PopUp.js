@@ -14,15 +14,22 @@ export const PopUp = props => {
     return (
         <div className='popUp'>
 
-            <div className="info-content">
+            <div onClick={e => e.stopPropagation()} className="info-container">
                 <h3>{bus.name}</h3>
-                <img style={{width:100 + 'px'}} src={bus.image_url}/>
+                <div className='img-wrapper'><img src={bus.image_url}/></div>
                 <div className="stars-wrapper"><img src={'/img/yelpstars/' + yelpstars[yelpstarsIndex] }/>&nbsp;
                 {bus.review_count}&nbsp;reviews</div>
-                <div className="price-category-wrapper">{bus.price}&nbsp;{bus.categories[0].title}</div>
+                <div className="price-category-wrapper">
+                    {bus.price}&nbsp;
+                    {bus.categories[0].title}
+                    &nbsp;<div className='seperator'></div>&nbsp;
+                    {bus.categories[1] ? bus.categories[1].title : ''}
+                </div>
+                <div className='link-wrapper'>
+                    <a onClick={e => {e.stopPropagation(); fetchData(location, null)}} className='popup-link'>Take me here</a>
+                </div>
             </div>
 
-            <div className='link-wrapper'><a onClick={e => {e.stopPropagation(); /*toggleLoading();*/ fetchData(location, null)}} className='popup-link'>Take me here</a></div>
         </div>
     );
 }

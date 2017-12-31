@@ -24,11 +24,12 @@ export const Home = props => {
 
     return (
         <div className='home-container'>
-            <div className='logo-wrapper'><img src='/img/logo.png'/></div>
-            <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-longtitle="true"></div>
+            <div className='logo-wrapper'><img src='/img/logo/logo-blue.png'/></div>
+
+            <div className="g-signin2" data-theme="dark" data-onsuccess="onSignIn" data-width="200" /*data-longtitle="true"*/></div>
             {auth ?
                 <div className='user-container'>
-                    <div className='greeting-wrapper'>Hello, {user.given_name}!</div>
+                    <div className='greeting-wrapper'>Hello, {user.given_name}!</div>&nbsp;
                     <div className='link-wrapper'><a onClick={signOut}>Sign out</a></div>
                 </div>
             : ''}
@@ -36,9 +37,10 @@ export const Home = props => {
             <div className='search-container'>
                 <div className='search-wrapper'>
                     {loading ? <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
-                        <span className="sr-only">Loading...</span></div> : ''}
+                        </div> : ''}
+                    <i className="fa fa-search" aria-hidden="true"></i>
                     <input id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                        placeholder='City, state or zip'/>
+                        placeholder='Location'/>
                 </div>
                 <div className='button-wrapper'>
                     <div onClick={getCurrentPosition} className='button'><i className="fa fa-location-arrow" aria-hidden="true"></i></div>

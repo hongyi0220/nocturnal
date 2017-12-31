@@ -4,4 +4,9 @@ $fa-font-path: "~font-awesome/fonts";
 @import 'search';
 * {
     box-sizing: border-box;
+    .container {
+        border: 5px solid green;
+        min-width: 300px;
+        min-height: $min-height;
+    }
 }

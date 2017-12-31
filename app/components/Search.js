@@ -279,7 +279,7 @@ export class Search extends React.Component {
                     <div className='results-container'>
                         <div className='search-wrapper'>
                             <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                                placeholder='City, state or zip'/>
+                                placeholder='Location'/>
                         </div>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} className='bus-container' ref='busC'>

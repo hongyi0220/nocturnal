@@ -21,3 +21,14 @@ function onSignIn(googleUser) {
     // .then(resJson => console.log(resJson))
     .catch(e => console.log(e));
 }
+// function renderButton() {
+//       gapi.signin2.render('g-signin2', {
+//         'scope': 'profile email',
+//         'width': 240,
+//         'height': 50,
+//         'longtitle': true,
+//         'theme': 'dark',
+//         'onsuccess': onSignIn,
+//         'onfailure': null
+//       });
+//     }

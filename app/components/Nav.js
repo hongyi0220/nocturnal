@@ -8,7 +8,7 @@ export const Nav = props => {
 
     return (
         <div className='nav-container'>
-            <Link to='/'><img src='/img/logo.png'/></Link>
+            <Link to='/'><img src='/img/logo/logo-transparent.png'/></Link>
             {/* <div class="g-signin2" data-onsuccess="onSignIn"></div> */}
         </div>
     );

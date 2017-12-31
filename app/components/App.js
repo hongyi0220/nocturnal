@@ -41,6 +41,7 @@ class App extends React.Component {
         this.getGoingsData = this.getGoingsData.bind(this);
         this.toggleLoading = this.toggleLoading.bind(this);
         this.xhr = null;
+        this.getClientHeight = this.getClientHeight.bind(this);
     }
 
     storeSearchValueInSession(value) {
@@ -476,6 +477,10 @@ class App extends React.Component {
         }));
     }
 
+    getClientHeight() {
+        return document.documentElement.clientHeight || window.innerHeight;
+    }
+
     componentWillMount() {
         this.getUserData();
         if (window.performance)
@@ -489,6 +494,16 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        const clientHeight = this.getClientHeight();
+        const height = clientHeight + 'px';
+        const container = document.querySelector('.container');
+        const homeContainer = document.querySelector('.home-container');
+        // const popup = document.querySelector('.popUp');
+
+        container.style.height = height;
+        homeContainer.style.height = height;
+        // popup.style.height = height;
+
         const input = document.getElementById('auth');
         input.onchange = this.getUserData;
     }
