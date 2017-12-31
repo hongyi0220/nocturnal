@@ -24037,11 +24037,7 @@ var Home = exports.Home = function Home(props) {
                 _react2.default.createElement(
                     'div',
                     { onClick: getCurrentPosition, className: 'button' },
-                    loading ? _react2.default.createElement(
-                        'div',
-                        { className: 'loading-wrapper' },
-                        _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' })
-                    ) : _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
+                    loading ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' }) : _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
                 )
             )
         ),
@@ -24396,8 +24392,11 @@ var Search = exports.Search = function (_React$Component) {
             // const clientHeight = this.getClientHeight();
             var height = p_state.ui.height;
             var searchPageContainer = document.querySelector('.search-page-container');
-            searchPageContainer.style.height = height;
+            var mapResultsContainer = document.querySelector('.map-results-container');
+
+            searchPageContainer.style.height = height + 'px';
             searchPageContainer.style.border = "3px solid yellow";
+            mapResultsContainer.style.height = height - 75 - 50 + 'px';
         }
     }, {
         key: 'componentDidUpdate',

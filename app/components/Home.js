@@ -43,10 +43,10 @@ export const Home = props => {
                 <div className='button-wrapper'>
                     <div onClick={getCurrentPosition} className='button'>
                         {loading ?
-                            <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i></div>
+                            <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                             : <i className="fa fa-location-arrow" aria-hidden="true"></i>}
                     </div>
-
+                    {/*<div className='loading-wrapper'>*/}
                 </div>
             </div>
             <div className='pics-container'>

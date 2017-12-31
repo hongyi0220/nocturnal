@@ -230,8 +230,11 @@ export class Search extends React.Component {
         // const clientHeight = this.getClientHeight();
         const height = p_state.ui.height;
         const searchPageContainer = document.querySelector('.search-page-container');
-        searchPageContainer.style.height = height;
+        const mapResultsContainer = document.querySelector('.map-results-container');
+
+        searchPageContainer.style.height = height + 'px';
         searchPageContainer.style.border = "3px solid yellow";
+        mapResultsContainer.style.height = height - 75 - 50 + 'px';
 
     }
 

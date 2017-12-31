@@ -111,12 +111,13 @@
                 @include button-basics;
                 box-shadow: 0 0 1px gray;
                 background-color: $googleBlue;
-                .loading-wrapper {
-                    .fa-spinner {
-                        color: $nocturnalYellow;
-                    }
+                // .loading-wrapper {
+                i.fa-spinner {
+                    // line-height: 40px * 0.99;
+                    color: $nocturnalYellow;
                 }
-                .fa-location-arrow {
+                // }
+                i.fa-location-arrow {
                     color: white;
                 }
                 &:hover {
