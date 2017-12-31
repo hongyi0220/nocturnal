@@ -20,7 +20,8 @@ class App extends React.Component {
             },
             ui: {
                 popup: false,
-                loading: false
+                loading: false,
+                height: null
             }
         }
         this.fetchData = this.fetchData.bind(this);
@@ -478,7 +479,9 @@ class App extends React.Component {
     }
 
     getClientHeight() {
-        return document.documentElement.clientHeight || window.innerHeight;
+        const height = document.documentElement.clientHeight || window.innerHeight;
+        this.setState({...this.state, ui: {...this.state.ui, height: height}});
+        return height;
     }
 
     componentWillMount() {

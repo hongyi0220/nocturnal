@@ -1,6 +1,6 @@
 import React from 'react';
 import { PopUp } from './PopUp';
-import { Switch, Route } from 'react-router-dom';
+// import { Switch, Route } from 'react-router-dom';
 
 export const Home = props => {
     const state = props.state;
@@ -26,7 +26,7 @@ export const Home = props => {
         <div className='home-container'>
             <div className='logo-wrapper'><img src='/img/logo/logo-blue.png'/></div>
 
-            <div className="g-signin2" data-theme="dark" data-onsuccess="onSignIn" data-width="200" /*data-longtitle="true"*/></div>
+            <div className="g-signin2" data-theme="dark" data-onsuccess="onSignIn" data-width="200" data-height="40"></div>
             {auth ?
                 <div className='user-container'>
                     <div className='greeting-wrapper'>Hello, {user.given_name}!</div>&nbsp;
@@ -36,14 +36,17 @@ export const Home = props => {
             {popup ? <PopUp toggleLoading={toggleLoading} fetchData={fetchData} state={state}/> : ''}
             <div className='search-container'>
                 <div className='search-wrapper'>
-                    {loading ? <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
-                        </div> : ''}
                     <i className="fa fa-search" aria-hidden="true"></i>
                     <input id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
                         placeholder='Location'/>
                 </div>
                 <div className='button-wrapper'>
-                    <div onClick={getCurrentPosition} className='button'><i className="fa fa-location-arrow" aria-hidden="true"></i></div>
+                    <div onClick={getCurrentPosition} className='button'>
+                        {loading ?
+                            <div className='loading-wrapper'><i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i></div>
+                            : <i className="fa fa-location-arrow" aria-hidden="true"></i>}
+                    </div>
+
                 </div>
             </div>
             <div className='pics-container'>

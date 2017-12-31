@@ -40,12 +40,12 @@
         background-color: rgba(0,0,0,0.5);
         z-index: 20;
         .info-container {
+            border-radius: $softEdge;
             z-index: 20;
             position: absolute;
             height: 300px;
             width: 350px;
-            top: 50%;
-            transform: translateY(-150px);
+            top: 20%;
             left: 50%;
             transform: translateX(-175px);
             z-index: 20;
@@ -55,17 +55,15 @@
             .price-category-wrapper {
                 .seperator {
                     display: inline-block;
-                    border: 1px solid gray;
+                    border: 1px solid $seperatorGray;
                     height: .73em;
                 }
             }
-
             .img-wrapper {
                 text-align: center;
                 img {
                     height: 150px;
                 }
-
             }
             a {
                 color: $googleBlue;
@@ -78,13 +76,14 @@
     }
     .search-container {
         text-align: center;
-        // :&hover {
-        //     // box-shadow: -5px -5px 10px blue;
-        // }
+        border-radius: $softEdge;
         .search-wrapper, .button-wrapper {
             display: inline-block;
         }
         .search-wrapper {
+            border-top-left-radius: $softEdge;
+            border-bottom-left-radius: $softEdge;
+            // overflow: hidden;
             i.fa-search {
                 line-height: 40px;
                 position: absolute;
@@ -95,43 +94,29 @@
                 z-index: 10;
             }
             input {
+                // border-top-left-radius: $softEdge;
+                // border-bottom-left-radius: $softEdge;
                 width: 160px;
                 height: 40px;
                 padding-left: 1.6em;
-                // &:placeholder-shown {
-                //     color: $nocturnalYellow;
-                // }
-                // &:focus {
-                //     i.fa-search {
-                //         color: $nocturnalYellow;
-                //     }
-                // }
-
-                // &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-                //   color: rgb(112, 166, 255);
-                //   margin-left: 1em;
-                //
-                // }
-                // &::-moz-placeholder { /* Firefox 19+ */
-                //   color: $nocturnalYellow;
-                // }
-                // &:-ms-input-placeholder { /* IE 10+ */
-                //   color: $nocturnalYellow;
-                // }
-                // &:-moz-placeholder { /* Firefox 18- */
-                //   color: $nocturnalYellow;
-                // }
             }
         }
         .button-wrapper {
             .button {
+                border-top-right-radius: $softEdge;
+                border-bottom-right-radius: $softEdge;
                 margin: auto;
-                width: 40px * .979;
-                height: 40px * .979;
+                width: 40px * 0.99;
+                height: 40px * 0.99;
                 @include button-basics;
                 box-shadow: 0 0 1px gray;
                 background-color: $googleBlue;
-                .fa {
+                .loading-wrapper {
+                    .fa-spinner {
+                        color: $nocturnalYellow;
+                    }
+                }
+                .fa-location-arrow {
                     color: white;
                 }
                 &:hover {
@@ -157,6 +142,9 @@
         overflow-y: hidden;
         white-space: nowrap;
         height: 100px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         .pic-wrapper {
             // border: 1px solid blue;
             display: inline-block;

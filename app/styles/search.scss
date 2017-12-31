@@ -1,17 +1,18 @@
 @import 'variables';
 .search-page-container {
     .nav-container {
-        border: 1px solid black;
-        background: black;
+        border: 2px solid white;
+        background: $nocturnal;
         img {
-            width: 30px;
+            width: 50px;
         }
     }
     .backdrop-wrapper {
-        border: 1px solid green;
-        height: 50px;
+        border: 2px solid yellow;
+        height: 75px;
     }
     .map-results-container {
+        height: 100%;
         display: flex;
         flex-direction: row;
         border: 2px solid purple;

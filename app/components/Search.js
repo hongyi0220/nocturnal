@@ -224,34 +224,27 @@ export class Search extends React.Component {
         const currentPosition = p_state.memory.currentPosition;
 
         if (!currentPosition) this.getCoords();
+        // toggle loading to off
         this.props.toggleLoading();
-        // const g = document.getElementById('g-signin-wrapper');
-        // console.log('g:',g);
-        // const div = document.createElement('div');
-        // // <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-longtitle="true"></div>
-        //
-        // div.className = "g-signin2";
-        // div.setAttribute('data-onsuccess','onSignIn');
-        // const gDiv = g.appendChild(div);
+
+        // const clientHeight = this.getClientHeight();
+        const height = p_state.ui.height;
+        const searchPageContainer = document.querySelector('.search-page-container');
+        searchPageContainer.style.height = height;
+        searchPageContainer.style.border = "3px solid yellow";
 
     }
 
-
     componentDidUpdate() {
         const p_state = this.props.state;
-
         const coords = this.state.coords || p_state.memory.currentPosition;
-
         const markers = p_state.memory.markers;
-
         const infowindowContent = p_state.memory.infowindowContent;
         const popup = p_state.ui.popup;
-
         const business = p_state.memory.business;
 
-            // If/when component's prop updates, draw the map
+        // If/when component's prop updates, draw the map
         if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
-
     }
 
     render() {
@@ -262,7 +255,6 @@ export class Search extends React.Component {
         const getSearchValue = this.props.getSearchValue;
         const handleSearch = this.props.handleSearch;
         const value = p_state.memory.searchValue;
-
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
         // const toggleLoading = this.props.toggleLoading;
@@ -286,7 +278,6 @@ export class Search extends React.Component {
                                 <div className='name-wrapper'>{bus.name}</div>
                                 <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
-                                {/* onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}} */}
                                 {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
                                     {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
                                         id={bus.id} className='not-wrapper'>going&nbsp;</div>
