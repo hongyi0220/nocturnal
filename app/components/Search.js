@@ -14,8 +14,9 @@ export class Search extends React.Component {
         }
         // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
-        this.getCoords = this.getCoords.bind(this);
+        // this.getCoords = this.getCoords.bind(this);
         this.going = this.going.bind(this);
+        this.clearSearchText = this.clearSearchText.bind(this);
         // this.insertGoingData = this.insertGoingData.bind(this);
         // this.showBusDetail = this.showBusDetail.bind(this);
         //USE https://api.yelp.com/v3/businesses/{id} for business detail
@@ -35,34 +36,34 @@ export class Search extends React.Component {
         fetch(url, init);
     }
 
-    getCoords() {
-        const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-
-        // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
-        const searchValue = this.props.state.memory.searchValue;
-
-        const businesses = this.props.state.businesses;
-
-        //
-        //
-        const formatAddress = value => {
-            return value.trim().replace(/\s/g,'+');
-        }
-        const address = formatAddress(searchValue);
-
-        fetch(url + address + apiKey)
-        .then(res => res.json())
-        .then(resJson => {
-            //
-            const coords = resJson.results[0].geometry.location;
-
-            this.setState({
-                    coords: coords
-                });
-        });
-        // , () => this.createMap()(coords, markers)
-    }
+    // getCoords() {
+    //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+    //     const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
+    //
+    //     // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
+    //     const searchValue = this.props.state.memory.searchValue;
+    //
+    //     const businesses = this.props.state.businesses;
+    //
+    //     //
+    //     //
+    //     const formatAddress = value => {
+    //         return value.trim().replace(/\s/g,'+');
+    //     }
+    //     const address = formatAddress(searchValue);
+    //
+    //     fetch(url + address + apiKey)
+    //     .then(res => res.json())
+    //     .then(resJson => {
+    //         //
+    //         const coords = resJson.results[0].geometry.location;
+    //
+    //         this.setState({
+    //                 coords: coords
+    //             });
+    //     });
+    //     // , () => this.createMap()(coords, markers)
+    // }
 
     initMap(coords, markers, infowindowContent, business, popup) {
         var map;
@@ -177,8 +178,8 @@ export class Search extends React.Component {
 
             });
 
-            // Open infowindow when clicking on a bar in results
-            busContainers[i].addEventListener('click', ((marker, i) => {
+            // Open infowindow when hovering over a business
+            busContainers[i].addEventListener('mouseover', ((marker, i) => {
                 return () => {
                     infowindow.setContent(ifwc[i][0]);
                     infowindow.open(map, marker);
@@ -219,9 +220,15 @@ export class Search extends React.Component {
         }
     }
 
+    clearSearchText() {
+        this.refs.search.value = '';
+    }
+
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
+        // Clear search value
+        this.refs.search.value = '';
 
         // if (!currentPosition) this.getCoords();
         // toggle loading to off
@@ -265,6 +272,7 @@ export class Search extends React.Component {
         const value = p_state.memory.searchValue;
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
+        const clearSearchText = this.clearSearchText;
         // const toggleLoading = this.props.toggleLoading;
 
         return (
@@ -279,8 +287,8 @@ export class Search extends React.Component {
                     <div className='results-container'>
                         <div className='search-wrapper'>
                             <i className="fa fa-search" aria-hidden="true"></i>
-                            <input id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                                placeholder='Location'/>
+                            <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
+                                placeholder='Location' onClick={clearSearchText}/>
                         </div>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} className='bus-container' ref='busC'>

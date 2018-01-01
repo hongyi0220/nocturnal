@@ -249,6 +249,10 @@ class App extends React.Component {
             ui: {
                 ...this.state.ui,
                 popup: false
+            },
+            memory: {
+                ...this.state.memory,
+                searchValue: ''
             }
         });
     }
@@ -535,7 +539,7 @@ class App extends React.Component {
                         getClientHeight={getClientHeight} toggleGoing={toggleGoing} state={state} toggleLoading={toggleLoading}/>}/>
                     <Route path='/' render={() => <Home fetchData={fetchData} auth={auth} getCurrentPosition={getCurrentPosition}
                         toggleLoading={toggleLoading} getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
-                         history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
+                        getClientHeight={getClientHeight} history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
                 </Switch>
                 <input id='auth' type='hidden'/>
                 {/* <div>Logo made with <a href="https://
