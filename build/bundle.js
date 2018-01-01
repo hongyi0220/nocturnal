@@ -23881,8 +23881,9 @@ var App = function (_React$Component) {
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
+            var pathname = this.props.history.location.pathname;
             this.getUserData();
-            if (window.performance) if (performance.navigation.type === 1) {
+            if (window.performance) if (performance.navigation.type === 1 && pathname !== '/') {
                 this.getMapdata();
             } else {
                 console.log('not reload, fetching data(null, null)');
