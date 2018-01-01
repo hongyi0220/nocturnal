@@ -1,10 +1,10 @@
 @import 'variables';
 @import 'mixins';
 .home-container {
-    border: 5px solid pink;
+    //border: 1px solid ;
     min-width: 300px;
     min-height: $min-height;
-    border: 1px solid black;
+    //border: 1px solid ;
     background-color: $nocturnal;
 
     .logo-wrapper {
@@ -36,7 +36,7 @@
         height: 100%;
         position: absolute;
         top: 0;
-        border: 3px solid magenta;
+        //border: 1px solid ;
         background-color: rgba(0,0,0,0.5);
         z-index: 20;
         .info-container {
@@ -55,7 +55,7 @@
             .price-category-wrapper {
                 .seperator {
                     display: inline-block;
-                    border: 1px solid $seperatorGray;
+                    //border: 1px solid ;
                     height: .73em;
                 }
             }
@@ -145,7 +145,7 @@
             display: none;
         }
         .pic-wrapper {
-            // border: 1px solid blue;
+            // //border: 1px solid ;
             display: inline-block;
             &:hover {
                 cursor: pointer;

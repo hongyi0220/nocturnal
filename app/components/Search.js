@@ -148,7 +148,7 @@ export class Search extends React.Component {
                 {
                   featureType: 'water',
                   elementType: 'labels.text.fill',
-                  stylers: [{color: '#515c6d'}]
+                  stylers: [{color: 'rgb(74,138,238)'}]
                 },
                 {
                   featureType: 'water',
@@ -238,15 +238,15 @@ export class Search extends React.Component {
         // const height = p_state.ui.height;
         // console.log('height form p_state.ui.height:', height);
         const clientHeight = this.props.getClientHeight();
-        const navHeight = 55;
-        const backdropHeight = 75;
+        const navHeight = 50;
+        // const backdropHeight = 75;
         console.log('clientHeight from this.props.getClientHeight():', clientHeight);
         const searchPageContainer = this.refs.searchPageContainer;
         const mapResultsContainer = this.refs.mapResultsContainer;
 
-        searchPageContainer.style.height = clientHeight + 'px';
-        searchPageContainer.style.border = "3px solid yellow";
-        mapResultsContainer.style.height = clientHeight - backdropHeight - navHeight + 'px';
+        searchPageContainer.style.height = clientHeight * .99 + 'px';
+        // searchPageContainer.style.border = "3px solid yellow";
+        mapResultsContainer.style.height = (clientHeight - navHeight) * .98 + 'px';
 
     }
 
@@ -278,31 +278,36 @@ export class Search extends React.Component {
         return (
             <div ref='searchPageContainer' onClick={e => e.stopPropagation()} className='search-page-container'>
                 <Nav/>
-                <div id='g-signin-wrapper'></div>
+                {/* <div id='g-signin-wrapper'></div>
                 <div className='backdrop-wrapper'>
                     backdrop goes here
+                </div> */}
+                <div className='search-wrapper'>
+                    <i className="fa fa-search" aria-hidden="true"></i>
+                    <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
+                        placeholder='Location' onClick={clearSearchText}/>
                 </div>
                 <div ref='mapResultsContainer' className='map-results-container'>
                     <div ref='map' className='map-wrapper'>map goes here</div>
                     <div className='results-container'>
-                        <div className='search-wrapper'>
+                        {/* <div className='search-wrapper'>
                             <i className="fa fa-search" aria-hidden="true"></i>
                             <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
                                 placeholder='Location' onClick={clearSearchText}/>
-                        </div>
+                        </div> */}
                         {businesses ? businesses.map((bus, i) =>
-                            <div key={i} className='bus-container' ref='busC'>
+                            <div key={i} style={{background: 'url(' + bus.image_url + ')'}}className='bus-container' ref='busC'>
                                 <div className='name-wrapper'>{bus.name}</div>
-                                <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div>
+                                {/* <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div> */}
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
                                 {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
                                     {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                        id={bus.id} className='not-wrapper'>going&nbsp;</div>
-                                        : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                        id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
+                                                    id={bus.id} className='not-wrapper'>going&nbsp;</div>
+                                                : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
+                                                    id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
                                     {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
                                 </div>
-                                    : <div><Link to='/'>Sign in</Link> to RSVP</div>}
+                                    : <div className='signin-link-wrapper'><Link to='/'>Sign in</Link> to RSVP</div>}
 
                             </div>
                         ) : ''}

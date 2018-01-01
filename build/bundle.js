@@ -24339,7 +24339,7 @@ var Search = exports.Search = function (_React$Component) {
                 }, {
                     featureType: 'water',
                     elementType: 'labels.text.fill',
-                    stylers: [{ color: '#515c6d' }]
+                    stylers: [{ color: 'rgb(74,138,238)' }]
                 }, {
                     featureType: 'water',
                     elementType: 'labels.text.stroke',
@@ -24433,15 +24433,15 @@ var Search = exports.Search = function (_React$Component) {
             // const height = p_state.ui.height;
             // console.log('height form p_state.ui.height:', height);
             var clientHeight = this.props.getClientHeight();
-            var navHeight = 55;
-            var backdropHeight = 75;
+            var navHeight = 50;
+            // const backdropHeight = 75;
             console.log('clientHeight from this.props.getClientHeight():', clientHeight);
             var searchPageContainer = this.refs.searchPageContainer;
             var mapResultsContainer = this.refs.mapResultsContainer;
 
-            searchPageContainer.style.height = clientHeight + 'px';
-            searchPageContainer.style.border = "3px solid yellow";
-            mapResultsContainer.style.height = clientHeight - backdropHeight - navHeight + 'px';
+            searchPageContainer.style.height = clientHeight * .99 + 'px';
+            // searchPageContainer.style.border = "3px solid yellow";
+            mapResultsContainer.style.height = (clientHeight - navHeight) * .98 + 'px';
         }
     }, {
         key: 'componentDidUpdate',
@@ -24477,11 +24477,12 @@ var Search = exports.Search = function (_React$Component) {
                         return e.stopPropagation();
                     }, className: 'search-page-container' },
                 _react2.default.createElement(_Nav.Nav, null),
-                _react2.default.createElement('div', { id: 'g-signin-wrapper' }),
                 _react2.default.createElement(
                     'div',
-                    { className: 'backdrop-wrapper' },
-                    'backdrop goes here'
+                    { className: 'search-wrapper' },
+                    _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
+                    _react2.default.createElement('input', { ref: 'search', id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
+                        placeholder: 'Location', onClick: clearSearchText })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -24494,26 +24495,14 @@ var Search = exports.Search = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'results-container' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'search-wrapper' },
-                            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-                            _react2.default.createElement('input', { ref: 'search', id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                                placeholder: 'Location', onClick: clearSearchText })
-                        ),
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(
                                 'div',
-                                { key: i, className: 'bus-container', ref: 'busC' },
+                                { key: i, style: { background: 'url(' + bus.image_url + ')' }, className: 'bus-container', ref: 'busC' },
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'name-wrapper' },
                                     bus.name
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'pic-wrapper' },
-                                    _react2.default.createElement('img', { src: bus.image_url })
                                 ),
                                 auth ? _react2.default.createElement(
                                     'div',
@@ -24542,7 +24531,7 @@ var Search = exports.Search = function (_React$Component) {
                                     )
                                 ) : _react2.default.createElement(
                                     'div',
-                                    null,
+                                    { className: 'signin-link-wrapper' },
                                     _react2.default.createElement(
                                         _reactRouterDom.Link,
                                         { to: '/' },
