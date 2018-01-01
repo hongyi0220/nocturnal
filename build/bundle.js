@@ -23895,12 +23895,12 @@ var App = function (_React$Component) {
         value: function componentDidMount() {
             var clientHeight = this.getClientHeight();
             var height = clientHeight + 'px';
-            var container = document.querySelector('.container');
-            var homeContainer = document.querySelector('.home-container');
+            var container = this.refs.container;
+            // const homeContainer = document.querySelector('.home-container');
             // const popup = document.querySelector('.popUp');
 
             container.style.height = height;
-            homeContainer.style.height = height;
+            // homeContainer.style.height = height;
             // popup.style.height = height;
 
             var input = document.getElementById('auth');
@@ -23922,16 +23922,17 @@ var App = function (_React$Component) {
             var toggleGoing = this.toggleGoing;
             var fetchData = this.fetchData;
             var toggleLoading = this.toggleLoading;
+            var getClientHeight = this.getClientHeight;
 
             return _react2.default.createElement(
                 'div',
-                { onClick: closeAll, className: 'container' },
+                { ref: 'container', onClick: closeAll, className: 'container' },
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
                     null,
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
                             return _react2.default.createElement(_Search.Search, { getSearchValue: getSearchValue, handleSearch: handleSearch,
-                                toggleGoing: toggleGoing, state: state, toggleLoading: toggleLoading });
+                                getClientHeight: getClientHeight, toggleGoing: toggleGoing, state: state, toggleLoading: toggleLoading });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
                             return _react2.default.createElement(_Home.Home, { fetchData: fetchData, auth: auth, getCurrentPosition: getCurrentPosition,
@@ -24386,18 +24387,23 @@ var Search = exports.Search = function (_React$Component) {
             var p_state = this.props.state;
             var currentPosition = p_state.memory.currentPosition;
 
-            if (!currentPosition) this.getCoords();
+            // if (!currentPosition) this.getCoords();
             // toggle loading to off
             this.props.toggleLoading();
 
             // const clientHeight = this.getClientHeight();
-            var height = p_state.ui.height;
-            var searchPageContainer = document.querySelector('.search-page-container') || this.refs.searchPageContainer;
-            var mapResultsContainer = document.querySelector('.map-results-container') || this.refs.mapResultsContainer;
+            // const height = p_state.ui.height;
+            // console.log('height form p_state.ui.height:', height);
+            var clientHeight = this.props.getClientHeight();
+            var navHeight = 55;
+            var backdropHeight = 75;
+            console.log('clientHeight from this.props.getClientHeight():', clientHeight);
+            var searchPageContainer = this.refs.searchPageContainer;
+            var mapResultsContainer = this.refs.mapResultsContainer;
 
-            searchPageContainer.style.height = height + 'px';
+            searchPageContainer.style.height = clientHeight + 'px';
             searchPageContainer.style.border = "3px solid yellow";
-            mapResultsContainer.style.height = height - 75 - 55 + 'px';
+            mapResultsContainer.style.height = clientHeight - backdropHeight - navHeight + 'px';
         }
     }, {
         key: 'componentDidUpdate',
@@ -24410,7 +24416,7 @@ var Search = exports.Search = function (_React$Component) {
             var business = p_state.memory.business;
 
             // If/when component's prop updates, draw the map
-            if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
+            if (this.refs.busC) this.initMap(null, markers, infowindowContent, business, popup);
         }
     }, {
         key: 'render',

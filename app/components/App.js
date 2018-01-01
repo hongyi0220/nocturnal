@@ -500,12 +500,12 @@ class App extends React.Component {
     componentDidMount() {
         const clientHeight = this.getClientHeight();
         const height = clientHeight + 'px';
-        const container = document.querySelector('.container');
-        const homeContainer = document.querySelector('.home-container');
+        const container = this.refs.container;
+        // const homeContainer = document.querySelector('.home-container');
         // const popup = document.querySelector('.popUp');
 
         container.style.height = height;
-        homeContainer.style.height = height;
+        // homeContainer.style.height = height;
         // popup.style.height = height;
 
         const input = document.getElementById('auth');
@@ -526,15 +526,16 @@ class App extends React.Component {
         const toggleGoing =  this.toggleGoing;
         const fetchData = this.fetchData;
         const toggleLoading = this.toggleLoading;
+        const getClientHeight = this.getClientHeight;
 
         return (
-            <div onClick={closeAll} className='container'>
+            <div ref='container' onClick={closeAll} className='container'>
                 <Switch>
                     <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch}
-                        toggleGoing={toggleGoing} state={state} toggleLoading={toggleLoading}/>}/>
+                        getClientHeight={getClientHeight} toggleGoing={toggleGoing} state={state} toggleLoading={toggleLoading}/>}/>
                     <Route path='/' render={() => <Home fetchData={fetchData} auth={auth} getCurrentPosition={getCurrentPosition}
                         toggleLoading={toggleLoading} getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}
-                        history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
+                         history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
                 </Switch>
                 <input id='auth' type='hidden'/>
                 {/* <div>Logo made with <a href="https://

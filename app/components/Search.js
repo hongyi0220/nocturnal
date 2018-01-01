@@ -223,18 +223,23 @@ export class Search extends React.Component {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
 
-        if (!currentPosition) this.getCoords();
+        // if (!currentPosition) this.getCoords();
         // toggle loading to off
         this.props.toggleLoading();
 
         // const clientHeight = this.getClientHeight();
-        const height = p_state.ui.height;
-        const searchPageContainer = document.querySelector('.search-page-container') || this.refs.searchPageContainer;
-        const mapResultsContainer = document.querySelector('.map-results-container') || this.refs.mapResultsContainer;
+        // const height = p_state.ui.height;
+        // console.log('height form p_state.ui.height:', height);
+        const clientHeight = this.props.getClientHeight();
+        const navHeight = 55;
+        const backdropHeight = 75;
+        console.log('clientHeight from this.props.getClientHeight():', clientHeight);
+        const searchPageContainer = this.refs.searchPageContainer;
+        const mapResultsContainer = this.refs.mapResultsContainer;
 
-        searchPageContainer.style.height = height + 'px';
+        searchPageContainer.style.height = clientHeight + 'px';
         searchPageContainer.style.border = "3px solid yellow";
-        mapResultsContainer.style.height = height - 75 - 55 + 'px';
+        mapResultsContainer.style.height = clientHeight - backdropHeight - navHeight + 'px';
 
     }
 
@@ -247,7 +252,7 @@ export class Search extends React.Component {
         const business = p_state.memory.business;
 
         // If/when component's prop updates, draw the map
-        if (this.refs.busC) this.initMap(coords, markers, infowindowContent, business, popup);
+        if (this.refs.busC) this.initMap(null, markers, infowindowContent, business, popup);
     }
 
     render() {
