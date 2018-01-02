@@ -35,7 +35,10 @@
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 20; }
+    .home-container .popUp * {
+      margin-top: .5em; }
     .home-container .popUp .info-container {
+      margin-top: 0.5em;
       border-radius: 1px;
       z-index: 20;
       position: absolute;
@@ -108,15 +111,16 @@
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    height: 100px; }
+    height: 150px; }
     .home-container .pics-container::-webkit-scrollbar {
       display: none; }
     .home-container .pics-container .pic-wrapper {
+      height: 100%;
       display: inline-block; }
       .home-container .pics-container .pic-wrapper:hover {
         cursor: pointer; }
       .home-container .pics-container .pic-wrapper img {
-        height: 100px; }
+        height: 100%; }
 
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -2488,15 +2492,16 @@
     min-width: 150px;
     overflow: scroll;
     flex-grow: 3; }
+    .search-page-container .map-results-container .results-container .bus-container + .bus-container {
+      border-top: 1px solid #c4c075; }
     .search-page-container .map-results-container .results-container .bus-container {
-      border-bottom: 2px solid #fef336;
-      border-top: 1px solid #c4c075;
+      border-bottom: 4px solid #fef336;
       text-align: center;
       padding: 1em 0 1em 0;
       height: 150px; }
       .search-page-container .map-results-container .results-container .bus-container .name-wrapper {
         color: white;
-        font-size: 1.3em;
+        font-size: 1.4em;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         margin-bottom: 1em; }
       .search-page-container .map-results-container .results-container .bus-container .going-button {
@@ -2506,14 +2511,14 @@
           display: inline-block; }
         .search-page-container .map-results-container .results-container .bus-container .going-button .not-wrapper {
           font-weight: 500;
-          font-size: 1.1em;
+          font-size: 1.25em;
           color: #fef336;
           text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
           .search-page-container .map-results-container .results-container .bus-container .going-button .not-wrapper:hover {
             cursor: pointer; }
       .search-page-container .map-results-container .results-container .bus-container .signin-link-wrapper {
         font-weight: 500;
-        font-size: 1.1em;
+        font-size: 1.25em;
         color: #fef336;
         text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
 
@@ -2524,3 +2529,8 @@
   * .container {
     min-width: 300px;
     min-height: 630px; }
+    * .container footer {
+      text-align: center; }
+    * .container #attribution {
+      text-align: center;
+      font-size: 0.3em; }

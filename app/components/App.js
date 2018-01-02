@@ -62,25 +62,25 @@ class App extends React.Component {
     insertGoingData(businesses, going, goingsData) {
         // Insert data on bars the user is going to
         const buses = businesses.map(bus => {
-            //
+
             const isGoing = () => {
                 for (let i = 0; i < going.length; i++) {
                     if (bus.id === going[i]) {
-                        //
+
                         bus.going = 1;
                         return true;
                     }
                 }
                 return false;
             }
-            //
+
             if (!isGoing()) bus.going = 0;
             return bus;
         });
 
         // Insert data on # of people going to each bar
         const busesTransformed = buses.map(bus => {
-            //
+
             bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
             return bus;
         });
@@ -89,7 +89,6 @@ class App extends React.Component {
             ...prevState,
             businesses: busesTransformed
         }));
-        // , () =>
     }
 
     toggleGoing(e) {
@@ -108,9 +107,7 @@ class App extends React.Component {
                 if (going[i] === place_id) {
 
                     going.splice(i, 1);
-                    // if (goings[place_id])
                     goings[place_id] -= 1;
-                    // else goings[place_id] = 1;
 
                     return true;
                 }
@@ -122,7 +119,6 @@ class App extends React.Component {
             going.push(place_id);
             if (goings[place_id]) goings[place_id] += 1;
             else goings[place_id] = 1;
-            // goings[place_id] += 1;
         }
 
         this.setState({ user }, () => {
@@ -178,8 +174,7 @@ class App extends React.Component {
 
     getUserData() {
         const url = 'http://localhost:8080/user'
-        // const businesses = this.state.businesses;
-        //
+
         fetch(url)
         .then(res => res.json())
         .then(resJson => this.setState({
@@ -190,11 +185,9 @@ class App extends React.Component {
                 user: resJson
             }
         }));
-        // () => this.insertGoingData(businesses, resJson.going)
     }
 
     getCurrentPosition() {
-        // this.toggleLoading();
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
@@ -219,7 +212,6 @@ class App extends React.Component {
                     }
                 }, () => {
                     this.fetchData(null, coords);
-                    // this.props.history.push('/search');
                 });
             }, error, options);
     }
@@ -259,7 +251,6 @@ class App extends React.Component {
 
     openPopup(e) {
         const id = e.target.id;
-        // const cityName = e.target.className;
 
         const findBusiness = id => {
             return this.state.businesses.filter(bus => bus.id === id)[0];
@@ -280,8 +271,6 @@ class App extends React.Component {
             }
         }));
         this.storeSearchValueInSession(cityName);
-
-        // this.fetchData(cityName, null);
         e.stopPropagation();
     }
 
@@ -291,7 +280,7 @@ class App extends React.Component {
             const yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png',
                                'three_half.png', 'four.png', 'four_half.png', 'five.png'];
             const yelpstarsIndex = (bus.rating * 2) - 1;
-            const info = '<div class="info-content">' +
+            const info = '<div style="text-align: center" class="info-content">' +
                          '<h3>' + bus.name + '</h3>' +
                          '<img style="width:100px" src="' + bus.image_url + '"/>' +
                          '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' +
@@ -342,41 +331,31 @@ class App extends React.Component {
                 'Accept': 'application/json'
             }
         }
-       // if (window.performance)
-       // if (performance.navigation.type === 1) {
 
-           console.log('page relaoded');
-           fetch(apiUrl, apiInit)
-           .then(res => res.json())
-           .then(resJson => {
-               const markers = resJson.markers;
-               const searchValue = resJson.searchValue;
-               // console.log(_searchValue)
-               this.setState(prevState => ({
-                   ...prevState,
-                   memory: {
-                       ...prevState.memory,
-                       markers: markers,
-                       searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : searchValue
-                   }
-               }), () => {
-                   this.fetchData(searchValue, null);
-               });
+       fetch(apiUrl, apiInit)
+       .then(res => res.json())
+       .then(resJson => {
+           const markers = resJson.markers;
+           const searchValue = resJson.searchValue;
+
+           this.setState(prevState => ({
+               ...prevState,
+               memory: {
+                   ...prevState.memory,
+                   markers: markers,
+                   searchValue: prevState.memory.searchValue ? prevState.memory.searchValue : searchValue
+               }
+           }), () => {
+               this.fetchData(searchValue, null);
            });
-       // }
+       });
     }
 
     fetchData(location, position) {
         const cors = 'https://cors-anywhere.herokuapp.com/';
-        // 'https://cors.now.sh/';
         const url = 'https://api.yelp.com/v3/businesses/search';
-
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
-        // const currentPosition = this.state.memory.currentPosition;
-        // const user = this.state.memory.user;
-        // let searchValue = this.state.memory.searchValue;
 
-        // console.log('searchValue outside of reloadFetch:', searchValue);
         const city = () => {
             let cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
 
@@ -387,12 +366,6 @@ class App extends React.Component {
         if (location) query = 'location=' + location;
         else if (position) query = 'latitude=' + position.lat + '&longitude=' + position.lng;
         else query = 'location=' + city();
-        // currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng) : ('location=' + city());
-
-        // if (location) query = 'location=' + location;
-        // if (searchValue) query = 'location=' + searchValue;
-        console.log('query @ fetchData:', query);
-
 
         const xhr = new XMLHttpRequest();
         xhr.open('GET', cors + url + '?term=bars&' + query, true);
@@ -427,21 +400,11 @@ class App extends React.Component {
                     console.log('xhr error; code: ', xhr.status);
                 }
             }
-
         };
         xhr.send();
-
     }
 
     toggleLoading() {
-        console.log('loading indicator toggled');
-        // this.setState(prevState => ({
-        //     ...prevState,
-        //     ui: {
-        //         ...prevState.ui,
-        //         loading: prevState.ui.loading ? false : true
-        //     }
-        // }), () => console.log('loading after toggleLoading:', this.state.ui.loading));
         this.setState({
             ...this.state,
             ui: {
@@ -505,12 +468,8 @@ class App extends React.Component {
         const clientHeight = this.getClientHeight();
         const height = clientHeight + 'px';
         const container = this.refs.container;
-        // const homeContainer = document.querySelector('.home-container');
-        // const popup = document.querySelector('.popUp');
 
         container.style.height = height;
-        // homeContainer.style.height = height;
-        // popup.style.height = height;
 
         const input = document.getElementById('auth');
         input.onchange = this.getUserData;
@@ -542,8 +501,8 @@ class App extends React.Component {
                         getClientHeight={getClientHeight} history={history} handleSearch={handleSearch} openPopup={openPopup} state={state}/>}/>
                 </Switch>
                 <input id='auth' type='hidden'/>
-                {/* <div>Logo made with <a href="https://
-www.designevo.com/" title="Free Online Logo Maker">DesignEvo</a></div> */}
+                <footer>Design and code by <a href='http://yungilhong.com'>Yungil Hong</a></footer><div id='attribution'>Logo made with <a href="https://
+www.designevo.com/" title="Free Online Logo Maker">DesignEvo</a></div>
             </div>
         );
     }

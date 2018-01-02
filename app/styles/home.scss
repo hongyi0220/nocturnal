@@ -56,10 +56,13 @@
         height: 100%;
         position: absolute;
         top: 0;
-        //border: 1px solid ;
         background-color: rgba(0,0,0,0.5);
         z-index: 20;
+        * {
+            margin-top: .5em;
+        }
         .info-container {
+            margin-top: 0.5em;
             border-radius: $softEdge;
             z-index: 20;
             position: absolute;
@@ -162,18 +165,18 @@
         overflow-x: scroll;
         overflow-y: hidden;
         white-space: nowrap;
-        height: 100px;
+        height: 150px;
         &::-webkit-scrollbar {
             display: none;
         }
         .pic-wrapper {
-            // //border: 1px solid ;
+            height: 100%;
             display: inline-block;
             &:hover {
                 cursor: pointer;
             }
             img {
-                height: 100px;
+                height: 100%;
             }
 
         }

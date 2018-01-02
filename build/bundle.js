@@ -23448,25 +23448,25 @@ var App = function (_React$Component) {
         value: function insertGoingData(businesses, going, goingsData) {
             // Insert data on bars the user is going to
             var buses = businesses.map(function (bus) {
-                //
+
                 var isGoing = function isGoing() {
                     for (var i = 0; i < going.length; i++) {
                         if (bus.id === going[i]) {
-                            //
+
                             bus.going = 1;
                             return true;
                         }
                     }
                     return false;
                 };
-                //
+
                 if (!isGoing()) bus.going = 0;
                 return bus;
             });
 
             // Insert data on # of people going to each bar
             var busesTransformed = buses.map(function (bus) {
-                //
+
                 bus.goingsData = goingsData[bus.id] ? goingsData[bus.id] : 0;
                 return bus;
             });
@@ -23476,7 +23476,6 @@ var App = function (_React$Component) {
                     businesses: busesTransformed
                 });
             });
-            // , () =>
         }
     }, {
         key: 'toggleGoing',
@@ -23497,9 +23496,7 @@ var App = function (_React$Component) {
                     if (going[i] === place_id) {
 
                         going.splice(i, 1);
-                        // if (goings[place_id])
                         goings[place_id] -= 1;
-                        // else goings[place_id] = 1;
 
                         return true;
                     }
@@ -23510,7 +23507,6 @@ var App = function (_React$Component) {
             if (!isGoing()) {
                 going.push(place_id);
                 if (goings[place_id]) goings[place_id] += 1;else goings[place_id] = 1;
-                // goings[place_id] += 1;
             }
 
             this.setState({ user: user }, function () {
@@ -23567,8 +23563,7 @@ var App = function (_React$Component) {
             var _this4 = this;
 
             var url = 'http://localhost:8080/user';
-            // const businesses = this.state.businesses;
-            //
+
             fetch(url).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
@@ -23579,14 +23574,12 @@ var App = function (_React$Component) {
                     })
                 }));
             });
-            // () => this.insertGoingData(businesses, resJson.going)
         }
     }, {
         key: 'getCurrentPosition',
         value: function getCurrentPosition() {
             var _this5 = this;
 
-            // this.toggleLoading();
             var options = {
                 enableHighAccuracy: true,
                 timeout: 5000,
@@ -23608,7 +23601,6 @@ var App = function (_React$Component) {
                     })
                 }), function () {
                     _this5.fetchData(null, coords);
-                    // this.props.history.push('/search');
                 });
             }, error, options);
         }
@@ -23649,7 +23641,6 @@ var App = function (_React$Component) {
             var _this7 = this;
 
             var id = e.target.id;
-            // const cityName = e.target.className;
 
             var findBusiness = function findBusiness(id) {
                 return _this7.state.businesses.filter(function (bus) {
@@ -23671,8 +23662,6 @@ var App = function (_React$Component) {
                 });
             });
             this.storeSearchValueInSession(cityName);
-
-            // this.fetchData(cityName, null);
             e.stopPropagation();
         }
     }, {
@@ -23682,7 +23671,7 @@ var App = function (_React$Component) {
             businesses.forEach(function (bus) {
                 var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
                 var yelpstarsIndex = bus.rating * 2 - 1;
-                var info = '<div class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:100px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
+                var info = '<div style="text-align: center" class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:100px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
                 infowindowContent.push([info]);
             });
             this.setState(function (prevState) {
@@ -23730,16 +23719,14 @@ var App = function (_React$Component) {
                 headers: {
                     'Accept': 'application/json'
                 }
-                // if (window.performance)
-                // if (performance.navigation.type === 1) {
+            };
 
-            };console.log('page relaoded');
             fetch(apiUrl, apiInit).then(function (res) {
                 return res.json();
             }).then(function (resJson) {
                 var markers = resJson.markers;
                 var searchValue = resJson.searchValue;
-                // console.log(_searchValue)
+
                 _this8.setState(function (prevState) {
                     return _extends({}, prevState, {
                         memory: _extends({}, prevState.memory, {
@@ -23751,7 +23738,6 @@ var App = function (_React$Component) {
                     _this8.fetchData(searchValue, null);
                 });
             });
-            // }
         }
     }, {
         key: 'fetchData',
@@ -23759,15 +23745,9 @@ var App = function (_React$Component) {
             var _this9 = this;
 
             var cors = 'https://cors-anywhere.herokuapp.com/';
-            // 'https://cors.now.sh/';
             var url = 'https://api.yelp.com/v3/businesses/search';
-
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
-            // const currentPosition = this.state.memory.currentPosition;
-            // const user = this.state.memory.user;
-            // let searchValue = this.state.memory.searchValue;
 
-            // console.log('searchValue outside of reloadFetch:', searchValue);
             var city = function city() {
                 var cities = ['chicago', 'la', 'nyc', 'atlanta', 'boston', 'san%20francisco', 'seattle', 'denver'];
 
@@ -23776,11 +23756,6 @@ var App = function (_React$Component) {
             };
             var query = void 0;
             if (location) query = 'location=' + location;else if (position) query = 'latitude=' + position.lat + '&longitude=' + position.lng;else query = 'location=' + city();
-            // currentPosition ? ('latitude=' + currentPosition.lat + '&longitude=' + currentPosition.lng) : ('location=' + city());
-
-            // if (location) query = 'location=' + location;
-            // if (searchValue) query = 'location=' + searchValue;
-            console.log('query @ fetchData:', query);
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', cors + url + '?term=bars&' + query, true);
@@ -23823,14 +23798,6 @@ var App = function (_React$Component) {
         value: function toggleLoading() {
             var _this10 = this;
 
-            console.log('loading indicator toggled');
-            // this.setState(prevState => ({
-            //     ...prevState,
-            //     ui: {
-            //         ...prevState.ui,
-            //         loading: prevState.ui.loading ? false : true
-            //     }
-            // }), () => console.log('loading after toggleLoading:', this.state.ui.loading));
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
                     loading: this.state.ui.loading ? false : true
@@ -23899,12 +23866,8 @@ var App = function (_React$Component) {
             var clientHeight = this.getClientHeight();
             var height = clientHeight + 'px';
             var container = this.refs.container;
-            // const homeContainer = document.querySelector('.home-container');
-            // const popup = document.querySelector('.popUp');
 
             container.style.height = height;
-            // homeContainer.style.height = height;
-            // popup.style.height = height;
 
             var input = document.getElementById('auth');
             input.onchange = this.getUserData;
@@ -23943,7 +23906,27 @@ var App = function (_React$Component) {
                                 getClientHeight: getClientHeight, history: history, handleSearch: handleSearch, openPopup: openPopup, state: state });
                         } })
                 ),
-                _react2.default.createElement('input', { id: 'auth', type: 'hidden' })
+                _react2.default.createElement('input', { id: 'auth', type: 'hidden' }),
+                _react2.default.createElement(
+                    'footer',
+                    null,
+                    'Design and code by ',
+                    _react2.default.createElement(
+                        'a',
+                        { href: 'http://yungilhong.com' },
+                        'Yungil Hong'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'attribution' },
+                    'Logo made with ',
+                    _react2.default.createElement(
+                        'a',
+                        { href: 'https://\nwww.designevo.com/', title: 'Free Online Logo Maker' },
+                        'DesignEvo'
+                    )
+                )
             );
         }
     }]);
@@ -24212,10 +24195,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import { PopUp } from './PopUp';
-// import { FormSignup } from './FormSignup';
-// import { FormLogin } from './FormLogin';
-
 
 var Search = exports.Search = function (_React$Component) {
     _inherits(Search, _React$Component);
@@ -24228,14 +24207,9 @@ var Search = exports.Search = function (_React$Component) {
         _this.state = {
             coords: null,
             busContainers: null
-            // this.createMap = this.createMap.bind(this);
-        };_this.initMap = _this.initMap.bind(_this);
-        // this.getCoords = this.getCoords.bind(this);
+        };
+        _this.initMap = _this.initMap.bind(_this);
         _this.going = _this.going.bind(_this);
-        // this.clearSearchText = this.clearSearchText.bind(this);
-        // this.insertGoingData = this.insertGoingData.bind(this);
-        // this.showBusDetail = this.showBusDetail.bind(this);
-        //USE https://api.yelp.com/v3/businesses/{id} for business detail
         return _this;
     }
 
@@ -24254,36 +24228,6 @@ var Search = exports.Search = function (_React$Component) {
             };
             fetch(url, init);
         }
-
-        // getCoords() {
-        //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        //     const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-        //
-        //     // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
-        //     const searchValue = this.props.state.memory.searchValue;
-        //
-        //     const businesses = this.props.state.businesses;
-        //
-        //     //
-        //     //
-        //     const formatAddress = value => {
-        //         return value.trim().replace(/\s/g,'+');
-        //     }
-        //     const address = formatAddress(searchValue);
-        //
-        //     fetch(url + address + apiKey)
-        //     .then(res => res.json())
-        //     .then(resJson => {
-        //         //
-        //         const coords = resJson.results[0].geometry.location;
-        //
-        //         this.setState({
-        //                 coords: coords
-        //             });
-        //     });
-        //     // , () => this.createMap()(coords, markers)
-        // }
-
     }, {
         key: 'initMap',
         value: function initMap(coords, markers, infowindowContent, business, popup) {
@@ -24392,16 +24336,16 @@ var Search = exports.Search = function (_React$Component) {
             for (var i = 0; i < markers.length; i++) {
                 _loop(i);
             }
-            // console.log('popup?',popup);
+
             // This opens the marker & fill it with content when the link inside a popup is clicked
             if (popup) {
                 var name = business.name;
                 var _marker = markers.filter(function (mkr) {
                     return mkr[0] === name;
                 })[0];
-                // console.log('marker found @ initMap if(popup):', marker)
+
                 var title = _marker[0];
-                // console.log('title of marker:', title);
+
                 var infoContent = void 0;
                 for (var i = 0; i < infowindowContent.length; i++) {
                     if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -24410,7 +24354,6 @@ var Search = exports.Search = function (_React$Component) {
                     }
                 }
 
-                // console.log('infoContent @ initMap if(popup):', infoContent);
                 var position = new google.maps.LatLng(_marker[1], _marker[2]);
 
                 _marker = new google.maps.Marker({
@@ -24418,33 +24361,19 @@ var Search = exports.Search = function (_React$Component) {
                     map: map,
                     title: title
                 });
-                // console.log('marker after new google.maps.Marker:', marker);
 
                 infowindow.setContent(infoContent);
                 infowindow.open(map, _marker);
-                // console.log('Everything in if(popup) is run!');
             }
         }
-
-        // clearSearchText() {
-        //     this.refs.search.value = '';
-        // }
-
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var p_state = this.props.state;
             var currentPosition = p_state.memory.currentPosition;
-            // Clear search value
-            // this.refs.search.value = '';
 
-            // if (!currentPosition) this.getCoords();
-            // toggle loading to off
             this.props.toggleLoading();
 
-            // const clientHeight = this.getClientHeight();
-            // const height = p_state.ui.height;
-            // console.log('height form p_state.ui.height:', height);
             var clientHeight = this.props.getClientHeight();
             var navHeight = 50;
             var flexboxHeight = 35;
@@ -24453,7 +24382,6 @@ var Search = exports.Search = function (_React$Component) {
             var mapResultsContainer = this.refs.mapResultsContainer;
 
             searchPageContainer.style.height = clientHeight * .99 + 'px';
-            // searchPageContainer.style.border = "3px solid yellow";
             mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
         }
     }, {
@@ -24482,10 +24410,7 @@ var Search = exports.Search = function (_React$Component) {
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
             var clearSearchText = this.clearSearchText;
-            // const toggleLoading = this.props.toggleLoading;
-            // const style = {
-            //     border: '1px dashed red'
-            // }
+
             return _react2.default.createElement(
                 'div',
                 { ref: 'searchPageContainer', onClick: function onClick(e) {
@@ -24497,20 +24422,11 @@ var Search = exports.Search = function (_React$Component) {
                     { ref: 'mapResultsContainer', className: 'map-results-container' },
                     _react2.default.createElement(
                         'div',
-                        { ref: 'map', className: 'map-wrapper' },
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            'Getting map...'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
                         { className: 'results-container' },
                         businesses ? businesses.map(function (bus, i) {
                             return _react2.default.createElement(
                                 'div',
-                                { key: i, style: { background: 'url(' + bus.image_url + ')' }, className: 'bus-container', ref: 'busC' },
+                                { key: i, style: { background: 'url(' + bus.image_url + ') ' + 'no-repeat ' + 'center' }, className: 'bus-container', ref: 'busC' },
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'name-wrapper' },
@@ -24553,6 +24469,16 @@ var Search = exports.Search = function (_React$Component) {
                                 )
                             );
                         }) : ''
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { ref: 'map', className: 'map-wrapper' },
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Getting map\xA0',
+                            _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' })
+                        )
                     )
                 )
             );

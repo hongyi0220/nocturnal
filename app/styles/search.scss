@@ -55,15 +55,18 @@
             min-width: 150px;
             overflow: scroll;
             flex-grow: 3;
-            .bus-container {
-                border-bottom: 2px solid $nocturnalYellow;
+            .bus-container + .bus-container {
                 border-top: 1px solid $yellowGray;
+            }
+            .bus-container {
+                border-bottom: 4px solid $nocturnalYellow;
+                // border-top: 2px solid $yellowGray;
                 text-align: center;
                 padding: 1em 0 1em 0;
                 height: 150px;
                 .name-wrapper {
                     color: white;
-                    font-size: 1.3em;
+                    font-size: 1.4em;
                     text-shadow: $textShadow;
                     margin-bottom: 1em;
                 }
@@ -75,7 +78,7 @@
                     }
                     .not-wrapper {
                         font-weight: 500;
-                        font-size: 1.1em;
+                        font-size: 1.25em;
                         color: $nocturnalYellow;
                         text-shadow: $textShadow;
                         &:hover {
@@ -85,7 +88,7 @@
                 }
                 .signin-link-wrapper {
                     font-weight: 500;
-                    font-size: 1.1em;
+                    font-size: 1.25em;
                     color: $nocturnalYellow;
                     text-shadow: $textShadow;
                 }

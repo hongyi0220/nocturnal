@@ -1,8 +1,5 @@
 import React from 'react';
 import { Nav } from './Nav';
-// import { PopUp } from './PopUp';
-// import { FormSignup } from './FormSignup';
-// import { FormLogin } from './FormLogin';
 import { Link } from 'react-router-dom';
 
 export class Search extends React.Component {
@@ -12,14 +9,8 @@ export class Search extends React.Component {
             coords: null,
             busContainers: null
         }
-        // this.createMap = this.createMap.bind(this);
         this.initMap = this.initMap.bind(this);
-        // this.getCoords = this.getCoords.bind(this);
         this.going = this.going.bind(this);
-        // this.clearSearchText = this.clearSearchText.bind(this);
-        // this.insertGoingData = this.insertGoingData.bind(this);
-        // this.showBusDetail = this.showBusDetail.bind(this);
-        //USE https://api.yelp.com/v3/businesses/{id} for business detail
     }
 
     going(e) {
@@ -35,35 +26,6 @@ export class Search extends React.Component {
         };
         fetch(url, init);
     }
-
-    // getCoords() {
-    //     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-    //     const apiKey= '&key=AIzaSyDuljoAXSsX52jsv9nC37uU-EF4coi5O7E';
-    //
-    //     // NEED SEARCHVALUE WHEN REFRESHING /SEARCH PAGE
-    //     const searchValue = this.props.state.memory.searchValue;
-    //
-    //     const businesses = this.props.state.businesses;
-    //
-    //     //
-    //     //
-    //     const formatAddress = value => {
-    //         return value.trim().replace(/\s/g,'+');
-    //     }
-    //     const address = formatAddress(searchValue);
-    //
-    //     fetch(url + address + apiKey)
-    //     .then(res => res.json())
-    //     .then(resJson => {
-    //         //
-    //         const coords = resJson.results[0].geometry.location;
-    //
-    //         this.setState({
-    //                 coords: coords
-    //             });
-    //     });
-    //     // , () => this.createMap()(coords, markers)
-    // }
 
     initMap(coords, markers, infowindowContent, business, popup) {
         var map;
@@ -187,14 +149,14 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
-    // console.log('popup?',popup);
+
         // This opens the marker & fill it with content when the link inside a popup is clicked
         if (popup) {
             const name = business.name;
             let marker = markers.filter(mkr => mkr[0] === name)[0];
-        // console.log('marker found @ initMap if(popup):', marker)
+
             const title = marker[0];
-        // console.log('title of marker:', title);
+
             let infoContent;
             for (let i = 0; i < infowindowContent.length; i++) {
                 if (infowindowContent[i][0].indexOf(name) > -1) {
@@ -203,40 +165,26 @@ export class Search extends React.Component {
                 }
             }
 
-        // console.log('infoContent @ initMap if(popup):', infoContent);
             const position = new google.maps.LatLng(marker[1], marker[2]);
-
 
             marker = new google.maps.Marker({
                 position: position,
                 map: map,
                 title: title
             });
-        // console.log('marker after new google.maps.Marker:', marker);
 
             infowindow.setContent(infoContent);
             infowindow.open(map, marker);
-        // console.log('Everything in if(popup) is run!');
+
         }
     }
-
-    // clearSearchText() {
-    //     this.refs.search.value = '';
-    // }
 
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
-        // Clear search value
-        // this.refs.search.value = '';
 
-        // if (!currentPosition) this.getCoords();
-        // toggle loading to off
         this.props.toggleLoading();
 
-        // const clientHeight = this.getClientHeight();
-        // const height = p_state.ui.height;
-        // console.log('height form p_state.ui.height:', height);
         const clientHeight = this.props.getClientHeight();
         const navHeight = 50;
         const flexboxHeight = 35;
@@ -245,7 +193,6 @@ export class Search extends React.Component {
         const mapResultsContainer = this.refs.mapResultsContainer;
 
         searchPageContainer.style.height = clientHeight * .99 + 'px';
-        // searchPageContainer.style.border = "3px solid yellow";
         mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
 
     }
@@ -273,36 +220,14 @@ export class Search extends React.Component {
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
         const clearSearchText = this.clearSearchText;
-        // const toggleLoading = this.props.toggleLoading;
-        // const style = {
-        //     border: '1px dashed red'
-        // }
+
         return (
             <div ref='searchPageContainer' onClick={e => e.stopPropagation()} className='search-page-container'>
                 <Nav value={value} getSearchValue={getSearchValue} handleSearch={handleSearch}/>
-                {/* <div id='g-signin-wrapper'></div>
-                <div className='backdrop-wrapper'>
-                    backdrop goes here
-                </div> */}
-                {/* <div className='flex-box'> */}
-                    {/* <div className='faux-element'></div> */}
-                    {/* <div className='search-wrapper'> */}
-                        {/* <i className="fa fa-search" aria-hidden="true"></i> */}
-                        {/* <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value} */}
-                            {/* placeholder='Location' /*onClick={clearSearchText}*/}
-                    {/* </div> */}
-                {/* </div> */}
-
                 <div ref='mapResultsContainer' className='map-results-container'>
-                    <div ref='map' className='map-wrapper'><span>Getting map...</span></div>
                     <div className='results-container'>
-                        {/* <div className='search-wrapper'>
-                            <i className="fa fa-search" aria-hidden="true"></i>
-                            <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                                placeholder='Location' onClick={clearSearchText}/>
-                        </div> */}
                         {businesses ? businesses.map((bus, i) =>
-                            <div key={i} style={{background: 'url(' + bus.image_url + ')'}}className='bus-container' ref='busC'>
+                            <div key={i} style={{background: 'url(' + bus.image_url + ') ' + 'no-repeat ' + 'center'}}className='bus-container' ref='busC'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 {/* <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div> */}
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
@@ -318,6 +243,7 @@ export class Search extends React.Component {
                             </div>
                         ) : ''}
                     </div>
+                    <div ref='map' className='map-wrapper'><span>Getting map&nbsp;<i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i></span></div>
                 </div>
             </div>
         );
