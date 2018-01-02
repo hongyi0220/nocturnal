@@ -123,21 +123,20 @@ export class Search extends React.Component {
         infowindow = new google.maps.InfoWindow();
         let marker;
         const busContainers = document.getElementsByClassName('bus-container');
-
+        const icon = 'https://raw.githubusercontent.com/hongyi0220/assets/master/yellow-marker.png'
         for (let i = 0; i < markers.length; i++) {
             const position = new google.maps.LatLng(markers[i][1], markers[i][2]);
             bounds.extend(position);
             marker = new google.maps.Marker({
                 position: position,
                 map: map,
-                title: markers[i][0]
+                title: markers[i][0],
+                icon: icon
             });
 
             google.maps.event.addListener(marker, 'click', function() {
-
                     infowindow.setContent(ifwc[i][0]);
                     infowindow.open(map, this);
-
             });
 
             // Open infowindow when hovering over a business
@@ -149,6 +148,7 @@ export class Search extends React.Component {
             })(marker, i));
             map.fitBounds(bounds);
         }
+
 
         // This opens the marker & fill it with content when the link inside a popup is clicked
         if (popup) {

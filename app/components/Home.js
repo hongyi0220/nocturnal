@@ -1,6 +1,5 @@
 import React from 'react';
 import { PopUp } from './PopUp';
-// import { Switch, Route } from 'react-router-dom';
 
 export class Home extends React.Component {
 
@@ -59,7 +58,7 @@ export class Home extends React.Component {
                                 <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 : <i className="fa fa-location-arrow" aria-hidden="true"></i>}
                         </div>
-                        {/*<div className='loading-wrapper'>*/}
+
                     </div>
                 </div>
                 <div className='pics-container'>

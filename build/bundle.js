@@ -24307,6 +24307,7 @@ var Search = exports.Search = function (_React$Component) {
             infowindow = new google.maps.InfoWindow();
             var marker = void 0;
             var busContainers = document.getElementsByClassName('bus-container');
+            var icon = 'https://raw.githubusercontent.com/hongyi0220/assets/master/yellow-marker.png';
 
             var _loop = function _loop(i) {
                 var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
@@ -24314,11 +24315,11 @@ var Search = exports.Search = function (_React$Component) {
                 marker = new google.maps.Marker({
                     position: position,
                     map: map,
-                    title: markers[i][0]
+                    title: markers[i][0],
+                    icon: icon
                 });
 
                 google.maps.event.addListener(marker, 'click', function () {
-
                     infowindow.setContent(ifwc[i][0]);
                     infowindow.open(map, this);
                 });
