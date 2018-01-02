@@ -24025,10 +24025,19 @@ var Home = exports.Home = function (_React$Component) {
                 { ref: 'homeContainer', className: 'home-container' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'logo-wrapper' },
-                    _react2.default.createElement('img', { src: '/img/logo/logo-blue.png' })
+                    { className: 'logo-container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'logo-wrapper', id: 'logo-yellow' },
+                        _react2.default.createElement('img', { src: '/img/logo/logo-o-y-yn.png' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'logo-wrapper', id: 'logo-black' },
+                        _react2.default.createElement('img', { src: '/img/logo/logo-o-b-yn.png' })
+                    )
                 ),
-                _react2.default.createElement('div', { className: 'g-signin2', 'data-theme': 'dark', 'data-onsuccess': 'onSignIn', 'data-width': '200', 'data-height': '40' }),
+                _react2.default.createElement('div', { className: 'g-signin2', 'data-onsuccess': 'onSignIn', 'data-width': '200', 'data-height': '40' }),
                 auth ? _react2.default.createElement(
                     'div',
                     { className: 'user-container' },
@@ -24057,9 +24066,13 @@ var Home = exports.Home = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'search-wrapper' },
-                        _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-                        _react2.default.createElement('input', { ref: 'search', id: 'home', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                            placeholder: 'Location' })
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'input-wrapper' },
+                            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
+                            _react2.default.createElement('input', { ref: 'search', id: 'home', onChange: getSearchValue, onKeyUp: handleSearch,
+                                type: 'text', value: value, placeholder: 'Location' })
+                        )
                     ),
                     _react2.default.createElement(
                         'div',
@@ -24219,7 +24232,7 @@ var Search = exports.Search = function (_React$Component) {
         };_this.initMap = _this.initMap.bind(_this);
         // this.getCoords = this.getCoords.bind(this);
         _this.going = _this.going.bind(_this);
-        _this.clearSearchText = _this.clearSearchText.bind(_this);
+        // this.clearSearchText = this.clearSearchText.bind(this);
         // this.insertGoingData = this.insertGoingData.bind(this);
         // this.showBusDetail = this.showBusDetail.bind(this);
         //USE https://api.yelp.com/v3/businesses/{id} for business detail
@@ -24339,7 +24352,7 @@ var Search = exports.Search = function (_React$Component) {
                 }, {
                     featureType: 'water',
                     elementType: 'labels.text.fill',
-                    stylers: [{ color: 'rgb(74,138,238)' }]
+                    stylers: [{ color: '#515c6d' }]
                 }, {
                     featureType: 'water',
                     elementType: 'labels.text.stroke',
@@ -24412,18 +24425,18 @@ var Search = exports.Search = function (_React$Component) {
                 // console.log('Everything in if(popup) is run!');
             }
         }
-    }, {
-        key: 'clearSearchText',
-        value: function clearSearchText() {
-            this.refs.search.value = '';
-        }
+
+        // clearSearchText() {
+        //     this.refs.search.value = '';
+        // }
+
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var p_state = this.props.state;
             var currentPosition = p_state.memory.currentPosition;
             // Clear search value
-            this.refs.search.value = '';
+            // this.refs.search.value = '';
 
             // if (!currentPosition) this.getCoords();
             // toggle loading to off
@@ -24434,14 +24447,14 @@ var Search = exports.Search = function (_React$Component) {
             // console.log('height form p_state.ui.height:', height);
             var clientHeight = this.props.getClientHeight();
             var navHeight = 50;
-            // const backdropHeight = 75;
+            var flexboxHeight = 35;
             console.log('clientHeight from this.props.getClientHeight():', clientHeight);
             var searchPageContainer = this.refs.searchPageContainer;
             var mapResultsContainer = this.refs.mapResultsContainer;
 
             searchPageContainer.style.height = clientHeight * .99 + 'px';
             // searchPageContainer.style.border = "3px solid yellow";
-            mapResultsContainer.style.height = (clientHeight - navHeight) * .98 + 'px';
+            mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
         }
     }, {
         key: 'componentDidUpdate',
@@ -24470,27 +24483,26 @@ var Search = exports.Search = function (_React$Component) {
             var toggleGoing = this.props.toggleGoing;
             var clearSearchText = this.clearSearchText;
             // const toggleLoading = this.props.toggleLoading;
-
+            // const style = {
+            //     border: '1px dashed red'
+            // }
             return _react2.default.createElement(
                 'div',
                 { ref: 'searchPageContainer', onClick: function onClick(e) {
                         return e.stopPropagation();
                     }, className: 'search-page-container' },
-                _react2.default.createElement(_Nav.Nav, null),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'search-wrapper' },
-                    _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-                    _react2.default.createElement('input', { ref: 'search', id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                        placeholder: 'Location', onClick: clearSearchText })
-                ),
+                _react2.default.createElement(_Nav.Nav, { value: value, getSearchValue: getSearchValue, handleSearch: handleSearch }),
                 _react2.default.createElement(
                     'div',
                     { ref: 'mapResultsContainer', className: 'map-results-container' },
                     _react2.default.createElement(
                         'div',
                         { ref: 'map', className: 'map-wrapper' },
-                        'map goes here'
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Getting map...'
+                        )
                     ),
                     _react2.default.createElement(
                         'div',
@@ -24571,14 +24583,28 @@ var _reactRouterDom = __webpack_require__(12);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = exports.Nav = function Nav(props) {
-
+    var getSearchValue = props.getSearchValue;
+    var handleSearch = props.handleSearch;
+    var value = props.value;
     return _react2.default.createElement(
         'div',
         { className: 'nav-container' },
         _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/' },
-            _react2.default.createElement('img', { src: '/img/logo/logo-transparent.png' })
+            'div',
+            { className: 'logo-container' },
+            _react2.default.createElement(
+                _reactRouterDom.Link,
+                { className: 'logo-yellow', to: '/' },
+                _react2.default.createElement('img', { src: '/img/logo/logo-t-y-nn.png' })
+            ),
+            _react2.default.createElement('img', { src: '/img/logo/logo-t-b-nn.png' })
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'search-wrapper' },
+            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
+            _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
+                placeholder: 'Location' /*onClick={clearSearchText}*/ })
         )
     );
 };

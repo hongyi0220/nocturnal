@@ -31,9 +31,13 @@ export class Home extends React.Component {
         const toggleLoading =this.props.toggleLoading;
         return (
             <div ref='homeContainer' className='home-container'>
-                <div className='logo-wrapper'><img src='/img/logo/logo-blue.png'/></div>
+                <div className='logo-container'>
+                    <div className='logo-wrapper' id='logo-yellow'><img src='/img/logo/logo-o-y-yn.png'/></div>
+                    <div className='logo-wrapper' id='logo-black'><img src='/img/logo/logo-o-b-yn.png'/></div>
+                </div>
 
-                <div className="g-signin2" data-theme="dark" data-onsuccess="onSignIn" data-width="200" data-height="40"></div>
+
+                <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-height="40"></div>
                 {auth ?
                     <div className='user-container'>
                         <div className='greeting-wrapper'>Hello, {user.given_name}!</div>&nbsp;
@@ -43,9 +47,11 @@ export class Home extends React.Component {
                 {popup ? <PopUp toggleLoading={toggleLoading} fetchData={fetchData} state={state}/> : ''}
                 <div className='search-container'>
                     <div className='search-wrapper'>
-                        <i className="fa fa-search" aria-hidden="true"></i>
-                        <input ref='search' id='home' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                            placeholder='Location'/>
+                        <div className='input-wrapper'>
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                            <input ref='search' id='home' onChange={getSearchValue} onKeyUp={handleSearch}
+                                type='text' value={value} placeholder='Location'/>
+                        </div>
                     </div>
                     <div className='button-wrapper'>
                         <div onClick={getCurrentPosition} className='button'>

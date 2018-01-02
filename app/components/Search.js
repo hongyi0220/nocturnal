@@ -16,7 +16,7 @@ export class Search extends React.Component {
         this.initMap = this.initMap.bind(this);
         // this.getCoords = this.getCoords.bind(this);
         this.going = this.going.bind(this);
-        this.clearSearchText = this.clearSearchText.bind(this);
+        // this.clearSearchText = this.clearSearchText.bind(this);
         // this.insertGoingData = this.insertGoingData.bind(this);
         // this.showBusDetail = this.showBusDetail.bind(this);
         //USE https://api.yelp.com/v3/businesses/{id} for business detail
@@ -148,7 +148,7 @@ export class Search extends React.Component {
                 {
                   featureType: 'water',
                   elementType: 'labels.text.fill',
-                  stylers: [{color: 'rgb(74,138,238)'}]
+                  stylers: [{color: '#515c6d'}]
                 },
                 {
                   featureType: 'water',
@@ -220,15 +220,15 @@ export class Search extends React.Component {
         }
     }
 
-    clearSearchText() {
-        this.refs.search.value = '';
-    }
+    // clearSearchText() {
+    //     this.refs.search.value = '';
+    // }
 
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
         // Clear search value
-        this.refs.search.value = '';
+        // this.refs.search.value = '';
 
         // if (!currentPosition) this.getCoords();
         // toggle loading to off
@@ -239,14 +239,14 @@ export class Search extends React.Component {
         // console.log('height form p_state.ui.height:', height);
         const clientHeight = this.props.getClientHeight();
         const navHeight = 50;
-        // const backdropHeight = 75;
+        const flexboxHeight = 35;
         console.log('clientHeight from this.props.getClientHeight():', clientHeight);
         const searchPageContainer = this.refs.searchPageContainer;
         const mapResultsContainer = this.refs.mapResultsContainer;
 
         searchPageContainer.style.height = clientHeight * .99 + 'px';
         // searchPageContainer.style.border = "3px solid yellow";
-        mapResultsContainer.style.height = (clientHeight - navHeight) * .98 + 'px';
+        mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
 
     }
 
@@ -274,21 +274,27 @@ export class Search extends React.Component {
         const toggleGoing = this.props.toggleGoing;
         const clearSearchText = this.clearSearchText;
         // const toggleLoading = this.props.toggleLoading;
-
+        // const style = {
+        //     border: '1px dashed red'
+        // }
         return (
             <div ref='searchPageContainer' onClick={e => e.stopPropagation()} className='search-page-container'>
-                <Nav/>
+                <Nav value={value} getSearchValue={getSearchValue} handleSearch={handleSearch}/>
                 {/* <div id='g-signin-wrapper'></div>
                 <div className='backdrop-wrapper'>
                     backdrop goes here
                 </div> */}
-                <div className='search-wrapper'>
-                    <i className="fa fa-search" aria-hidden="true"></i>
-                    <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value}
-                        placeholder='Location' onClick={clearSearchText}/>
-                </div>
+                {/* <div className='flex-box'> */}
+                    {/* <div className='faux-element'></div> */}
+                    {/* <div className='search-wrapper'> */}
+                        {/* <i className="fa fa-search" aria-hidden="true"></i> */}
+                        {/* <input ref='search' id='x' onChange={getSearchValue} onKeyUp={handleSearch} type='text' value={value} */}
+                            {/* placeholder='Location' /*onClick={clearSearchText}*/}
+                    {/* </div> */}
+                {/* </div> */}
+
                 <div ref='mapResultsContainer' className='map-results-container'>
-                    <div ref='map' className='map-wrapper'>map goes here</div>
+                    <div ref='map' className='map-wrapper'><span>Getting map...</span></div>
                     <div className='results-container'>
                         {/* <div className='search-wrapper'>
                             <i className="fa fa-search" aria-hidden="true"></i>
