@@ -1,6 +1,5 @@
 function onSignIn(googleUser) {
     const profile = googleUser.getBasicProfile();
-    // console.log(profile);
     const id_token = googleUser.getAuthResponse().id_token;
     const init = {
         method: 'POST',
@@ -9,26 +8,13 @@ function onSignIn(googleUser) {
         })
     }
     const query = '?idtoken=' + id_token;
-    const url = 'http://localhost:8080/verify';
-    // console.log('idtoken:', id_token);
+    const url = 'https://nocturnal-0220.herokuapp.com/verify';
+
     fetch(url + query, init)
     .then(res => {
         if (res.ok) console.log('token verified');
         const input = document.getElementById('auth')
-        // console.log('input', input);
         input.onchange();
     })
-    // .then(resJson => console.log(resJson))
     .catch(e => console.log(e));
 }
-// function renderButton() {
-//       gapi.signin2.render('g-signin2', {
-//         'scope': 'profile email',
-//         'width': 240,
-//         'height': 50,
-//         'longtitle': true,
-//         'theme': 'dark',
-//         'onsuccess': onSignIn,
-//         'onfailure': null
-//       });
-//     }
