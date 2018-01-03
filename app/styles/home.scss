@@ -2,7 +2,7 @@
 @import 'mixins';
 .home-container {
 
-    min-width: 300px;
+    min-width: 350px;
     min-height: $min-height;
     .logo-container {
         position: relative;
@@ -11,19 +11,16 @@
             position: absolute;
             top: 0px;
             left: 50%;
-            transform: translateX(-150px);
+            transform: translateX(-175px);
             text-align: center;
             img {
-
-                width: 300px;
+                width: 350px;
             }
         }
         #logo-black {
-
             text-align: center;
             img {
-
-                width: 300px;
+                width: 350px;
             }
         }
     }
@@ -37,6 +34,7 @@
         }
         .greeting-wrapper {
             color: $nocturnalYellow;
+            text-shadow: $textShadowLight;
         }
         a {
             color: $googleBlue;
@@ -53,6 +51,7 @@
         top: 0;
         background-color: rgba(0,0,0,0.5);
         z-index: 20;
+        padding: 0.5em 0 0.5em 0;
         * {
             margin-top: .5em;
         }
@@ -120,11 +119,11 @@
                 border-top-right-radius: $softEdge;
                 border-bottom-right-radius: $softEdge;
                 margin: auto;
-                width: 40px * 0.99;
-                height: 40px * 0.99;
+                width: 40px;
+                height: 40px;
                 @include button-basics;
                 box-shadow: 0 2PX 5px $softShadow;
-
+                transition: box-shadow 0.4s ease;
                 i.fa-spinner {
                     // line-height: 40px * 0.99;
                     color: $nocturnalYellow;

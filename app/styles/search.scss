@@ -27,7 +27,6 @@
                 border: 3.5px solid $nocturnalYellow;
                 width: 100%;
             }
-
             i.fa-search {
                 line-height: 35px;
                 position: absolute;
@@ -42,11 +41,14 @@
         min-width: 500px;
         display: flex;
         flex-direction: row;
-        .map-wrapper, .results-container {
-        }
         .map-wrapper {
             flex-grow: 7;
             min-width: 350px;
+            .info-content {
+                * {
+                    margin-top: 0.5em;
+                }
+            }
         }
         .results-container {
             min-width: 150px;

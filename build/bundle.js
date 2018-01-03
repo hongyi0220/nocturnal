@@ -23671,7 +23671,7 @@ var App = function (_React$Component) {
             businesses.forEach(function (bus) {
                 var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
                 var yelpstarsIndex = bus.rating * 2 - 1;
-                var info = '<div style="text-align: center" class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:100px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
+                var info = '<div style="text-align: center" class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:150px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + ' ' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
                 infowindowContent.push([info]);
             });
             this.setState(function (prevState) {
@@ -23964,8 +23964,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import { Switch, Route } from 'react-router-dom';
-
 var Home = exports.Home = function (_React$Component) {
     _inherits(Home, _React$Component);
 
@@ -24029,7 +24027,7 @@ var Home = exports.Home = function (_React$Component) {
                         { className: 'greeting-wrapper' },
                         'Hello, ',
                         user.given_name,
-                        '!'
+                        '! '
                     ),
                     '\xA0',
                     _react2.default.createElement(
@@ -24103,8 +24101,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { Link } from 'react-router-dom';
-
 var PopUp = exports.PopUp = function PopUp(props) {
     var state = props.state;
     var location = state.memory.searchValue;
@@ -24136,7 +24132,7 @@ var PopUp = exports.PopUp = function PopUp(props) {
                 'div',
                 { className: 'stars-wrapper' },
                 _react2.default.createElement('img', { src: '/img/yelpstars/' + yelpstars[yelpstarsIndex] }),
-                '\xA0',
+                ' \xA0',
                 bus.review_count,
                 '\xA0reviews'
             ),
@@ -24531,13 +24527,10 @@ var Nav = exports.Nav = function Nav(props) {
             { className: 'search-wrapper' },
             _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
             _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                placeholder: 'Location' /*onClick={clearSearchText}*/ })
+                placeholder: 'Location' })
         )
     );
 };
-// import { PopUp } from './PopUp';
-// import { FormSignup } from './FormSignup';
-// import { FormLogin } from './FormLogin';
 
 /***/ }),
 /* 81 */

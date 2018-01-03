@@ -282,8 +282,8 @@ class App extends React.Component {
             const yelpstarsIndex = (bus.rating * 2) - 1;
             const info = '<div style="text-align: center" class="info-content">' +
                          '<h3>' + bus.name + '</h3>' +
-                         '<img style="width:100px" src="' + bus.image_url + '"/>' +
-                         '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' +
+                         '<img style="width:150px" src="' + bus.image_url + '"/>' +
+                         '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + ' ' +
                          bus.review_count + '&nbsp;' + 'reviews' + '</div>' +
                          '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' +
                          '</div>';

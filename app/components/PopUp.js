@@ -16,7 +16,7 @@ export const PopUp = props => {
             <div onClick={e => e.stopPropagation()} className="info-container">
                 <h3>{bus.name}</h3>
                 <div className='img-wrapper'><img src={bus.image_url}/></div>
-                <div className="stars-wrapper"><img src={'/img/yelpstars/' + yelpstars[yelpstarsIndex] }/>&nbsp;
+                <div className="stars-wrapper"><img src={'/img/yelpstars/' + yelpstars[yelpstarsIndex] }/> &nbsp;
                 {bus.review_count}&nbsp;reviews</div>
                 <div className="price-category-wrapper">
                     {bus.price}&nbsp;

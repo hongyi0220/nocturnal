@@ -39,7 +39,7 @@ export class Home extends React.Component {
                 <div className="g-signin2" data-onsuccess="onSignIn" data-width="200" data-height="40"></div>
                 {auth ?
                     <div className='user-container'>
-                        <div className='greeting-wrapper'>Hello, {user.given_name}!</div>&nbsp;
+                        <div className='greeting-wrapper'>Hello, {user.given_name}! </div>&nbsp;
                         <div className='link-wrapper'><a onClick={signOut}>Sign out</a></div>
                     </div>
                 : ''}
