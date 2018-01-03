@@ -358,8 +358,8 @@ class App extends React.Component {
     }
 
     fetchData(location, position) {
-        const dev = this.state.dev;
-        const cors = dev ? 'https://cors-anywhere.herokuapp.com/' : '';
+
+        const cors = 'https://cors-anywhere.herokuapp.com/';
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
 
@@ -377,9 +377,6 @@ class App extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', cors + url + '?term=bars&' + query, true);
         xhr.setRequestHeader('Authorization', 'Bearer ' + key);
-        // xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
-        // xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
-        // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
         this.xhr = xhr;
         xhr.onload = () => {
             if (xhr.readyState === 4) {
