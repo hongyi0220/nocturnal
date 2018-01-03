@@ -12,7 +12,6 @@ const auth = new GoogleAuth;
 const CLIENT_ID = '872003218674-6gu6efj6ani525f6secv0bqdqefmnrb8.apps.googleusercontent.com';
 const errmsg = 'There was a problem connecting to database ';
 
-// console.log(url);
 app.use(session({
     secret: 'malevolent-alien',
     resave: false,
@@ -30,23 +29,21 @@ app.get('/mapdata', (req, res) => {
          markers = session.data.markers;
      } else searchValue = '';
      const response = {searchValue: searchValue, markers: markers};
-     console.log('res @ server.js:', response);
+
      res.send(response);
 });
 
 app.post('/searchvalue', (req, res) => {
     const searchValue = req.body.searchValue;
-    // console.log('searchValue @ server.js:', searchValue);
+
     session.data.searchValue = searchValue;
-    // console.log('session.data @ /searchvalue:', session.data);
     res.end();
 });
 
 app.post('/markers', (req, res) => {
     const markers = req.body.markers;
-    // console.log('markers @ servers.js:', markers);
+
     session.data.markers = markers;
-    // console.log('session.data @ /markers:', session.data);
     res.end();
 });
 
@@ -69,10 +66,7 @@ app.get('/goingsdata', (req, res) => {
 
 app.post('/going', (req, res) => {
     const place_id = req.body.place_id;
-    // console.log('place_id:', place_id);
-    // console.log('session.data @ /going:', session.data);
     const user_id = session.data.user.user_id;
-    // console.log('user_id:', user_id);
     MongoClient.connect(url, (err, db) => {
         if (err) console.error(err);
 
@@ -90,7 +84,7 @@ app.post('/going', (req, res) => {
             // Update bars where the user is going, increase the # of people going to a particular bars
             //in the goings database
             if (userData.going.indexOf(place_id) > -1) {
-                console.log(userData.going.indexOf(place_id) > -1);
+
                 collection.updateOne(
                     {user_id: user_id},
                     {$pull: {going: place_id}}
@@ -131,7 +125,6 @@ app.get('/user', (req, res) => {
 app.post('/verify', (req, res) => {
     const token = req.query.idtoken;
     const client = new auth.OAuth2(CLIENT_ID, '', '');
-    // console.log('api reached');
 
     client.verifyIdToken(
         token,
@@ -143,7 +136,7 @@ app.post('/verify', (req, res) => {
             const family_name = payload.family_name;
             const given_name = payload.given_name;
             const picture = payload.picture;
-// console.log(`payload ${payload}`);
+
             MongoClient.connect(url, (err, db) => {
                 if (err) console.error(errmsg, err);
                 db.collection('users').find({
@@ -169,7 +162,6 @@ app.post('/verify', (req, res) => {
                          res.send(schema);
                      }
                      db.close();
-                     // console.log('session.data @ /verify:', session.data);
                  });
             });
         }

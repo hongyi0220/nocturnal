@@ -22,7 +22,8 @@ class App extends React.Component {
                 popup: false,
                 loading: false,
                 height: null
-            }
+            },
+            dev: false
         }
         this.fetchData = this.fetchData.bind(this);
         this.openPopup = this.openPopup.bind(this);
@@ -46,7 +47,9 @@ class App extends React.Component {
     }
 
     storeSearchValueInSession(value) {
-        const apiUrl = 'http://localhost:8080/searchvalue';
+        const dev = this.state.dev;
+        const apiUrl = dev ? 'http://localhost:8080/searchvalue' : 'https://nocturnal-0220.herokuapp.com/searchvalue';
+
         const init = {
             method: 'POST',
             headers: {
@@ -134,7 +137,7 @@ class App extends React.Component {
         const location = this.state.memory.searchValue;
         const key = e.key;
         this.xhr.abort();
-        console.log('xhr.readyState, xhr.status:',this.xhr.readyState,this.xhr.status);
+
         const search = () => {
             this.fetchData(location, null);
 
@@ -173,7 +176,8 @@ class App extends React.Component {
     }
 
     getUserData() {
-        const url = 'http://localhost:8080/user'
+        const dev = this.state.dev;
+        const url = dev ? 'http://localhost:8080/user' : 'https://nocturnal-0220.herokuapp.com/user';
 
         fetch(url)
         .then(res => res.json())
@@ -218,6 +222,7 @@ class App extends React.Component {
 
     signOut() {
         const auth2 = gapi.auth2.getAuthInstance();
+        const dev = this.state.dev;
         auth2.signOut()
         .then(() => this.setState(
             {
@@ -230,12 +235,11 @@ class App extends React.Component {
             }
         ));
         // Destroy session
-        const apiUrl = 'http://localhost:8080/signout';
+        const apiUrl = dev ? 'http://localhost:8080/signout' : 'https://nocturnal-0220.herokuapp.com/signout';
         fetch(apiUrl);
     }
 
     closeAll(e) {
-        console.log(e.target, 'closeAll\'d');
         this.setState({
             ...this.state,
             ui: {
@@ -257,7 +261,7 @@ class App extends React.Component {
         }
         const bus = findBusiness(id);
         const cityName = bus.location.city;
-        console.log('bus, cityName @ openPopup:', bus, cityName);
+
         this.setState(prevState => ({
             ...prevState,
             memory: {
@@ -299,6 +303,7 @@ class App extends React.Component {
     }
 
     makeMarkerData(businesses) {
+        const dev = this.state.dev;
         const markers = [];
         businesses.forEach(bus => {
             markers.push([bus.name, bus.coordinates.latitude, bus.coordinates.longitude]);
@@ -309,10 +314,10 @@ class App extends React.Component {
                 ...this.state.memory,
                 markers: markers
             }
-        }, () => console.log('markers after makingMarkers:', markers));
+        });
 
         // Send markers to be stored in session in case of a page refresh
-        const apiUrl ='http://localhost:8080/markers';
+        const apiUrl = dev ? 'http://localhost:8080/markers' : 'https://nocturnal-0220.herokuapp.com/markers';
         const init = {
             method: 'POST',
             headers: {
@@ -324,7 +329,8 @@ class App extends React.Component {
     }
 
     getMapdata() {
-        const apiUrl = 'http://localhost:8080/mapdata';
+        const dev = this.state.dev;
+        const apiUrl = dev ? 'http://localhost:8080/mapdata' : 'https://nocturnal-0220.herokuapp.com/mapdata';
         const apiInit = {
             method: 'GET',
             headers: {
@@ -352,7 +358,8 @@ class App extends React.Component {
     }
 
     fetchData(location, position) {
-        const cors = 'https://cors-anywhere.herokuapp.com/';
+        const dev = this.state.dev;
+        const cors = dev ? 'https://cors-anywhere.herokuapp.com/' : '';
         const url = 'https://api.yelp.com/v3/businesses/search';
         const key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
 
@@ -386,8 +393,6 @@ class App extends React.Component {
 
                         const buses = resJson.businesses;
                         if (location || position) {
-                            console.log('location, position', Boolean(location), Boolean(position));
-                            console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
                             this.toggleLoading();
                             this.makeMarkerData(buses);
                             this.makeInfowindowContent(buses);
@@ -397,7 +402,7 @@ class App extends React.Component {
 
                     })
                 } else if (xhr.status >= 400) {
-                    console.log('xhr error; code: ', xhr.status);
+                    console.error('XHR Error; Code: ', xhr.status);
                 }
             }
         };
@@ -411,13 +416,14 @@ class App extends React.Component {
                 ...this.state.ui,
                 loading: this.state.ui.loading ? false : true
             }
-        }, () => console.log('loading after toggleLoading:', this.state.ui.loading));
+        });
     }
 
     getGoingsData(buses) {
+        const dev = this.state.dev;
         const user = this.state.memory.user;
         // Get data on # of people going to each business
-        const apiUrl = 'http://localhost:8080/goingsdata';
+        const apiUrl = dev ? 'http://localhost:8080/goingsdata': 'https://nocturnal-0220.herokuapp.com/goingsdata';
         const init = {
             method: 'get',
             headers: {
@@ -436,7 +442,6 @@ class App extends React.Component {
             // When user is signed-in, modify 'businesses' data in state to include
             //how many people are going and if the user is going to each business
             if (user) {
-                console.log('user is signed in, exe. fn. insertGoingData');
                 const going = this.state.memory.user.going;
 
                 this.insertGoingData(buses, going, goingsData);
@@ -458,7 +463,6 @@ class App extends React.Component {
         if (performance.navigation.type === 1 && pathname !== '/') {
             this.getMapdata();
         } else {
-            console.log('not reload, fetching data(null, null)');
             this.fetchData(null, null);
         }
 

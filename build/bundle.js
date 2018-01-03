@@ -23402,7 +23402,8 @@ var App = function (_React$Component) {
                 popup: false,
                 loading: false,
                 height: null
-            }
+            },
+            dev: false
         };
         _this.fetchData = _this.fetchData.bind(_this);
         _this.openPopup = _this.openPopup.bind(_this);
@@ -23429,7 +23430,9 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'storeSearchValueInSession',
         value: function storeSearchValueInSession(value) {
-            var apiUrl = 'http://localhost:8080/searchvalue';
+            var dev = this.state.dev;
+            var apiUrl = dev ? 'http://localhost:8080/searchvalue' : 'https://nocturnal-0220.herokuapp.com/searchvalue';
+
             var init = {
                 method: 'POST',
                 headers: {
@@ -23524,7 +23527,7 @@ var App = function (_React$Component) {
             var location = this.state.memory.searchValue;
             var key = e.key;
             this.xhr.abort();
-            console.log('xhr.readyState, xhr.status:', this.xhr.readyState, this.xhr.status);
+
             var search = function search() {
                 _this3.fetchData(location, null);
 
@@ -23562,7 +23565,8 @@ var App = function (_React$Component) {
         value: function getUserData() {
             var _this4 = this;
 
-            var url = 'http://localhost:8080/user';
+            var dev = this.state.dev;
+            var url = dev ? 'http://localhost:8080/user' : 'https://nocturnal-0220.herokuapp.com/user';
 
             fetch(url).then(function (res) {
                 return res.json();
@@ -23610,6 +23614,7 @@ var App = function (_React$Component) {
             var _this6 = this;
 
             var auth2 = gapi.auth2.getAuthInstance();
+            var dev = this.state.dev;
             auth2.signOut().then(function () {
                 return _this6.setState(_extends({}, _this6.state, {
                     authenticated: false,
@@ -23619,13 +23624,12 @@ var App = function (_React$Component) {
                 }));
             });
             // Destroy session
-            var apiUrl = 'http://localhost:8080/signout';
+            var apiUrl = dev ? 'http://localhost:8080/signout' : 'https://nocturnal-0220.herokuapp.com/signout';
             fetch(apiUrl);
         }
     }, {
         key: 'closeAll',
         value: function closeAll(e) {
-            console.log(e.target, 'closeAll\'d');
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
                     popup: false
@@ -23649,7 +23653,7 @@ var App = function (_React$Component) {
             };
             var bus = findBusiness(id);
             var cityName = bus.location.city;
-            console.log('bus, cityName @ openPopup:', bus, cityName);
+
             this.setState(function (prevState) {
                 return _extends({}, prevState, {
                     memory: _extends({}, prevState.memory, {
@@ -23685,6 +23689,7 @@ var App = function (_React$Component) {
     }, {
         key: 'makeMarkerData',
         value: function makeMarkerData(businesses) {
+            var dev = this.state.dev;
             var markers = [];
             businesses.forEach(function (bus) {
                 markers.push([bus.name, bus.coordinates.latitude, bus.coordinates.longitude]);
@@ -23693,12 +23698,10 @@ var App = function (_React$Component) {
                 memory: _extends({}, this.state.memory, {
                     markers: markers
                 })
-            }), function () {
-                return console.log('markers after makingMarkers:', markers);
-            });
+            }));
 
             // Send markers to be stored in session in case of a page refresh
-            var apiUrl = 'http://localhost:8080/markers';
+            var apiUrl = dev ? 'http://localhost:8080/markers' : 'https://nocturnal-0220.herokuapp.com/markers';
             var init = {
                 method: 'POST',
                 headers: {
@@ -23713,7 +23716,8 @@ var App = function (_React$Component) {
         value: function getMapdata() {
             var _this8 = this;
 
-            var apiUrl = 'http://localhost:8080/mapdata';
+            var dev = this.state.dev;
+            var apiUrl = dev ? 'http://localhost:8080/mapdata' : 'https://nocturnal-0220.herokuapp.com/mapdata';
             var apiInit = {
                 method: 'GET',
                 headers: {
@@ -23744,7 +23748,8 @@ var App = function (_React$Component) {
         value: function fetchData(location, position) {
             var _this9 = this;
 
-            var cors = 'https://cors-anywhere.herokuapp.com/';
+            var dev = this.state.dev;
+            var cors = dev ? 'https://cors-anywhere.herokuapp.com/' : '';
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
 
@@ -23777,8 +23782,6 @@ var App = function (_React$Component) {
 
                             var buses = resJson.businesses;
                             if (location || position) {
-                                console.log('location, position', Boolean(location), Boolean(position));
-                                console.log('loc or pos specified, executing the following functions: makeMarkerData, makeInfowindowContent, getGoingsData');
                                 _this9.toggleLoading();
                                 _this9.makeMarkerData(buses);
                                 _this9.makeInfowindowContent(buses);
@@ -23787,7 +23790,7 @@ var App = function (_React$Component) {
                             }
                         });
                     } else if (xhr.status >= 400) {
-                        console.log('xhr error; code: ', xhr.status);
+                        console.error('XHR Error; Code: ', xhr.status);
                     }
                 }
             };
@@ -23796,24 +23799,21 @@ var App = function (_React$Component) {
     }, {
         key: 'toggleLoading',
         value: function toggleLoading() {
-            var _this10 = this;
-
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
                     loading: this.state.ui.loading ? false : true
                 })
-            }), function () {
-                return console.log('loading after toggleLoading:', _this10.state.ui.loading);
-            });
+            }));
         }
     }, {
         key: 'getGoingsData',
         value: function getGoingsData(buses) {
-            var _this11 = this;
+            var _this10 = this;
 
+            var dev = this.state.dev;
             var user = this.state.memory.user;
             // Get data on # of people going to each business
-            var apiUrl = 'http://localhost:8080/goingsdata';
+            var apiUrl = dev ? 'http://localhost:8080/goingsdata' : 'https://nocturnal-0220.herokuapp.com/goingsdata';
             var init = {
                 method: 'get',
                 headers: {
@@ -23823,7 +23823,7 @@ var App = function (_React$Component) {
             fetch(apiUrl, init).then(function (res) {
                 return res.json();
             }).then(function (goingsData) {
-                return _this11.setState(function (prevState) {
+                return _this10.setState(function (prevState) {
                     return _extends({}, prevState, {
                         memory: _extends({}, prevState.memory, {
                             goings: goingsData
@@ -23833,10 +23833,9 @@ var App = function (_React$Component) {
                     // When user is signed-in, modify 'businesses' data in state to include
                     //how many people are going and if the user is going to each business
                     if (user) {
-                        console.log('user is signed in, exe. fn. insertGoingData');
-                        var going = _this11.state.memory.user.going;
+                        var going = _this10.state.memory.user.going;
 
-                        _this11.insertGoingData(buses, going, goingsData);
+                        _this10.insertGoingData(buses, going, goingsData);
                     }
                 });
             });
@@ -23856,7 +23855,6 @@ var App = function (_React$Component) {
             if (window.performance) if (performance.navigation.type === 1 && pathname !== '/') {
                 this.getMapdata();
             } else {
-                console.log('not reload, fetching data(null, null)');
                 this.fetchData(null, null);
             }
         }
@@ -24213,8 +24211,8 @@ var Search = exports.Search = function (_React$Component) {
         key: 'going',
         value: function going(e) {
             var id = e.target.id;
-
-            var url = 'http://localhost:8080/going';
+            var dev = this.state.dev;
+            var url = dev ? 'http://localhost:8080/going' : 'https://nocturnal-0220.herokuapp.com/going';
             var init = {
                 method: 'POST',
                 headers: {
@@ -24373,13 +24371,12 @@ var Search = exports.Search = function (_React$Component) {
 
             var clientHeight = this.props.getClientHeight();
             var navHeight = 50;
-            var flexboxHeight = 35;
-            console.log('clientHeight from this.props.getClientHeight():', clientHeight);
+            var footerHeight = 35;
             var searchPageContainer = this.refs.searchPageContainer;
             var mapResultsContainer = this.refs.mapResultsContainer;
 
             searchPageContainer.style.height = clientHeight * .99 + 'px';
-            mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
+            mapResultsContainer.style.height = (clientHeight - navHeight - footerHeight) * .98 + 'px';
         }
     }, {
         key: 'componentDidUpdate',

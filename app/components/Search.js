@@ -15,8 +15,8 @@ export class Search extends React.Component {
 
     going(e) {
         const id = e.target.id;
-
-        const url = 'http://localhost:8080/going';
+        const dev = this.state.dev;
+        const url = dev ? 'http://localhost:8080/going' : 'https://nocturnal-0220.herokuapp.com/going';
         const init = {
             method: 'POST',
             headers: {
@@ -187,13 +187,12 @@ export class Search extends React.Component {
 
         const clientHeight = this.props.getClientHeight();
         const navHeight = 50;
-        const flexboxHeight = 35;
-        console.log('clientHeight from this.props.getClientHeight():', clientHeight);
+        const footerHeight = 35;
         const searchPageContainer = this.refs.searchPageContainer;
         const mapResultsContainer = this.refs.mapResultsContainer;
 
         searchPageContainer.style.height = clientHeight * .99 + 'px';
-        mapResultsContainer.style.height = (clientHeight - navHeight - flexboxHeight) * .98 + 'px';
+        mapResultsContainer.style.height = (clientHeight - navHeight - footerHeight) * .98 + 'px';
 
     }
 
