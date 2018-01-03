@@ -23748,8 +23748,7 @@ var App = function (_React$Component) {
         value: function fetchData(location, position) {
             var _this9 = this;
 
-            var dev = this.state.dev;
-            var cors = dev ? 'https://cors-anywhere.herokuapp.com/' : '';
+            var cors = 'https://cors-anywhere.herokuapp.com/';
             var url = 'https://api.yelp.com/v3/businesses/search';
             var key = 'JvHymxu3L88HLmjRak19pkInJW72X5XCmoTNWWm0VNMlgBbblR4CyREsz3TdLfCbbYLmjDbDT2UgfqpR4HGy_XhlLC9c2vPv-XcsLrrHnTFMg9fe94wpTbW11dE6WnYx';
 
@@ -23765,9 +23764,6 @@ var App = function (_React$Component) {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', cors + url + '?term=bars&' + query, true);
             xhr.setRequestHeader('Authorization', 'Bearer ' + key);
-            // xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
-            // xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
-            // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
             this.xhr = xhr;
             xhr.onload = function () {
                 if (xhr.readyState === 4) {
