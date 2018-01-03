@@ -377,9 +377,9 @@ class App extends React.Component {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', cors + url + '?term=bars&' + query, true);
         xhr.setRequestHeader('Authorization', 'Bearer ' + key);
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
-        xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
-        xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+        // xhr.setRequestHeader('Access-Control-Allow-Origin', '*',);
+        // xhr.setRequestHeader('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE',);
+        // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
         this.xhr = xhr;
         xhr.onload = () => {
             if (xhr.readyState === 4) {
