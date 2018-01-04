@@ -24045,14 +24045,10 @@ var Home = exports.Home = function (_React$Component) {
                     { className: 'search-container' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'search-wrapper' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'input-wrapper' },
-                            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-                            _react2.default.createElement('input', { ref: 'search', id: 'home', onChange: getSearchValue, onKeyUp: handleSearch,
-                                type: 'text', value: value, placeholder: 'Location' })
-                        )
+                        { className: 'input-wrapper' },
+                        _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
+                        _react2.default.createElement('input', { ref: 'search', id: 'home', onChange: getSearchValue, onKeyUp: handleSearch,
+                            type: 'text', value: value, placeholder: 'Location' })
                     ),
                     _react2.default.createElement(
                         'div',

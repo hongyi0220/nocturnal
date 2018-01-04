@@ -45,13 +45,13 @@ export class Home extends React.Component {
                 : ''}
                 {popup ? <PopUp toggleLoading={toggleLoading} fetchData={fetchData} state={state}/> : ''}
                 <div className='search-container'>
-                    <div className='search-wrapper'>
+                    {/* <div className='search-wrapper'> */}
                         <div className='input-wrapper'>
                             <i className="fa fa-search" aria-hidden="true"></i>
                             <input ref='search' id='home' onChange={getSearchValue} onKeyUp={handleSearch}
                                 type='text' value={value} placeholder='Location'/>
                         </div>
-                    </div>
+                    {/* </div> */}
                     <div className='button-wrapper'>
                         <div onClick={getCurrentPosition} className='button'>
                             {loading ?

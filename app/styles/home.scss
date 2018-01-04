@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'mixins';
 .home-container {
 
     min-width: 350px;
@@ -45,19 +44,20 @@
         }
     }
     .popUp {
+        // This is the semi-transparent background of the popup
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         background-color: rgba(0,0,0,0.5);
         z-index: 20;
-        padding: 0.5em 0 0.5em 0;
         * {
             margin-top: .5em;
         }
         .info-container {
+            padding: 0.5em 0 0.5em 0;
             margin-top: 0.5em;
-            border-radius: $softEdge;
+            border-radius: $softCorner;
             z-index: 20;
             position: absolute;
             height: 300px;
@@ -91,15 +91,18 @@
         }
     }
     .search-container {
+        width: 200px;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
         text-align: center;
-        border-radius: $softEdge;
-        .search-wrapper, .button-wrapper {
-            display: inline-block;
-        }
+        border-radius: $softCorner;
+        height: 40px;
         .input-wrapper {
+            flex-grow: 7;
             box-shadow: 0 2PX 5px $softShadow;
-            border-top-left-radius: $softEdge;
-            border-bottom-left-radius: $softEdge;
+            border-top-left-radius: $softCorner;
+            border-bottom-left-radius: $softCorner;
             i.fa-search {
                 line-height: 40px;
                 position: absolute;
@@ -115,20 +118,21 @@
             }
         }
         .button-wrapper {
+            flex-grow: 3;
             .button {
-                border-top-right-radius: $softEdge;
-                border-bottom-right-radius: $softEdge;
+                border-top-right-radius: $softCorner;
+                border-bottom-right-radius: $softCorner;
                 margin: auto;
                 width: 40px;
                 height: 40px;
-                @include button-basics;
                 box-shadow: 0 2PX 5px $softShadow;
                 transition: box-shadow 0.4s ease;
                 i.fa-spinner {
-                    // line-height: 40px * 0.99;
+                    line-height: 40px;
                     color: $nocturnalYellow;
                 }
                 i.fa-location-arrow {
+                    line-height: 40px;
                     color: $nocturnalYellow;
                 }
                 &:hover {
