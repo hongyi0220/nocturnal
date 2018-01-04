@@ -11,6 +11,7 @@ export class Search extends React.Component {
         }
         this.initMap = this.initMap.bind(this);
         this.going = this.going.bind(this);
+        this.reload = this.reload.bind(this);
     }
 
     going(e) {
@@ -179,6 +180,10 @@ export class Search extends React.Component {
         }
     }
 
+    reload() {
+        window.location.reload();
+    }
+
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
@@ -219,16 +224,17 @@ export class Search extends React.Component {
         const going = this.going;
         const toggleGoing = this.props.toggleGoing;
         const clearSearchText = this.clearSearchText;
+        const closeAll = this.props.closeAll;
+        const reload = this.reload;
 
         return (
             <div ref='searchPageContainer' onClick={e => e.stopPropagation()} className='search-page-container'>
-                <Nav value={value} getSearchValue={getSearchValue} handleSearch={handleSearch}/>
+                <Nav reload={reload} closeAll={closeAll} value={value} getSearchValue={getSearchValue} handleSearch={handleSearch}/>
                 <div ref='mapResultsContainer' className='map-results-container'>
                     <div className='results-container'>
                         {businesses ? businesses.map((bus, i) =>
                             <div key={i} style={{background: 'url(' + bus.image_url + ') ' + 'no-repeat ' + 'center'}}className='bus-container' ref='busC'>
                                 <div className='name-wrapper'>{bus.name}</div>
-                                {/* <div className='pic-wrapper'>{<img src={bus.image_url}/>}</div> */}
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
                                 {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
                                     {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
@@ -237,8 +243,7 @@ export class Search extends React.Component {
                                                     id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
                                     {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
                                 </div>
-                                    : <div className='signin-link-wrapper'><Link to='/'>Sign in</Link> to RSVP</div>}
-
+                                    : <div className='signin-link-wrapper'><Link onClick={reload} to='/'>Sign in</Link> to RSVP</div>}
                             </div>
                         ) : ''}
                     </div>

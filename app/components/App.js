@@ -23,7 +23,7 @@ class App extends React.Component {
                 loading: false,
                 height: null
             },
-            dev: false
+            dev: true
         }
         this.fetchData = this.fetchData.bind(this);
         this.openPopup = this.openPopup.bind(this);
@@ -240,6 +240,10 @@ class App extends React.Component {
     }
 
     closeAll(e) {
+        const id = e.target.id;
+        // If event target is the search bar on the search apge, keep the existing sarch term
+        //else, erase it
+        const searchValue = id === 'x' ? e.target.value : '';
         this.setState({
             ...this.state,
             ui: {
@@ -248,7 +252,7 @@ class App extends React.Component {
             },
             memory: {
                 ...this.state.memory,
-                searchValue: ''
+                searchValue: searchValue
             }
         });
     }
@@ -287,9 +291,9 @@ class App extends React.Component {
             const info = '<div style="text-align: center" class="info-content">' +
                          '<h3>' + bus.name + '</h3>' +
                          '<img style="width:150px" src="' + bus.image_url + '"/>' +
-                         '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + ' ' +
-                         bus.review_count + '&nbsp;' + 'reviews' + '</div>' +
-                         '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' +
+                         '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + " " +
+                         bus.review_count + '&nbsp;' + " " + 'reviews' + '</div>' +
+                         '<div class="price-category-wrapper">' + bus.price + " " + '&nbsp;' + bus.categories[0].title + '</div>' +
                          '</div>';
             infowindowContent.push([info]);
         });
@@ -495,7 +499,7 @@ class App extends React.Component {
         return (
             <div ref='container' onClick={closeAll} className='container'>
                 <Switch>
-                    <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch}
+                    <Route path='/search' render={() => <Search getSearchValue={getSearchValue} handleSearch={handleSearch} closeAll={closeAll}
                         getClientHeight={getClientHeight} toggleGoing={toggleGoing} state={state} toggleLoading={toggleLoading}/>}/>
                     <Route path='/' render={() => <Home fetchData={fetchData} auth={auth} getCurrentPosition={getCurrentPosition}
                         toggleLoading={toggleLoading} getSearchValue={getSearchValue} closeAll={closeAll} signOut={signOut}

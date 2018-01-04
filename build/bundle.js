@@ -23403,7 +23403,7 @@ var App = function (_React$Component) {
                 loading: false,
                 height: null
             },
-            dev: false
+            dev: true
         };
         _this.fetchData = _this.fetchData.bind(_this);
         _this.openPopup = _this.openPopup.bind(_this);
@@ -23630,12 +23630,16 @@ var App = function (_React$Component) {
     }, {
         key: 'closeAll',
         value: function closeAll(e) {
+            var id = e.target.id;
+            // If event target is the search bar on the search apge, keep the existing sarch term
+            //else, erase it
+            var searchValue = id === 'x' ? e.target.value : '';
             this.setState(_extends({}, this.state, {
                 ui: _extends({}, this.state.ui, {
                     popup: false
                 }),
                 memory: _extends({}, this.state.memory, {
-                    searchValue: ''
+                    searchValue: searchValue
                 })
             }));
         }
@@ -23675,7 +23679,7 @@ var App = function (_React$Component) {
             businesses.forEach(function (bus) {
                 var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
                 var yelpstarsIndex = bus.rating * 2 - 1;
-                var info = '<div style="text-align: center" class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:150px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + ' ' + bus.review_count + '&nbsp;' + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
+                var info = '<div style="text-align: center" class="info-content">' + '<h3>' + bus.name + '</h3>' + '<img style="width:150px" src="' + bus.image_url + '"/>' + '<div class="stars-wrapper">' + '<img src="/img/yelpstars/' + yelpstars[yelpstarsIndex] + '"/>' + '&nbsp;' + " " + bus.review_count + '&nbsp;' + " " + 'reviews' + '</div>' + '<div class="price-category-wrapper">' + bus.price + " " + '&nbsp;' + bus.categories[0].title + '</div>' + '</div>';
                 infowindowContent.push([info]);
             });
             this.setState(function (prevState) {
@@ -23891,7 +23895,7 @@ var App = function (_React$Component) {
                     _reactRouterDom.Switch,
                     null,
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/search', render: function render() {
-                            return _react2.default.createElement(_Search.Search, { getSearchValue: getSearchValue, handleSearch: handleSearch,
+                            return _react2.default.createElement(_Search.Search, { getSearchValue: getSearchValue, handleSearch: handleSearch, closeAll: closeAll,
                                 getClientHeight: getClientHeight, toggleGoing: toggleGoing, state: state, toggleLoading: toggleLoading });
                         } }),
                     _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
@@ -24024,13 +24028,14 @@ var Home = exports.Home = function (_React$Component) {
                         '! '
                     ),
                     '\xA0',
+                    " ",
                     _react2.default.createElement(
                         'div',
                         { className: 'link-wrapper' },
                         _react2.default.createElement(
                             'a',
                             { onClick: signOut },
-                            'Sign out'
+                            ' Sign out'
                         )
                     )
                 ) : '',
@@ -24128,6 +24133,7 @@ var PopUp = exports.PopUp = function PopUp(props) {
                 _react2.default.createElement('img', { src: '/img/yelpstars/' + yelpstars[yelpstarsIndex] }),
                 ' \xA0',
                 bus.review_count,
+                " ",
                 '\xA0reviews'
             ),
             _react2.default.createElement(
@@ -24135,6 +24141,7 @@ var PopUp = exports.PopUp = function PopUp(props) {
                 { className: 'price-category-wrapper' },
                 bus.price,
                 '\xA0',
+                " ",
                 bus.categories[0].title,
                 '\xA0',
                 _react2.default.createElement('div', { className: 'seperator' }),
@@ -24200,6 +24207,7 @@ var Search = exports.Search = function (_React$Component) {
         };
         _this.initMap = _this.initMap.bind(_this);
         _this.going = _this.going.bind(_this);
+        _this.reload = _this.reload.bind(_this);
         return _this;
     }
 
@@ -24358,6 +24366,11 @@ var Search = exports.Search = function (_React$Component) {
             }
         }
     }, {
+        key: 'reload',
+        value: function reload() {
+            window.location.reload();
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var p_state = this.props.state;
@@ -24400,13 +24413,15 @@ var Search = exports.Search = function (_React$Component) {
             var going = this.going;
             var toggleGoing = this.props.toggleGoing;
             var clearSearchText = this.clearSearchText;
+            var closeAll = this.props.closeAll;
+            var reload = this.reload;
 
             return _react2.default.createElement(
                 'div',
                 { ref: 'searchPageContainer', onClick: function onClick(e) {
                         return e.stopPropagation();
                     }, className: 'search-page-container' },
-                _react2.default.createElement(_Nav.Nav, { value: value, getSearchValue: getSearchValue, handleSearch: handleSearch }),
+                _react2.default.createElement(_Nav.Nav, { reload: reload, closeAll: closeAll, value: value, getSearchValue: getSearchValue, handleSearch: handleSearch }),
                 _react2.default.createElement(
                     'div',
                     { ref: 'mapResultsContainer', className: 'map-results-container' },
@@ -24452,7 +24467,7 @@ var Search = exports.Search = function (_React$Component) {
                                     { className: 'signin-link-wrapper' },
                                     _react2.default.createElement(
                                         _reactRouterDom.Link,
-                                        { to: '/' },
+                                        { onClick: reload, to: '/' },
                                         'Sign in'
                                     ),
                                     ' to RSVP'
@@ -24502,6 +24517,8 @@ var Nav = exports.Nav = function Nav(props) {
     var getSearchValue = props.getSearchValue;
     var handleSearch = props.handleSearch;
     var value = props.value;
+    var closeAll = props.closeAll;
+    var reload = props.reload;
     return _react2.default.createElement(
         'div',
         { className: 'nav-container' },
@@ -24510,7 +24527,7 @@ var Nav = exports.Nav = function Nav(props) {
             { className: 'logo-container' },
             _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'logo-yellow', to: '/' },
+                { onClick: reload, className: 'logo-yellow', to: '/' },
                 _react2.default.createElement('img', { src: '/img/logo/logo-t-y-nn.png' })
             ),
             _react2.default.createElement('img', { src: '/img/logo/logo-t-b-nn.png' })
@@ -24520,7 +24537,7 @@ var Nav = exports.Nav = function Nav(props) {
             { className: 'search-wrapper' },
             _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
             _react2.default.createElement('input', { id: 'x', onChange: getSearchValue, onKeyUp: handleSearch, type: 'text', value: value,
-                placeholder: 'Location' })
+                placeholder: 'Location', onClick: closeAll })
         )
     );
 };

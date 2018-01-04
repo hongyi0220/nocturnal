@@ -17,9 +17,9 @@ export const PopUp = props => {
                 <h3>{bus.name}</h3>
                 <div className='img-wrapper'><img src={bus.image_url}/></div>
                 <div className="stars-wrapper"><img src={'/img/yelpstars/' + yelpstars[yelpstarsIndex] }/> &nbsp;
-                {bus.review_count}&nbsp;reviews</div>
+                {bus.review_count}{" "}&nbsp;reviews</div>
                 <div className="price-category-wrapper">
-                    {bus.price}&nbsp;
+                    {bus.price}&nbsp;{" "}
                     {bus.categories[0].title}
                     &nbsp;<div className='seperator'></div>&nbsp;
                     {bus.categories[1] ? bus.categories[1].title : ''}
