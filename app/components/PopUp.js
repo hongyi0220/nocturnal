@@ -10,6 +10,11 @@ export const PopUp = props => {
                        'three_half.png', 'four.png', 'four_half.png', 'five.png'];
     const yelpstarsIndex = (bus.rating * 2) - 1;
     const toggleLoading = props.toggleLoading;
+    const loading = state.ui.loading;
+    const style = {
+        'padding-bottom': '1em'
+    }
+
     return (
         <div className='popUp'>
 
@@ -25,8 +30,9 @@ export const PopUp = props => {
                     {bus.categories[1] ? bus.categories[1].title : ''}
                 </div>
                 <div className='link-wrapper'>
-                    <a onClick={e => {e.stopPropagation(); fetchData(location, null)}} className='popup-link'>Take me here</a>
+                    <a onClick={e => {e.stopPropagation(); toggleLoading(); fetchData(location, null)}} className='popup-link'>Take me here</a>
                 </div>
+                {loading ? <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i> : ''}
             </div>
 
         </div>

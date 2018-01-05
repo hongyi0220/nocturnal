@@ -187,9 +187,6 @@ export class Search extends React.Component {
     componentDidMount() {
         const p_state = this.props.state;
         const currentPosition = p_state.memory.currentPosition;
-
-        this.props.toggleLoading();
-
         const clientHeight = this.props.getClientHeight();
         const navHeight = 50;
         const footerHeight = 35;
@@ -198,7 +195,6 @@ export class Search extends React.Component {
 
         searchPageContainer.style.height = clientHeight * .99 + 'px';
         mapResultsContainer.style.height = (clientHeight - navHeight - footerHeight) * .98 + 'px';
-
     }
 
     componentDidUpdate() {

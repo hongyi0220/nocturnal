@@ -40,12 +40,9 @@
     .home-container .popUp * {
       margin-top: .5em; }
     .home-container .popUp .info-container {
-      padding: 0.5em 0 0.5em 0;
-      margin-top: 0.5em;
       border-radius: 1px;
-      z-index: 20;
       position: absolute;
-      height: 300px;
+      padding: 0.5em 0 0.5em 0;
       width: 350px;
       top: 20%;
       left: 50%;
@@ -66,6 +63,8 @@
         cursor: pointer; }
         .home-container .popUp .info-container a:hover {
           text-decoration: underline; }
+      .home-container .popUp .info-container i.fa-spinner {
+        color: #fef336; }
   .home-container .search-container {
     width: 200px;
     margin: auto;

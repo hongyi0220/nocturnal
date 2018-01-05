@@ -9,7 +9,7 @@ function onSignIn(googleUser) {
     }
     const query = '?idtoken=' + id_token;
     let url = 'https://nocturnal-0220.herokuapp.com/verify';
-    url = 'http://localhost:8080/verify';
+    // url = 'http://localhost:8080/verify';
     fetch(url + query, init)
     .then(res => {
         if (res.ok) console.log('token verified');

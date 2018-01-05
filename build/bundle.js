@@ -23403,7 +23403,7 @@ var App = function (_React$Component) {
                 loading: false,
                 height: null
             },
-            dev: true
+            dev: false
         };
         _this.fetchData = _this.fetchData.bind(_this);
         _this.openPopup = _this.openPopup.bind(_this);
@@ -23530,23 +23530,26 @@ var App = function (_React$Component) {
 
             var search = function search() {
                 _this3.fetchData(location, null);
-
-                _this3.setState(_extends({}, _this3.state, {
-                    memory: _extends({}, _this3.state.memory, {
-                        searchValue: ''
-                    }),
-                    ui: _extends({}, _this3.state.ui, {
-                        loading: true
-                    })
-                }));
+                _this3.toggleLoading();
+                // this.setState({
+                //     ...this.state,
+                //     memory: {
+                //         ...this.state.memory,
+                //         searchValue: ''
+                //     },
+                //     ui: {
+                //         ...this.state.ui,
+                //         loading: true
+                //     }
+                // });
 
                 _this3.storeSearchValueInSession(location);
             };
 
-            // this.timeout = setTimeout(search, 500);
+            this.timeout = setTimeout(search, 500);
 
             if (key === 'Enter') {
-                // clearTimeout(this.timeout);
+                clearTimeout(this.timeout);
                 search();
             }
         }
@@ -23799,11 +23802,13 @@ var App = function (_React$Component) {
     }, {
         key: 'toggleLoading',
         value: function toggleLoading() {
-            this.setState(_extends({}, this.state, {
-                ui: _extends({}, this.state.ui, {
-                    loading: this.state.ui.loading ? false : true
-                })
-            }));
+            this.setState(function (prevState) {
+                return _extends({}, prevState, {
+                    ui: _extends({}, prevState.ui, {
+                        loading: prevState.ui.loading ? false : true
+                    })
+                });
+            });
         }
     }, {
         key: 'getGoingsData',
@@ -24055,7 +24060,9 @@ var Home = exports.Home = function (_React$Component) {
                         { className: 'button-wrapper' },
                         _react2.default.createElement(
                             'div',
-                            { onClick: getCurrentPosition, className: 'button' },
+                            { onClick: function onClick(e) {
+                                    toggleLoading();getCurrentPosition();
+                                }, className: 'button' },
                             loading ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' }) : _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' })
                         )
                     )
@@ -24105,6 +24112,11 @@ var PopUp = exports.PopUp = function PopUp(props) {
     var yelpstars = ['zero.png', 'one.png', 'one_half.png', 'two.png', 'two_half.png', 'three.png', 'three_half.png', 'four.png', 'four_half.png', 'five.png'];
     var yelpstarsIndex = bus.rating * 2 - 1;
     var toggleLoading = props.toggleLoading;
+    var loading = state.ui.loading;
+    var style = {
+        'padding-bottom': '1em'
+    };
+
     return _react2.default.createElement(
         'div',
         { className: 'popUp' },
@@ -24150,11 +24162,12 @@ var PopUp = exports.PopUp = function PopUp(props) {
                 _react2.default.createElement(
                     'a',
                     { onClick: function onClick(e) {
-                            e.stopPropagation();fetchData(location, null);
+                            e.stopPropagation();toggleLoading();fetchData(location, null);
                         }, className: 'popup-link' },
                     'Take me here'
                 )
-            )
+            ),
+            loading ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-pulse fa-lg fa-fw' }) : ''
         )
     );
 };
@@ -24371,9 +24384,6 @@ var Search = exports.Search = function (_React$Component) {
         value: function componentDidMount() {
             var p_state = this.props.state;
             var currentPosition = p_state.memory.currentPosition;
-
-            this.props.toggleLoading();
-
             var clientHeight = this.props.getClientHeight();
             var navHeight = 50;
             var footerHeight = 35;

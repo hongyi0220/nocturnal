@@ -23,7 +23,7 @@ class App extends React.Component {
                 loading: false,
                 height: null
             },
-            dev: true
+            dev: false
         }
         this.fetchData = this.fetchData.bind(this);
         this.openPopup = this.openPopup.bind(this);
@@ -140,26 +140,26 @@ class App extends React.Component {
 
         const search = () => {
             this.fetchData(location, null);
-
-            this.setState({
-                ...this.state,
-                memory: {
-                    ...this.state.memory,
-                    searchValue: ''
-                },
-                ui: {
-                    ...this.state.ui,
-                    loading: true
-                }
-            });
+            this.toggleLoading();
+            // this.setState({
+            //     ...this.state,
+            //     memory: {
+            //         ...this.state.memory,
+            //         searchValue: ''
+            //     },
+            //     ui: {
+            //         ...this.state.ui,
+            //         loading: true
+            //     }
+            // });
 
             this.storeSearchValueInSession(location);
         }
 
-        // this.timeout = setTimeout(search, 500);
+        this.timeout = setTimeout(search, 500);
 
         if (key === 'Enter') {
-            // clearTimeout(this.timeout);
+            clearTimeout(this.timeout);
             search();
         }
     }
@@ -411,13 +411,13 @@ class App extends React.Component {
     }
 
     toggleLoading() {
-        this.setState({
-            ...this.state,
+        this.setState(prevState => ({
+            ...prevState,
             ui: {
-                ...this.state.ui,
-                loading: this.state.ui.loading ? false : true
+                ...prevState.ui,
+                loading: prevState.ui.loading ? false : true
             }
-        });
+        }));
     }
 
     getGoingsData(buses) {

@@ -45,15 +45,13 @@ export class Home extends React.Component {
                 : ''}
                 {popup ? <PopUp toggleLoading={toggleLoading} fetchData={fetchData} state={state}/> : ''}
                 <div className='search-container'>
-                    {/* <div className='search-wrapper'> */}
-                        <div className='input-wrapper'>
-                            <i className="fa fa-search" aria-hidden="true"></i>
-                            <input ref='search' id='home' onChange={getSearchValue} onKeyUp={handleSearch}
-                                type='text' value={value} placeholder='Location'/>
-                        </div>
-                    {/* </div> */}
+                    <div className='input-wrapper'>
+                        <i className="fa fa-search" aria-hidden="true"></i>
+                        <input ref='search' id='home' onChange={getSearchValue} onKeyUp={handleSearch}
+                            type='text' value={value} placeholder='Location'/>
+                    </div>
                     <div className='button-wrapper'>
-                        <div onClick={getCurrentPosition} className='button'>
+                        <div onClick={e => {toggleLoading(); getCurrentPosition()}} className='button'>
                             {loading ?
                                 <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 : <i className="fa fa-location-arrow" aria-hidden="true"></i>}
