@@ -232,11 +232,11 @@ export class Search extends React.Component {
                             <div key={i} style={{background: 'url(' + bus.image_url + ') ' + 'no-repeat ' + 'center'}}className='bus-container' ref='busC'>
                                 <div className='name-wrapper'>{bus.name}</div>
                                 {/* It's not best practice but ok within the scope of this functionality to give the same id to multiple elements*/}
-                                {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;
+                                {auth ? <div id={bus.id} className='going-button'>{bus.goingsData} people are going and I'm&nbsp;{" "}
                                     {bus.going ? <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
                                                     id={bus.id} className='not-wrapper'>going&nbsp;</div>
                                                 : <div onClick={e => {e.stopPropagation(); going(e); toggleGoing(e)}}
-                                                    id={bus.id} className='not-wrapper'>not going&nbsp;</div>}
+                                                    id={bus.id} className='not-wrapper'>not going&nbsp;</div>}{" "}
                                     {bus.going ? '' : <div className='yet-wrapper'>yet</div>}
                                 </div>
                                     : <div className='signin-link-wrapper'><Link onClick={reload} to='/'>Sign in</Link> to RSVP</div>}

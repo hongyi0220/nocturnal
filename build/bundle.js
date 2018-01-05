@@ -24448,6 +24448,7 @@ var Search = exports.Search = function (_React$Component) {
                                     { id: bus.id, className: 'going-button' },
                                     bus.goingsData,
                                     ' people are going and I\'m\xA0',
+                                    " ",
                                     bus.going ? _react2.default.createElement(
                                         'div',
                                         { onClick: function onClick(e) {
@@ -24463,6 +24464,7 @@ var Search = exports.Search = function (_React$Component) {
                                             id: bus.id, className: 'not-wrapper' },
                                         'not going\xA0'
                                     ),
+                                    " ",
                                     bus.going ? '' : _react2.default.createElement(
                                         'div',
                                         { className: 'yet-wrapper' },
