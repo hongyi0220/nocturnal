@@ -163,7 +163,7 @@ class App extends React.Component {
             search();
         }
     }
-
+    // This saves the search value as the user types
     getSearchValue(e) {
         const value = e.target.value;
         this.setState({
@@ -219,7 +219,7 @@ class App extends React.Component {
                 });
             }, error, options);
     }
-
+    // Signs out of google signin
     signOut() {
         const auth2 = gapi.auth2.getAuthInstance();
         const dev = this.state.dev;
@@ -256,7 +256,7 @@ class App extends React.Component {
             }
         });
     }
-
+    // This opens a pop-up when a picture on the homepage is clicked
     openPopup(e) {
         const id = e.target.id;
 
@@ -281,7 +281,7 @@ class App extends React.Component {
         this.storeSearchValueInSession(cityName);
         e.stopPropagation();
     }
-
+    // Info-window is the little window that shows up when you click a google maps marker or a POI
     makeInfowindowContent(businesses) {
         const infowindowContent = [];
         businesses.forEach(bus => {
@@ -305,7 +305,8 @@ class App extends React.Component {
             }
         }));
     }
-
+    // Markers are the little pins that drop on google maps;
+    //they require coordiates of latitude and longitude
     makeMarkerData(businesses) {
         const dev = this.state.dev;
         const markers = [];
@@ -331,7 +332,7 @@ class App extends React.Component {
         }
         fetch(apiUrl, init);
     }
-
+    // This gets markers and search value data when page refreshes
     getMapdata() {
         const dev = this.state.dev;
         const apiUrl = dev ? 'http://localhost:8080/mapdata' : 'https://nocturnal-0220.herokuapp.com/mapdata';
@@ -360,7 +361,7 @@ class App extends React.Component {
            });
        });
     }
-
+    // This fetches data from yelp api
     fetchData(location, position) {
 
         const cors = 'https://cors-anywhere.herokuapp.com/';
@@ -460,6 +461,7 @@ class App extends React.Component {
     componentWillMount() {
         const pathname = this.props.history.location.pathname;
         this.getUserData();
+
         if (window.performance)
         if (performance.navigation.type === 1 && pathname !== '/') {
             this.getMapdata();
